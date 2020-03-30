@@ -1,0 +1,1678 @@
+ *-------  PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec + WVec Settings (all)  ---------------------------* 
+ |                                                                                                                 | 
+ | Name                                          |                      Now |      Default         Min         Max | 
+ |                                               |                          |                                      | 
+ | Alpgen:file                                   |                     void |         void                         | 
+ | Alpgen:setHeavyMasses                         |                       on |           on                         | 
+ | Alpgen:setLightMasses                         |                      off |          off                         | 
+ | Alpgen:setMLM                                 |                       on |           on                         | 
+ | Alpgen:setNjet                                |                       on |           on                         | 
+ | Angantyr:CollisionModel                       |                        1 |            1           0           2 | 
+ | Angantyr:SASDmode                             |                        1 |            1           0           2 | 
+ | Angantyr:SDRecoil                             |                        1 |            1           1           2 | 
+ | Angantyr:SDTest                               |                      off |          off                         | 
+ | Angantyr:SDTries                              |                        1 |            1           1             | 
+ | BeamRemnants:allowBeamJunction                |                       on |           on                         | 
+ | BeamRemnants:allowJunction                    |                       on |           on                         | 
+ | BeamRemnants:beamJunction                     |                      off |          off                         | 
+ | BeamRemnants:companionPower                   |                        4 |            4           0           4 | 
+ | BeamRemnants:gluonPower                       |                  4.00000 |      4.00000         0.0             | 
+ | BeamRemnants:halfMassForKT                    |                  1.00000 |      1.00000         0.0             | 
+ | BeamRemnants:halfScaleForKT                   |                  1.50000 |      1.50000         0.0             | 
+ | BeamRemnants:maxValQuark                      |                        3 |            3           0           5 | 
+ | BeamRemnants:primordialKT                     |                       on |           on                         | 
+ | BeamRemnants:primordialKThard                 |                  1.80000 |      1.80000         0.0             | 
+ | BeamRemnants:primordialKTremnant              |                  0.40000 |      0.40000         0.0             | 
+ | BeamRemnants:primordialKTsoft                 |                  0.90000 |      0.90000         0.0             | 
+ | BeamRemnants:reducedKTatHighY                 |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | BeamRemnants:remnantMode                      |                        0 |            0           0           1 | 
+ | BeamRemnants:rescatterRestoreY                |                      off |          off                         | 
+ | BeamRemnants:saturation                       |                  5.00000 |      5.00000     0.10000  100000.000 | 
+ | BeamRemnants:unresolvedHadron                 |                        0 |            0           0           3 | 
+ | BeamRemnants:valenceDiqEnhance                |                  2.00000 |      2.00000     0.50000    10.00000 | 
+ | BeamRemnants:valencePowerDinP                 |                  2.00000 |      2.00000         0.0             | 
+ | BeamRemnants:valencePowerMeson                |                  0.80000 |      0.80000         0.0             | 
+ | BeamRemnants:valencePowerUinP                 |                  3.50000 |      3.50000         0.0             | 
+ | BeamRemnants:xGluonCutoff                     |               1.0000e-07 |   1.0000e-07  1.0000e-10     1.00000 | 
+ | Beams:allowMomentumSpread                     |                      off |          off                         | 
+ | Beams:allowVertexSpread                       |                      off |          off                         | 
+ | Beams:eA                                      |                 7000.000 |     7000.000         0.0             | 
+ | Beams:eB                                      |                 7000.000 |     7000.000         0.0             | 
+ | Beams:eCM                                     |                13000.000 |    14000.000    10.00000             | 
+ | Beams:frameType                               |                        1 |            1           1           5 | 
+ | Beams:idA                                     |                     2212 |         2212                         | 
+ | Beams:idB                                     |                     2212 |         2212                         | 
+ | Beams:LHEF                                    |                     void |         void                         | 
+ | Beams:LHEFheader                              |                     void |         void                         | 
+ | Beams:maxDevA                                 |                  5.00000 |      5.00000         0.0             | 
+ | Beams:maxDevB                                 |                  5.00000 |      5.00000         0.0             | 
+ | Beams:maxDevTime                              |                  5.00000 |      5.00000         0.0             | 
+ | Beams:maxDevVertex                            |                  5.00000 |      5.00000         0.0             | 
+ | Beams:newLHEFsameInit                         |                      off |          off                         | 
+ | Beams:nSkipLHEFatInit                         |                        0 |            0                         | 
+ | Beams:offsetTime                              |                      0.0 |          0.0                         | 
+ | Beams:offsetVertexX                           |                      0.0 |          0.0                         | 
+ | Beams:offsetVertexY                           |                      0.0 |          0.0                         | 
+ | Beams:offsetVertexZ                           |                      0.0 |          0.0                         | 
+ | Beams:pxA                                     |                      0.0 |          0.0                         | 
+ | Beams:pxB                                     |                      0.0 |          0.0                         | 
+ | Beams:pyA                                     |                      0.0 |          0.0                         | 
+ | Beams:pyB                                     |                      0.0 |          0.0                         | 
+ | Beams:pzA                                     |                 7000.000 |     7000.000                         | 
+ | Beams:pzB                                     |                -7000.000 |    -7000.000                         | 
+ | Beams:readLHEFheaders                         |                       on |           on                         | 
+ | Beams:setProductionScalesFromLHEF             |                      off |          off                         | 
+ | Beams:sigmaPxA                                |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaPxB                                |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaPyA                                |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaPyB                                |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaPzA                                |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaPzB                                |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaTime                               |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaVertexX                            |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaVertexY                            |                      0.0 |          0.0         0.0             | 
+ | Beams:sigmaVertexZ                            |                      0.0 |          0.0         0.0             | 
+ | Beams:strictLHEFscale                         |                      off |          off                         | 
+ | BoseEinstein:Eta                              |                       on |           on                         | 
+ | BoseEinstein:Kaon                             |                       on |           on                         | 
+ | BoseEinstein:lambda                           |                  1.00000 |      1.00000         0.0     2.00000 | 
+ | BoseEinstein:Pion                             |                       on |           on                         | 
+ | BoseEinstein:QRef                             |                  0.20000 |      0.20000   0.0500000     1.00000 | 
+ | BoseEinstein:widthSep                         |                0.0200000 |    0.0200000   0.0010000     1.00000 | 
+ | Bottomonium:all                               |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3DJ)[3DJ(1)]g            |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3DJ)[3PJ(8)]g            |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3PJ)[3PJ(1)]g            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3PJ)[3S1(8)]g            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3S1)[1S0(8)]g            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3S1)[3PJ(8)]g            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3S1)[3S1(1)]g            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3S1)[3S1(1)]gm           |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:gg2bbbar(3S1)[3S1(8)]g            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:gg2doublebbbar(3S1)[3S1(1)]       |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:O(3DJ)[3D1(1)]                    |                      0.0 |          0.0         0.0             | 
+ | Bottomonium:O(3DJ)[3P0(8)]                    |                      0.0 |          0.0         0.0             | 
+ | Bottomonium:O(3PJ)[3P0(1)]                    |                0.0850000 |    0.0850000         0.0             | 
+ |                                               |                0.0850000 |    0.0850000         0.0             | 
+ |                                               |                0.0850000 |    0.0850000         0.0             | 
+ | Bottomonium:O(3PJ)[3S1(8)]                    |                0.0400000 |    0.0400000         0.0             | 
+ |                                               |                0.0400000 |    0.0400000         0.0             | 
+ |                                               |                0.0400000 |    0.0400000         0.0             | 
+ | Bottomonium:O(3S1)[1S0(8)]                    |                0.0200000 |    0.0200000         0.0             | 
+ |                                               |                0.0060000 |    0.0060000         0.0             | 
+ |                                               |                0.0100000 |    0.0100000         0.0             | 
+ | Bottomonium:O(3S1)[3P0(8)]                    |                0.0200000 |    0.0200000         0.0             | 
+ |                                               |                0.0060000 |    0.0060000         0.0             | 
+ |                                               |                0.0100000 |    0.0100000         0.0             | 
+ | Bottomonium:O(3S1)[3S1(1)]                    |                  9.28000 |      9.28000         0.0             | 
+ |                                               |                  4.63000 |      4.63000         0.0             | 
+ |                                               |                  3.54000 |      3.54000         0.0             | 
+ | Bottomonium:O(3S1)[3S1(1)]1                   |                  9.28000 |      9.28000         0.0             | 
+ |                                               |                  9.28000 |      9.28000         0.0             | 
+ |                                               |                  9.28000 |      9.28000         0.0             | 
+ |                                               |                  4.63000 |      4.63000         0.0             | 
+ |                                               |                  4.63000 |      4.63000         0.0             | 
+ |                                               |                  3.54000 |      3.54000         0.0             | 
+ | Bottomonium:O(3S1)[3S1(1)]2                   |                  9.28000 |      9.28000         0.0             | 
+ |                                               |                  4.63000 |      4.63000         0.0             | 
+ |                                               |                  3.54000 |      3.54000         0.0             | 
+ |                                               |                  4.63000 |      4.63000         0.0             | 
+ |                                               |                  3.54000 |      3.54000         0.0             | 
+ |                                               |                  3.54000 |      3.54000         0.0             | 
+ | Bottomonium:O(3S1)[3S1(8)]                    |                  0.15000 |      0.15000         0.0             | 
+ |                                               |                0.0450000 |    0.0450000         0.0             | 
+ |                                               |                0.0750000 |    0.0750000         0.0             | 
+ | Bottomonium:qg2bbbar(3DJ)[3PJ(8)]q            |                      off |          off                         | 
+ | Bottomonium:qg2bbbar(3PJ)[3PJ(1)]q            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qg2bbbar(3PJ)[3S1(8)]q            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qg2bbbar(3S1)[1S0(8)]q            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qg2bbbar(3S1)[3PJ(8)]q            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qg2bbbar(3S1)[3S1(8)]q            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qqbar2bbbar(3DJ)[3PJ(8)]g         |                      off |          off                         | 
+ | Bottomonium:qqbar2bbbar(3PJ)[3PJ(1)]g         |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qqbar2bbbar(3PJ)[3S1(8)]g         |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qqbar2bbbar(3S1)[1S0(8)]g         |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qqbar2bbbar(3S1)[3PJ(8)]g         |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qqbar2bbbar(3S1)[3S1(8)]g         |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:qqbar2doublebbbar(3S1)[3S1(1)]    |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Bottomonium:states(3DJ)                       |                        0 |            0                         | 
+ | Bottomonium:states(3PJ)                       |                    10551 |        10551                         | 
+ |                                               |                    20553 |        20553                         | 
+ |                                               |                      555 |          555                         | 
+ | Bottomonium:states(3S1)                       |                      553 |          553           0             | 
+ |                                               |                   100553 |       100553           0             | 
+ |                                               |                   200553 |       200553           0             | 
+ | Bottomonium:states(3S1)1                      |                      553 |          553                         | 
+ |                                               |                      553 |          553                         | 
+ |                                               |                      553 |          553                         | 
+ |                                               |                   100553 |       100553                         | 
+ |                                               |                   100553 |       100553                         | 
+ |                                               |                   200553 |       200553                         | 
+ | Bottomonium:states(3S1)2                      |                      553 |          553                         | 
+ |                                               |                   100553 |       100553                         | 
+ |                                               |                   200553 |       200553                         | 
+ |                                               |                   100553 |       100553                         | 
+ |                                               |                   200553 |       200553                         | 
+ |                                               |                   200553 |       200553                         | 
+ | Charmonium:all                                |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3DJ)[3DJ(1)]g             |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3DJ)[3PJ(8)]g             |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3PJ)[3PJ(1)]g             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3PJ)[3S1(8)]g             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3S1)[1S0(8)]g             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3S1)[3PJ(8)]g             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3S1)[3S1(1)]g             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3S1)[3S1(1)]gm            |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:gg2ccbar(3S1)[3S1(8)]g             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:gg2doubleccbar(3S1)[3S1(1)]        |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:O(3DJ)[3D1(1)]                     |                  0.16100 |      0.16100         0.0             | 
+ | Charmonium:O(3DJ)[3P0(8)]                     |                0.0100000 |    0.0100000         0.0             | 
+ | Charmonium:O(3PJ)[3P0(1)]                     |                0.0500000 |    0.0500000         0.0             | 
+ |                                               |                0.0500000 |    0.0500000         0.0             | 
+ |                                               |                0.0500000 |    0.0500000         0.0             | 
+ | Charmonium:O(3PJ)[3S1(8)]                     |                0.0031000 |    0.0031000         0.0             | 
+ |                                               |                0.0031000 |    0.0031000         0.0             | 
+ |                                               |                0.0031000 |    0.0031000         0.0             | 
+ | Charmonium:O(3S1)[1S0(8)]                     |                0.0100000 |    0.0100000         0.0             | 
+ |                                               |                0.0040000 |    0.0040000         0.0             | 
+ | Charmonium:O(3S1)[3P0(8)]                     |                0.0100000 |    0.0100000         0.0             | 
+ |                                               |                0.0040000 |    0.0040000         0.0             | 
+ | Charmonium:O(3S1)[3S1(1)]                     |                  1.16000 |      1.16000         0.0             | 
+ |                                               |                  0.76000 |      0.76000         0.0             | 
+ | Charmonium:O(3S1)[3S1(1)]1                    |                  1.16000 |      1.16000         0.0             | 
+ |                                               |                  1.16000 |      1.16000         0.0             | 
+ |                                               |                  0.76000 |      0.76000         0.0             | 
+ | Charmonium:O(3S1)[3S1(1)]2                    |                  1.16000 |      1.16000         0.0             | 
+ |                                               |                  0.76000 |      0.76000         0.0             | 
+ |                                               |                  0.76000 |      0.76000         0.0             | 
+ | Charmonium:O(3S1)[3S1(8)]                     |                0.0119000 |    0.0119000         0.0             | 
+ |                                               |                0.0050000 |    0.0050000         0.0             | 
+ | Charmonium:qg2ccbar(3DJ)[3PJ(8)]q             |                      off |          off                         | 
+ | Charmonium:qg2ccbar(3PJ)[3PJ(1)]q             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qg2ccbar(3PJ)[3S1(8)]q             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qg2ccbar(3S1)[1S0(8)]q             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qg2ccbar(3S1)[3PJ(8)]q             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qg2ccbar(3S1)[3S1(8)]q             |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qqbar2ccbar(3DJ)[3PJ(8)]g          |                      off |          off                         | 
+ | Charmonium:qqbar2ccbar(3PJ)[3PJ(1)]g          |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qqbar2ccbar(3PJ)[3S1(8)]g          |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qqbar2ccbar(3S1)[1S0(8)]g          |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qqbar2ccbar(3S1)[3PJ(8)]g          |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qqbar2ccbar(3S1)[3S1(8)]g          |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:qqbar2doubleccbar(3S1)[3S1(1)]     |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ |                                               |                      off |          off                         | 
+ | Charmonium:states(3DJ)                        |                    30443 |        30443                         | 
+ | Charmonium:states(3PJ)                        |                    10441 |        10441                         | 
+ |                                               |                    20443 |        20443                         | 
+ |                                               |                      445 |          445                         | 
+ | Charmonium:states(3S1)                        |                      443 |          443           0             | 
+ |                                               |                   100443 |       100443           0             | 
+ | Charmonium:states(3S1)1                       |                      443 |          443                         | 
+ |                                               |                      443 |          443                         | 
+ |                                               |                   100443 |       100443                         | 
+ | Charmonium:states(3S1)2                       |                      443 |          443                         | 
+ |                                               |                   100443 |       100443                         | 
+ |                                               |                   100443 |       100443                         | 
+ | Check:abortIfVeto                             |                      off |          off                         | 
+ | Check:epTolErr                                |                0.0100000 |   1.0000e-04                         | 
+ | Check:epTolWarn                               |               1.0000e-06 |   1.0000e-06                         | 
+ | Check:event                                   |                       on |           on                         | 
+ | Check:history                                 |                       on |           on                         | 
+ | Check:levelParticleData                       |                        1 |            1                         | 
+ | Check:mTolErr                                 |                0.0010000 |    0.0010000                         | 
+ | Check:mTolWarn                                |               1.0000e-04 |   1.0000e-04                         | 
+ | Check:nErrList                                |                        0 |            0                         | 
+ | Check:particleData                            |                      off |          off                         | 
+ | ColourReconnection:allowDoubleJunRem          |                       on |           on                         | 
+ | ColourReconnection:allowJunctions             |                       on |           on                         | 
+ | ColourReconnection:blowR                      |                  2.50000 |      2.50000     1.00000     4.00000 | 
+ | ColourReconnection:blowT                      |                  2.00000 |      2.00000     1.00000     4.00000 | 
+ | ColourReconnection:dLambdaCut                 |                      0.0 |          0.0         0.0    10.00000 | 
+ | ColourReconnection:flipMode                   |                        0 |            0           0           4 | 
+ | ColourReconnection:forceHadronLevelCR         |                      off |          off                         | 
+ | ColourReconnection:forceResonance             |                      off |          off                         | 
+ | ColourReconnection:fracGluon                  |                  1.00000 |      1.00000         0.0     1.00000 | 
+ | ColourReconnection:fragmentationTime          |                  1.50000 |      1.50000     1.00000     2.00000 | 
+ | ColourReconnection:junctionCorrection         |                  1.20000 |      1.20000   0.0100000    10.00000 | 
+ | ColourReconnection:kI                         |                  0.60000 |      0.60000         0.0   100.00000 | 
+ | ColourReconnection:lambdaForm                 |                        0 |            0           0           2 | 
+ | ColourReconnection:lowerLambdaOnly            |                       on |           on                         | 
+ | ColourReconnection:m0                         |                  0.30000 |      0.30000     0.10000     5.00000 | 
+ | ColourReconnection:m2Lambda                   |                  1.00000 |      1.00000     0.25000    16.00000 | 
+ | ColourReconnection:mode                       |                        0 |            0           0           4 | 
+ | ColourReconnection:nColours                   |                        9 |            9           1          30 | 
+ | ColourReconnection:range                      |                  1.80000 |      1.80000         0.0    10.00000 | 
+ | ColourReconnection:reconnect                  |                       on |           on                         | 
+ | ColourReconnection:rHadron                    |                  0.50000 |      0.50000     0.30000     1.00000 | 
+ | ColourReconnection:sameNeighbourColours       |                      off |          off                         | 
+ | ColourReconnection:singleReconnection         |                       on |           on                         | 
+ | ColourReconnection:timeDilationMode           |                        2 |            2           0           5 | 
+ | ColourReconnection:timeDilationPar            |                  0.18000 |      0.18000         0.0   100.00000 | 
+ | ContactInteractions:etaLL                     |                        0 |            0          -1           1 | 
+ | ContactInteractions:etaLR                     |                        0 |            0          -1           1 | 
+ | ContactInteractions:etaRR                     |                        0 |            0          -1           1 | 
+ | ContactInteractions:Lambda                    |                 1000.000 |     1000.000   100.00000             | 
+ | ContactInteractions:nQuarkNew                 |                        3 |            3           0           5 | 
+ | ContactInteractions:QCffbar2eebar             |                      off |          off                         | 
+ | ContactInteractions:QCffbar2mumubar           |                      off |          off                         | 
+ | ContactInteractions:QCffbar2tautaubar         |                      off |          off                         | 
+ | ContactInteractions:QCqq2qq                   |                      off |          off                         | 
+ | ContactInteractions:QCqqbar2qqbar             |                      off |          off                         | 
+ | Diffraction:bProfile                          |                        1 |            1           0           3 | 
+ | Diffraction:bSelHard                          |                        1 |            1           1           3 | 
+ | Diffraction:coreFraction                      |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | Diffraction:coreRadius                        |                  0.40000 |      0.40000     0.10000     1.00000 | 
+ | Diffraction:doHard                            |                      off |          off                         | 
+ | Diffraction:expPow                            |                  1.00000 |      1.00000     0.40000    10.00000 | 
+ | Diffraction:largeMassSuppress                 |                  4.00000 |      4.00000         0.0             | 
+ | Diffraction:MBRalpha                          |                  0.25000 |      0.25000     0.10000     0.40000 | 
+ | Diffraction:MBRbeta0                          |                  6.56600 |      6.56600         0.0    10.00000 | 
+ | Diffraction:MBRdyminCD                        |                  2.00000 |      2.00000         0.0     5.00000 | 
+ | Diffraction:MBRdyminCDflux                    |                  2.30000 |      2.30000         0.0     5.00000 | 
+ | Diffraction:MBRdyminDD                        |                  2.00000 |      2.00000         0.0     5.00000 | 
+ | Diffraction:MBRdyminDDflux                    |                  2.30000 |      2.30000         0.0     5.00000 | 
+ | Diffraction:MBRdyminSD                        |                  2.00000 |      2.00000         0.0     5.00000 | 
+ | Diffraction:MBRdyminSDflux                    |                  2.30000 |      2.30000         0.0     5.00000 | 
+ | Diffraction:MBRdyminSigCD                     |                  0.50000 |      0.50000   0.0010000     5.00000 | 
+ | Diffraction:MBRdyminSigDD                     |                  0.50000 |      0.50000   0.0010000     5.00000 | 
+ | Diffraction:MBRdyminSigSD                     |                  0.50000 |      0.50000   0.0010000     5.00000 | 
+ | Diffraction:MBRepsilon                        |                  0.10400 |      0.10400   0.0200000     0.15000 | 
+ | Diffraction:MBRm2Min                          |                  1.50000 |      1.50000         0.0     3.00000 | 
+ | Diffraction:MBRsigma0                         |                  2.82000 |      2.82000         0.0     5.00000 | 
+ | Diffraction:mMinPert                          |                 10.00000 |     10.00000     5.00000             | 
+ | Diffraction:mPowPomP                          |                      0.0 |          0.0         0.0     0.50000 | 
+ | Diffraction:mRefPomP                          |                100.00000 |    100.00000     1.00000             | 
+ | Diffraction:mWidthPert                        |                 10.00000 |     10.00000         0.0             | 
+ | Diffraction:pickQuarkNorm                     |                  5.00000 |      5.00000         0.0             | 
+ | Diffraction:pickQuarkPower                    |                  1.00000 |      1.00000                         | 
+ | Diffraction:PomFlux                           |                        1 |            1           1           7 | 
+ | Diffraction:PomFluxAlphaPrime                 |                  0.25000 |      0.25000     0.10000     0.40000 | 
+ | Diffraction:PomFluxEpsilon                    |                0.0850000 |    0.0850000   0.0200000     0.15000 | 
+ | Diffraction:PomFluxRescale                    |                  1.00000 |      1.00000     0.20000     2.00000 | 
+ | Diffraction:primKTwidth                       |                  0.50000 |      0.50000         0.0             | 
+ | Diffraction:probMaxPert                       |                  1.00000 |      1.00000         0.0     1.00000 | 
+ | Diffraction:sampleType                        |                        2 |            2           1           4 | 
+ | Diffraction:sigmaRefPomP                      |                 10.00000 |     10.00000     2.00000    40.00000 | 
+ | Diffraction:useMBRrenormalization             |                      off |          off                         | 
+ | DM:ffbar2Zp2XX                                |                      off |          off                         | 
+ | DM:ffbar2Zp2XXj                               |                      off |          off                         | 
+ | DM:gg2S2XX                                    |                      off |          off                         | 
+ | DM:gg2S2XXj                                   |                      off |          off                         | 
+ | Event:startColTag                             |                      100 |          100           0        1000 | 
+ | ExcitedFermion:all                            |                      off |          off                         | 
+ | ExcitedFermion:bg2bStar                       |                      off |          off                         | 
+ | ExcitedFermion:cg2cStar                       |                      off |          off                         | 
+ | ExcitedFermion:contactDec                     |                  1.00000 |      1.00000         0.0             | 
+ | ExcitedFermion:coupF                          |                  1.00000 |      1.00000         0.0             | 
+ | ExcitedFermion:coupFcol                       |                  1.00000 |      1.00000         0.0             | 
+ | ExcitedFermion:coupFprime                     |                  1.00000 |      1.00000         0.0             | 
+ | ExcitedFermion:dg2dStar                       |                      off |          off                         | 
+ | ExcitedFermion:egm2eStar                      |                      off |          off                         | 
+ | ExcitedFermion:Lambda                         |                 1000.000 |     1000.000   100.00000             | 
+ | ExcitedFermion:mugm2muStar                    |                      off |          off                         | 
+ | ExcitedFermion:qq2bStarq                      |                      off |          off                         | 
+ | ExcitedFermion:qq2cStarq                      |                      off |          off                         | 
+ | ExcitedFermion:qq2dStarq                      |                      off |          off                         | 
+ | ExcitedFermion:qq2sStarq                      |                      off |          off                         | 
+ | ExcitedFermion:qq2uStarq                      |                      off |          off                         | 
+ | ExcitedFermion:qqbar2eStare                   |                      off |          off                         | 
+ | ExcitedFermion:qqbar2eStareStar               |                      off |          off                         | 
+ | ExcitedFermion:qqbar2muStarmu                 |                      off |          off                         | 
+ | ExcitedFermion:qqbar2muStarmuStar             |                      off |          off                         | 
+ | ExcitedFermion:qqbar2nueStarnue               |                      off |          off                         | 
+ | ExcitedFermion:qqbar2nueStarnueStar           |                      off |          off                         | 
+ | ExcitedFermion:qqbar2numuStarnumu             |                      off |          off                         | 
+ | ExcitedFermion:qqbar2numuStarnumuStar         |                      off |          off                         | 
+ | ExcitedFermion:qqbar2nutauStarnutau           |                      off |          off                         | 
+ | ExcitedFermion:qqbar2nutauStarnutauStar       |                      off |          off                         | 
+ | ExcitedFermion:qqbar2tauStartau               |                      off |          off                         | 
+ | ExcitedFermion:qqbar2tauStartauStar           |                      off |          off                         | 
+ | ExcitedFermion:sg2sStar                       |                      off |          off                         | 
+ | ExcitedFermion:taugm2tauStar                  |                      off |          off                         | 
+ | ExcitedFermion:ug2uStar                       |                      off |          off                         | 
+ | ExtraDimensionsG*:all                         |                      off |          off                         | 
+ | ExtraDimensionsG*:ffbar2G*                    |                      off |          off                         | 
+ | ExtraDimensionsG*:Gbb                         |                      0.0 |          0.0         0.0             | 
+ | ExtraDimensionsG*:gg2G*                       |                      off |          off                         | 
+ | ExtraDimensionsG*:gg2G*g                      |                      off |          off                         | 
+ | ExtraDimensionsG*:Ggg                         |               1.3000e-05 |   1.3000e-05         0.0             | 
+ | ExtraDimensionsG*:Ggmgm                       |               1.3000e-05 |   1.3000e-05         0.0             | 
+ | ExtraDimensionsG*:Ghh                         |                0.0010000 |    0.0010000         0.0             | 
+ | ExtraDimensionsG*:Gll                         |                      0.0 |          0.0         0.0             | 
+ | ExtraDimensionsG*:Gqq                         |                      0.0 |          0.0         0.0             | 
+ | ExtraDimensionsG*:Gtt                         |                0.0010000 |    0.0010000         0.0             | 
+ | ExtraDimensionsG*:GWW                         |                0.0010000 |    0.0010000         0.0             | 
+ | ExtraDimensionsG*:GZZ                         |                0.0010000 |    0.0010000         0.0             | 
+ | ExtraDimensionsG*:kappaMG                     |                0.0540000 |    0.0540000         0.0             | 
+ | ExtraDimensionsG*:KKgbL                       |                  1.00000 |      1.00000                         | 
+ | ExtraDimensionsG*:KKgbR                       |                 -0.20000 |     -0.20000                         | 
+ | ExtraDimensionsG*:KKgqL                       |                 -0.20000 |     -0.20000                         | 
+ | ExtraDimensionsG*:KKgqR                       |                 -0.20000 |     -0.20000                         | 
+ | ExtraDimensionsG*:KKgtL                       |                  1.00000 |      1.00000                         | 
+ | ExtraDimensionsG*:KKgtR                       |                  4.00000 |      4.00000                         | 
+ | ExtraDimensionsG*:KKintMode                   |                        0 |            0           0           2 | 
+ | ExtraDimensionsG*:qg2G*q                      |                      off |          off                         | 
+ | ExtraDimensionsG*:qqbar2G*g                   |                      off |          off                         | 
+ | ExtraDimensionsG*:qqbar2KKgluon*              |                      off |          off                         | 
+ | ExtraDimensionsG*:SMinBulk                    |                      off |          off                         | 
+ | ExtraDimensionsG*:VLVL                        |                       on |           on                         | 
+ | ExtraDimensionsLED:c                          |                  1.00000 |      1.00000         0.0             | 
+ | ExtraDimensionsLED:CutOffMode                 |                        0 |            0           0           3 | 
+ | ExtraDimensionsLED:dijets                     |                      off |          off                         | 
+ | ExtraDimensionsLED:ffbar2gammagamma           |                      off |          off                         | 
+ | ExtraDimensionsLED:ffbar2Ggamma               |                      off |          off                         | 
+ | ExtraDimensionsLED:ffbar2GZ                   |                      off |          off                         | 
+ | ExtraDimensionsLED:ffbar2llbar                |                      off |          off                         | 
+ | ExtraDimensionsLED:g                          |                  1.00000 |      1.00000         0.0             | 
+ | ExtraDimensionsLED:gg2DJgg                    |                      off |          off                         | 
+ | ExtraDimensionsLED:gg2DJqqbar                 |                      off |          off                         | 
+ | ExtraDimensionsLED:gg2gammagamma              |                      off |          off                         | 
+ | ExtraDimensionsLED:gg2Gg                      |                      off |          off                         | 
+ | ExtraDimensionsLED:gg2llbar                   |                      off |          off                         | 
+ | ExtraDimensionsLED:GravScalar                 |                      off |          off                         | 
+ | ExtraDimensionsLED:LambdaT                    |                 2000.000 |     2000.000   100.00000             | 
+ | ExtraDimensionsLED:MD                         |                 2000.000 |     2000.000   100.00000             | 
+ | ExtraDimensionsLED:monojet                    |                      off |          off                         | 
+ | ExtraDimensionsLED:n                          |                        2 |            2           1             | 
+ | ExtraDimensionsLED:NegInt                     |                        0 |            0           0           1 | 
+ | ExtraDimensionsLED:nQuarkNew                  |                        3 |            3           0           5 | 
+ | ExtraDimensionsLED:opMode                     |                        0 |            0           0           1 | 
+ | ExtraDimensionsLED:qg2DJqg                    |                      off |          off                         | 
+ | ExtraDimensionsLED:qg2Gq                      |                      off |          off                         | 
+ | ExtraDimensionsLED:qq2DJqq                    |                      off |          off                         | 
+ | ExtraDimensionsLED:qqbar2DJgg                 |                      off |          off                         | 
+ | ExtraDimensionsLED:qqbar2DJqqbarNew           |                      off |          off                         | 
+ | ExtraDimensionsLED:qqbar2Gg                   |                      off |          off                         | 
+ | ExtraDimensionsLED:t                          |                  1.00000 |      1.00000   0.0010000             | 
+ | ExtraDimensionsTEV:ffbar2bbbar                |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2ccbar                |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2ddbar                |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2e+e-                 |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2mu+mu-               |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2nuenuebar            |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2numunumubar          |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2nutaunutaubar        |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2ssbar                |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2tau+tau-             |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2ttbar                |                      off |          off                         | 
+ | ExtraDimensionsTEV:ffbar2uubar                |                      off |          off                         | 
+ | ExtraDimensionsTEV:gmZmode                    |                        3 |            3           0           5 | 
+ | ExtraDimensionsTEV:mStar                      |                 4000.000 |     4000.000    1000.000             | 
+ | ExtraDimensionsTEV:nMax                       |                       10 |           10           1         100 | 
+ | ExtraDimensionsUnpart:CutOffMode              |                        0 |            0           0           1 | 
+ | ExtraDimensionsUnpart:dU                      |                  1.40000 |      1.40000     1.00000             | 
+ | ExtraDimensionsUnpart:ffbar2gammagamma        |                      off |          off                         | 
+ | ExtraDimensionsUnpart:ffbar2llbar             |                      off |          off                         | 
+ | ExtraDimensionsUnpart:ffbar2Ugamma            |                      off |          off                         | 
+ | ExtraDimensionsUnpart:ffbar2UZ                |                      off |          off                         | 
+ | ExtraDimensionsUnpart:gg2gammagamma           |                      off |          off                         | 
+ | ExtraDimensionsUnpart:gg2llbar                |                      off |          off                         | 
+ | ExtraDimensionsUnpart:gg2Ug                   |                      off |          off                         | 
+ | ExtraDimensionsUnpart:gXX                     |                        0 |            0           0           2 | 
+ | ExtraDimensionsUnpart:gXY                     |                        0 |            0           0           2 | 
+ | ExtraDimensionsUnpart:lambda                  |                  1.00000 |      1.00000         0.0             | 
+ | ExtraDimensionsUnpart:LambdaU                 |                 2000.000 |     2000.000   100.00000             | 
+ | ExtraDimensionsUnpart:monojet                 |                      off |          off                         | 
+ | ExtraDimensionsUnpart:qg2Uq                   |                      off |          off                         | 
+ | ExtraDimensionsUnpart:qqbar2Ug                |                      off |          off                         | 
+ | ExtraDimensionsUnpart:ratio                   |                  1.00000 |      1.00000     1.00000     1.00000 | 
+ | ExtraDimensionsUnpart:spinU                   |                        2 |            2           0           2 | 
+ | FourthBottom:all                              |                      off |          off                         | 
+ | FourthBottom:ffbar2bPrimebPrimebar(s:gmZ)     |                      off |          off                         | 
+ | FourthBottom:ffbar2bPrimeqbar(s:W)            |                      off |          off                         | 
+ | FourthBottom:ffbar2bPrimetbar(s:W)            |                      off |          off                         | 
+ | FourthBottom:gg2bPrimebPrimebar               |                      off |          off                         | 
+ | FourthBottom:qq2bPrimeq(t:W)                  |                      off |          off                         | 
+ | FourthBottom:qqbar2bPrimebPrimebar            |                      off |          off                         | 
+ | FourthGeneration:VcbPrime                     |                0.0100000 |    0.0100000         0.0     1.00000 | 
+ | FourthGeneration:VtbPrime                     |                  0.10000 |      0.10000         0.0     1.00000 | 
+ | FourthGeneration:VtPrimeb                     |                  0.10000 |      0.10000         0.0     1.00000 | 
+ | FourthGeneration:VtPrimebPrime                |                  0.99000 |      0.99000         0.0     1.00000 | 
+ | FourthGeneration:VtPrimed                     |                0.0010000 |    0.0010000         0.0     1.00000 | 
+ | FourthGeneration:VtPrimes                     |                0.0100000 |    0.0100000         0.0     1.00000 | 
+ | FourthGeneration:VubPrime                     |                0.0010000 |    0.0010000         0.0     1.00000 | 
+ | FourthPair:ffbar2tauPrimenuPrimebar(s:W)      |                      off |          off                         | 
+ | FourthPair:ffbar2tPrimebPrimebar(s:W)         |                      off |          off                         | 
+ | FourthTop:all                                 |                      off |          off                         | 
+ | FourthTop:ffbar2tPrimeqbar(s:W)               |                      off |          off                         | 
+ | FourthTop:ffbar2tPrimetPrimebar(s:gmZ)        |                      off |          off                         | 
+ | FourthTop:gg2tPrimetPrimebar                  |                      off |          off                         | 
+ | FourthTop:qq2tPrimeq(t:W)                     |                      off |          off                         | 
+ | FourthTop:qqbar2tPrimetPrimebar               |                      off |          off                         | 
+ | FragmentationSystems:mJoin                    |                  0.30000 |      0.30000     0.20000     1.00000 | 
+ | FragmentationSystems:mJoinJunction            |                  1.00000 |      1.00000     0.50000     2.00000 | 
+ | HadronLevel:all                               |                       on |           on                         | 
+ | HadronLevel:BoseEinstein                      |                      off |          off                         | 
+ | HadronLevel:Decay                             |                       on |           on                         | 
+ | HadronLevel:Hadronize                         |                       on |           on                         | 
+ | HadronLevel:HadronScatter                     |                      off |          off                         | 
+ | HadronLevel:mStringMin                        |                  1.00000 |      1.00000     0.50000     1.50000 | 
+ | HadronScatter:afterDecay                      |                      off |          off                         | 
+ | HadronScatter:allowDecayProd                  |                      off |          off                         | 
+ | HadronScatter:hadronSelect                    |                        0 |            0           0           0 | 
+ | HadronScatter:j                               |                  0.50000 |      0.50000         0.0    10.00000 | 
+ | HadronScatter:k                               |                  1.00000 |      1.00000   0.0100000     1.00000 | 
+ | HadronScatter:maxProbDS                       |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | HadronScatter:maxProbSS                       |                  1.00000 |      1.00000         0.0     1.00000 | 
+ | HadronScatter:minProbSS                       |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | HadronScatter:mode                            |                        0 |            0           0           2 | 
+ | HadronScatter:N                               |                  1.00000 |      1.00000   0.0100000     1.00000 | 
+ | HadronScatter:neighbourFar                    |                        4 |            4           2          15 | 
+ | HadronScatter:neighbourNear                   |                        2 |            2           1          10 | 
+ | HadronScatter:p                               |                  6.00000 |      6.00000     2.00000    30.00000 | 
+ | HadronScatter:pMax                            |                  0.50000 |      0.50000     0.10000  1.0000e+06 | 
+ | HadronScatter:rMax                            |                  1.00000 |      1.00000     0.10000     2.00000 | 
+ | HadronScatter:scatterMultipleTimes            |                       on |           on                         | 
+ | HadronScatter:scatterProb                     |                        0 |            0           0           2 | 
+ | HadronScatter:scatterRepeat                   |                      off |          off                         | 
+ | HadronScatter:scatterSameString               |                       on |           on                         | 
+ | HadronScatter:tile                            |                      off |          off                         | 
+ | HadronScatter:yDiffMax                        |                  1.00000 |      1.00000     0.10000    10.00000 | 
+ | HardQCD:3parton                               |                      off |          off                         | 
+ | HardQCD:all                                   |                      off |          off                         | 
+ | HardQCD:gg2bbbar                              |                       on |          off                         | 
+ | HardQCD:gg2ccbar                              |                      off |          off                         | 
+ | HardQCD:gg2gg                                 |                      off |          off                         | 
+ | HardQCD:gg2ggg                                |                      off |          off                         | 
+ | HardQCD:gg2qqbar                              |                      off |          off                         | 
+ | HardQCD:gg2qqbarg                             |                      off |          off                         | 
+ | HardQCD:hardbbbar                             |                       on |          off                         | 
+ | HardQCD:hardccbar                             |                      off |          off                         | 
+ | HardQCD:nQuarkNew                             |                        3 |            3           0           5 | 
+ | HardQCD:qg2qg                                 |                      off |          off                         | 
+ | HardQCD:qg2qgg                                |                      off |          off                         | 
+ | HardQCD:qg2qqqbarDiff                         |                      off |          off                         | 
+ | HardQCD:qg2qqqbarSame                         |                      off |          off                         | 
+ | HardQCD:qq2qq                                 |                      off |          off                         | 
+ | HardQCD:qq2qqgDiff                            |                      off |          off                         | 
+ | HardQCD:qq2qqgSame                            |                      off |          off                         | 
+ | HardQCD:qqbar2bbbar                           |                       on |          off                         | 
+ | HardQCD:qqbar2ccbar                           |                      off |          off                         | 
+ | HardQCD:qqbar2gg                              |                      off |          off                         | 
+ | HardQCD:qqbar2ggg                             |                      off |          off                         | 
+ | HardQCD:qqbar2qqbargDiff                      |                      off |          off                         | 
+ | HardQCD:qqbar2qqbargSame                      |                      off |          off                         | 
+ | HardQCD:qqbar2qqbarNew                        |                      off |          off                         | 
+ | HeavyIon:bWidth                               |                      0.0 |          0.0         0.0             | 
+ | HeavyIon:mode                                 |                        1 |            1           1           2 | 
+ | HeavyIon:showInit                             |                       on |           on                         | 
+ | HeavyIon:SigFitDefPar                         |                 17.24000 |     17.24000                         | 
+ |                                               |                  2.15000 |      2.15000                         | 
+ |                                               |                  0.33000 |      0.33000                         | 
+ |                                               |                      0.0 |          0.0                         | 
+ |                                               |                      0.0 |          0.0                         | 
+ |                                               |                      0.0 |          0.0                         | 
+ |                                               |                      0.0 |          0.0                         | 
+ |                                               |                      0.0 |          0.0                         | 
+ | HeavyIon:SigFitErr                            |                0.0200000 |    0.0200000         0.0     1.00000 | 
+ |                                               |                0.0200000 |    0.0200000         0.0     1.00000 | 
+ |                                               |                  0.10000 |      0.10000         0.0     1.00000 | 
+ |                                               |                0.0500000 |    0.0500000         0.0     1.00000 | 
+ |                                               |                0.0500000 |    0.0500000         0.0     1.00000 | 
+ |                                               |                      0.0 |          0.0         0.0     1.00000 | 
+ |                                               |                  0.10000 |      0.10000         0.0     1.00000 | 
+ |                                               |                      0.0 |          0.0         0.0     1.00000 | 
+ | HeavyIon:SigFitFuzz                           |                  0.20000 |      0.20000         0.0     0.50000 | 
+ | HeavyIon:SigFitNGen                           |                       20 |           20           0             | 
+ | HeavyIon:SigFitNInt                           |                   100000 |       100000           0             | 
+ | HeavyIon:SigFitNPop                           |                       20 |           20           1             | 
+ | HeavyIon:SigFitPrint                          |                       on |           on                         | 
+ | HeavyIon:WSa                                  |                      0.0 |          0.0         0.0             | 
+ | HeavyIon:WSHardCore                           |                       on |           on                         | 
+ | HeavyIon:WSR                                  |                      0.0 |          0.0         0.0             | 
+ | HeavyIon:WSRh                                 |                  0.90000 |      0.90000         0.0             | 
+ | HIBeamRemnants:allowBeamJunction              |                       on |           on                         | 
+ | HIBeamRemnants:allowJunction                  |                       on |           on                         | 
+ | HIBeamRemnants:beamJunction                   |                      off |          off                         | 
+ | HIBeamRemnants:companionPower                 |                        4 |            4           0           4 | 
+ | HIBeamRemnants:gluonPower                     |                  4.00000 |      4.00000         0.0             | 
+ | HIBeamRemnants:halfMassForKT                  |                  1.00000 |      1.00000         0.0             | 
+ | HIBeamRemnants:halfScaleForKT                 |                  1.50000 |      1.50000         0.0             | 
+ | HIBeamRemnants:maxValQuark                    |                        3 |            3           0           5 | 
+ | HIBeamRemnants:primordialKT                   |                       on |           on                         | 
+ | HIBeamRemnants:primordialKThard               |                  1.80000 |      1.80000         0.0             | 
+ | HIBeamRemnants:primordialKTremnant            |                  0.40000 |      0.40000         0.0             | 
+ | HIBeamRemnants:primordialKTsoft               |                  0.90000 |      0.90000         0.0             | 
+ | HIBeamRemnants:reducedKTatHighY               |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | HIBeamRemnants:remnantMode                    |                        0 |            0           0           1 | 
+ | HIBeamRemnants:rescatterRestoreY              |                      off |          off                         | 
+ | HIBeamRemnants:saturation                     |                  5.00000 |      5.00000     0.10000  100000.000 | 
+ | HIBeamRemnants:unresolvedHadron               |                        0 |            0           0           3 | 
+ | HIBeamRemnants:valenceDiqEnhance              |                  2.00000 |      2.00000     0.50000    10.00000 | 
+ | HIBeamRemnants:valencePowerDinP               |                  2.00000 |      2.00000         0.0             | 
+ | HIBeamRemnants:valencePowerMeson              |                  0.80000 |      0.80000         0.0             | 
+ | HIBeamRemnants:valencePowerUinP               |                  3.50000 |      3.50000         0.0             | 
+ | HIBeamRemnants:xGluonCutoff                   |               1.0000e-07 |   1.0000e-07  1.0000e-10     1.00000 | 
+ | HiddenValley:all                              |                      off |          off                         | 
+ | HiddenValley:alphaFSR                         |                  0.10000 |      0.10000         0.0             | 
+ | HiddenValley:alphaOrder                       |                        0 |            0           0           1 | 
+ | HiddenValley:aLund                            |                  0.30000 |      0.30000         0.0     2.00000 | 
+ | HiddenValley:bmqv2                            |                  0.80000 |      0.80000     0.20000     2.00000 | 
+ | HiddenValley:doKinMix                         |                      off |          off                         | 
+ | HiddenValley:ffbar2BvBvbar                    |                      off |          off                         | 
+ | HiddenValley:ffbar2CvCvbar                    |                      off |          off                         | 
+ | HiddenValley:ffbar2DvDvbar                    |                      off |          off                         | 
+ | HiddenValley:ffbar2EvEvbar                    |                      off |          off                         | 
+ | HiddenValley:ffbar2MUvMUvbar                  |                      off |          off                         | 
+ | HiddenValley:ffbar2nuEvnuEvbar                |                      off |          off                         | 
+ | HiddenValley:ffbar2nuMUvnuMUvbar              |                      off |          off                         | 
+ | HiddenValley:ffbar2nuTAUvnuTAUvbar            |                      off |          off                         | 
+ | HiddenValley:ffbar2SvSvbar                    |                      off |          off                         | 
+ | HiddenValley:ffbar2TAUvTAUvbar                |                      off |          off                         | 
+ | HiddenValley:ffbar2TvTvbar                    |                      off |          off                         | 
+ | HiddenValley:ffbar2UvUvbar                    |                      off |          off                         | 
+ | HiddenValley:ffbar2Zv                         |                      off |          off                         | 
+ | HiddenValley:fragment                         |                      off |          off                         | 
+ | HiddenValley:FSR                              |                      off |          off                         | 
+ | HiddenValley:gg2BvBvbar                       |                      off |          off                         | 
+ | HiddenValley:gg2CvCvbar                       |                      off |          off                         | 
+ | HiddenValley:gg2DvDvbar                       |                      off |          off                         | 
+ | HiddenValley:gg2SvSvbar                       |                      off |          off                         | 
+ | HiddenValley:gg2TvTvbar                       |                      off |          off                         | 
+ | HiddenValley:gg2UvUvbar                       |                      off |          off                         | 
+ | HiddenValley:kappa                            |                  1.00000 |      1.00000                         | 
+ | HiddenValley:kinMix                           |                  1.00000 |      1.00000                         | 
+ | HiddenValley:Lambda                           |                  0.40000 |      0.40000     0.10000             | 
+ | HiddenValley:nFlav                            |                        1 |            1           1           8 | 
+ | HiddenValley:Ngauge                           |                        3 |            3           1             | 
+ | HiddenValley:probVector                       |                  0.75000 |      0.75000         0.0     1.00000 | 
+ | HiddenValley:pTminFSR                         |                  0.44000 |      0.44000     0.10000             | 
+ | HiddenValley:qqbar2BvBvbar                    |                      off |          off                         | 
+ | HiddenValley:qqbar2CvCvbar                    |                      off |          off                         | 
+ | HiddenValley:qqbar2DvDvbar                    |                      off |          off                         | 
+ | HiddenValley:qqbar2SvSvbar                    |                      off |          off                         | 
+ | HiddenValley:qqbar2TvTvbar                    |                      off |          off                         | 
+ | HiddenValley:qqbar2UvUvbar                    |                      off |          off                         | 
+ | HiddenValley:rFactqv                          |                  1.00000 |      1.00000         0.0     2.00000 | 
+ | HiddenValley:sigmamqv                         |                  0.50000 |      0.50000         0.0             | 
+ | HiddenValley:spinFv                           |                        1 |            1           0           2 | 
+ | HiddenValley:spinqv                           |                        0 |            0           0           1 | 
+ | HIDiffraction:bProfile                        |                        1 |            1           0           3 | 
+ | HIDiffraction:bSelHard                        |                        1 |            1           1           3 | 
+ | HIDiffraction:coreFraction                    |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | HIDiffraction:coreRadius                      |                  0.40000 |      0.40000     0.10000     1.00000 | 
+ | HIDiffraction:doHard                          |                      off |          off                         | 
+ | HIDiffraction:expPow                          |                  1.00000 |      1.00000     0.40000    10.00000 | 
+ | HIDiffraction:largeMassSuppress               |                  4.00000 |      4.00000         0.0             | 
+ | HIDiffraction:MBRalpha                        |                  0.25000 |      0.25000     0.10000     0.40000 | 
+ | HIDiffraction:MBRbeta0                        |                  6.56600 |      6.56600         0.0    10.00000 | 
+ | HIDiffraction:MBRdyminCD                      |                  2.00000 |      2.00000         0.0     5.00000 | 
+ | HIDiffraction:MBRdyminCDflux                  |                  2.30000 |      2.30000         0.0     5.00000 | 
+ | HIDiffraction:MBRdyminDD                      |                  2.00000 |      2.00000         0.0     5.00000 | 
+ | HIDiffraction:MBRdyminDDflux                  |                  2.30000 |      2.30000         0.0     5.00000 | 
+ | HIDiffraction:MBRdyminSD                      |                  2.00000 |      2.00000         0.0     5.00000 | 
+ | HIDiffraction:MBRdyminSDflux                  |                  2.30000 |      2.30000         0.0     5.00000 | 
+ | HIDiffraction:MBRdyminSigCD                   |                  0.50000 |      0.50000   0.0010000     5.00000 | 
+ | HIDiffraction:MBRdyminSigDD                   |                  0.50000 |      0.50000   0.0010000     5.00000 | 
+ | HIDiffraction:MBRdyminSigSD                   |                  0.50000 |      0.50000   0.0010000     5.00000 | 
+ | HIDiffraction:MBRepsilon                      |                  0.10400 |      0.10400   0.0200000     0.15000 | 
+ | HIDiffraction:MBRm2Min                        |                  1.50000 |      1.50000         0.0     3.00000 | 
+ | HIDiffraction:MBRsigma0                       |                  2.82000 |      2.82000         0.0     5.00000 | 
+ | HIDiffraction:mMinPert                        |                 10.00000 |     10.00000     5.00000             | 
+ | HIDiffraction:mPowPomP                        |                      0.0 |          0.0         0.0     0.50000 | 
+ | HIDiffraction:mRefPomP                        |                100.00000 |    100.00000     1.00000             | 
+ | HIDiffraction:mWidthPert                      |                 10.00000 |     10.00000         0.0             | 
+ | HIDiffraction:pickQuarkNorm                   |                  5.00000 |      5.00000         0.0             | 
+ | HIDiffraction:pickQuarkPower                  |                  1.00000 |      1.00000                         | 
+ | HIDiffraction:PomFlux                         |                        1 |            1           1           7 | 
+ | HIDiffraction:PomFluxAlphaPrime               |                  0.25000 |      0.25000     0.10000     0.40000 | 
+ | HIDiffraction:PomFluxEpsilon                  |                0.0850000 |    0.0850000   0.0200000     0.15000 | 
+ | HIDiffraction:PomFluxRescale                  |                  1.00000 |      1.00000     0.20000     2.00000 | 
+ | HIDiffraction:primKTwidth                     |                  0.50000 |      0.50000         0.0             | 
+ | HIDiffraction:probMaxPert                     |                  1.00000 |      1.00000         0.0     1.00000 | 
+ | HIDiffraction:sampleType                      |                        2 |            2           1           4 | 
+ | HIDiffraction:sigmaRefPomP                    |                 10.00000 |     10.00000     2.00000    40.00000 | 
+ | HIDiffraction:useMBRrenormalization           |                      off |          off                         | 
+ | Higgs:clipWings                               |                       on |           on                         | 
+ | Higgs:cubicWidth                              |                      off |          off                         | 
+ | Higgs:runningLoopMass                         |                       on |           on                         | 
+ | Higgs:useBSM                                  |                      off |          off                         | 
+ | Higgs:wingsFac                                |                 50.00000 |     50.00000         0.0             | 
+ | HiggsA3:coup2d                                |                  1.00000 |      1.00000                         | 
+ | HiggsA3:coup2H1H1                             |                      0.0 |          0.0                         | 
+ | HiggsA3:coup2H1Z                              |                  1.00000 |      1.00000                         | 
+ | HiggsA3:coup2H2Z                              |                  1.00000 |      1.00000                         | 
+ | HiggsA3:coup2Hchg                             |                      0.0 |          0.0                         | 
+ | HiggsA3:coup2HchgW                            |                  1.00000 |      1.00000                         | 
+ | HiggsA3:coup2l                                |                  1.00000 |      1.00000                         | 
+ | HiggsA3:coup2u                                |                  1.00000 |      1.00000                         | 
+ | HiggsA3:coup2W                                |                      0.0 |          0.0                         | 
+ | HiggsA3:coup2Z                                |                      0.0 |          0.0                         | 
+ | HiggsA3:etaParity                             |                      0.0 |          0.0                         | 
+ | HiggsA3:parity                                |                        2 |            2           0           4 | 
+ | HiggsA3:phiParity                             |                      0.0 |          0.0                         | 
+ | HiggsBSM:all                                  |                      off |          off                         | 
+ | HiggsBSM:allA3                                |                      off |          off                         | 
+ | HiggsBSM:allH+-                               |                      off |          off                         | 
+ | HiggsBSM:allH1                                |                      off |          off                         | 
+ | HiggsBSM:allH2                                |                      off |          off                         | 
+ | HiggsBSM:allHpair                             |                      off |          off                         | 
+ | HiggsBSM:bg2H+-t                              |                      off |          off                         | 
+ | HiggsBSM:ff2A3ff(t:WW)                        |                      off |          off                         | 
+ | HiggsBSM:ff2A3ff(t:ZZ)                        |                      off |          off                         | 
+ | HiggsBSM:ff2H1ff(t:WW)                        |                      off |          off                         | 
+ | HiggsBSM:ff2H1ff(t:ZZ)                        |                      off |          off                         | 
+ | HiggsBSM:ff2H2ff(t:WW)                        |                      off |          off                         | 
+ | HiggsBSM:ff2H2ff(t:ZZ)                        |                      off |          off                         | 
+ | HiggsBSM:ffbar2A3                             |                      off |          off                         | 
+ | HiggsBSM:ffbar2A3H1                           |                      off |          off                         | 
+ | HiggsBSM:ffbar2A3H2                           |                      off |          off                         | 
+ | HiggsBSM:ffbar2A3W                            |                      off |          off                         | 
+ | HiggsBSM:ffbar2A3Z                            |                      off |          off                         | 
+ | HiggsBSM:ffbar2H+-                            |                      off |          off                         | 
+ | HiggsBSM:ffbar2H+-H1                          |                      off |          off                         | 
+ | HiggsBSM:ffbar2H+-H2                          |                      off |          off                         | 
+ | HiggsBSM:ffbar2H+H-                           |                      off |          off                         | 
+ | HiggsBSM:ffbar2H1                             |                      off |          off                         | 
+ | HiggsBSM:ffbar2H1W                            |                      off |          off                         | 
+ | HiggsBSM:ffbar2H1Z                            |                      off |          off                         | 
+ | HiggsBSM:ffbar2H2                             |                      off |          off                         | 
+ | HiggsBSM:ffbar2H2W                            |                      off |          off                         | 
+ | HiggsBSM:ffbar2H2Z                            |                      off |          off                         | 
+ | HiggsBSM:gg2A3                                |                      off |          off                         | 
+ | HiggsBSM:gg2A3bbbar                           |                      off |          off                         | 
+ | HiggsBSM:gg2A3g(l:t)                          |                      off |          off                         | 
+ | HiggsBSM:gg2A3ttbar                           |                      off |          off                         | 
+ | HiggsBSM:gg2H1                                |                      off |          off                         | 
+ | HiggsBSM:gg2H1bbbar                           |                      off |          off                         | 
+ | HiggsBSM:gg2H1g(l:t)                          |                      off |          off                         | 
+ | HiggsBSM:gg2H1ttbar                           |                      off |          off                         | 
+ | HiggsBSM:gg2H2                                |                      off |          off                         | 
+ | HiggsBSM:gg2H2bbbar                           |                      off |          off                         | 
+ | HiggsBSM:gg2H2g(l:t)                          |                      off |          off                         | 
+ | HiggsBSM:gg2H2ttbar                           |                      off |          off                         | 
+ | HiggsBSM:gmgm2A3                              |                      off |          off                         | 
+ | HiggsBSM:gmgm2H1                              |                      off |          off                         | 
+ | HiggsBSM:gmgm2H2                              |                      off |          off                         | 
+ | HiggsBSM:qg2A3q                               |                      off |          off                         | 
+ | HiggsBSM:qg2A3q(l:t)                          |                      off |          off                         | 
+ | HiggsBSM:qg2H1q                               |                      off |          off                         | 
+ | HiggsBSM:qg2H1q(l:t)                          |                      off |          off                         | 
+ | HiggsBSM:qg2H2q                               |                      off |          off                         | 
+ | HiggsBSM:qg2H2q(l:t)                          |                      off |          off                         | 
+ | HiggsBSM:qqbar2A3bbbar                        |                      off |          off                         | 
+ | HiggsBSM:qqbar2A3g(l:t)                       |                      off |          off                         | 
+ | HiggsBSM:qqbar2A3ttbar                        |                      off |          off                         | 
+ | HiggsBSM:qqbar2H1bbbar                        |                      off |          off                         | 
+ | HiggsBSM:qqbar2H1g(l:t)                       |                      off |          off                         | 
+ | HiggsBSM:qqbar2H1ttbar                        |                      off |          off                         | 
+ | HiggsBSM:qqbar2H2bbbar                        |                      off |          off                         | 
+ | HiggsBSM:qqbar2H2g(l:t)                       |                      off |          off                         | 
+ | HiggsBSM:qqbar2H2ttbar                        |                      off |          off                         | 
+ | HiggsH1:coup2d                                |                  1.00000 |      1.00000                         | 
+ | HiggsH1:coup2Hchg                             |                      0.0 |          0.0                         | 
+ | HiggsH1:coup2l                                |                  1.00000 |      1.00000                         | 
+ | HiggsH1:coup2u                                |                  1.00000 |      1.00000                         | 
+ | HiggsH1:coup2W                                |                  1.00000 |      1.00000                         | 
+ | HiggsH1:coup2Z                                |                  1.00000 |      1.00000                         | 
+ | HiggsH1:etaParity                             |                      0.0 |          0.0                         | 
+ | HiggsH1:parity                                |                        1 |            1           0           4 | 
+ | HiggsH1:phiParity                             |                      0.0 |          0.0                         | 
+ | HiggsH2:coup2A3A3                             |                  1.00000 |      1.00000                         | 
+ | HiggsH2:coup2A3H1                             |                      0.0 |          0.0                         | 
+ | HiggsH2:coup2d                                |                  1.00000 |      1.00000                         | 
+ | HiggsH2:coup2H1H1                             |                  1.00000 |      1.00000                         | 
+ | HiggsH2:coup2H1Z                              |                      0.0 |          0.0                         | 
+ | HiggsH2:coup2Hchg                             |                      0.0 |          0.0                         | 
+ | HiggsH2:coup2HchgW                            |                      0.0 |          0.0                         | 
+ | HiggsH2:coup2l                                |                  1.00000 |      1.00000                         | 
+ | HiggsH2:coup2u                                |                  1.00000 |      1.00000                         | 
+ | HiggsH2:coup2W                                |                  1.00000 |      1.00000                         | 
+ | HiggsH2:coup2Z                                |                  1.00000 |      1.00000                         | 
+ | HiggsH2:etaParity                             |                      0.0 |          0.0                         | 
+ | HiggsH2:parity                                |                        1 |            1           0           4 | 
+ | HiggsH2:phiParity                             |                      0.0 |          0.0                         | 
+ | HiggsHchg:coup2H1W                            |                  1.00000 |      1.00000                         | 
+ | HiggsHchg:coup2H2W                            |                      0.0 |          0.0                         | 
+ | HiggsHchg:tanBeta                             |                  5.00000 |      5.00000                         | 
+ | HiggsSM:all                                   |                      off |          off                         | 
+ | HiggsSM:ff2Hff(t:WW)                          |                      off |          off                         | 
+ | HiggsSM:ff2Hff(t:ZZ)                          |                      off |          off                         | 
+ | HiggsSM:ffbar2H                               |                      off |          off                         | 
+ | HiggsSM:ffbar2HW                              |                      off |          off                         | 
+ | HiggsSM:ffbar2HZ                              |                      off |          off                         | 
+ | HiggsSM:gg2H                                  |                      off |          off                         | 
+ | HiggsSM:gg2Hbbbar                             |                      off |          off                         | 
+ | HiggsSM:gg2Hg(l:t)                            |                      off |          off                         | 
+ | HiggsSM:gg2Httbar                             |                      off |          off                         | 
+ | HiggsSM:gmgm2H                                |                      off |          off                         | 
+ | HiggsSM:NLOWidths                             |                       on |           on                         | 
+ | HiggsSM:qg2Hq                                 |                      off |          off                         | 
+ | HiggsSM:qg2Hq(l:t)                            |                      off |          off                         | 
+ | HiggsSM:qqbar2Hbbbar                          |                      off |          off                         | 
+ | HiggsSM:qqbar2Hg(l:t)                         |                      off |          off                         | 
+ | HiggsSM:qqbar2Httbar                          |                      off |          off                         | 
+ | HIMultipartonInteractions:a1                  |                  0.15000 |      0.15000         0.0     2.00000 | 
+ | HIMultipartonInteractions:allowDoubleRescatter |                      off |          off                         | 
+ | HIMultipartonInteractions:allowRescatter      |                      off |          off                         | 
+ | HIMultipartonInteractions:alphaEMorder        |                        1 |            1          -1           1 | 
+ | HIMultipartonInteractions:alphaSorder         |                        1 |            1           0           2 | 
+ | HIMultipartonInteractions:alphaSvalue         |                  0.13000 |      0.13000   0.0600000     0.25000 | 
+ | HIMultipartonInteractions:bProfile            |                        3 |            3           0           4 | 
+ | HIMultipartonInteractions:bSelScale           |                        1 |            1           1           3 | 
+ | HIMultipartonInteractions:coreFraction        |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | HIMultipartonInteractions:coreRadius          |                  0.40000 |      0.40000     0.10000     1.00000 | 
+ | HIMultipartonInteractions:deltaYRescatter     |                  1.00000 |      1.00000     0.10000             | 
+ | HIMultipartonInteractions:ecmPow              |                  0.21500 |      0.21500         0.0     0.50000 | 
+ | HIMultipartonInteractions:ecmRef              |                 7000.000 |     7000.000     1.00000             | 
+ | HIMultipartonInteractions:enhanceScreening    |                        0 |            0           0           2 | 
+ | HIMultipartonInteractions:expPow              |                  1.85000 |      1.85000     0.40000    10.00000 | 
+ | HIMultipartonInteractions:Kfactor             |                  1.00000 |      1.00000     0.50000     4.00000 | 
+ | HIMultipartonInteractions:nQuarkIn            |                        5 |            5           0           5 | 
+ | HIMultipartonInteractions:nSample             |                     1000 |         1000         100             | 
+ | HIMultipartonInteractions:processLevel        |                        3 |            3           0           3 | 
+ | HIMultipartonInteractions:pT0Ref              |                  2.28000 |      2.28000     0.50000    10.00000 | 
+ | HIMultipartonInteractions:pTmaxMatch          |                        0 |            0           0           3 | 
+ | HIMultipartonInteractions:pTmin               |                  0.20000 |      0.20000     0.10000    10.00000 | 
+ | HIMultipartonInteractions:rescatterMode       |                        0 |            0           0           4 | 
+ | HIMultipartonInteractions:ySepRescatter       |                      0.0 |          0.0                         | 
+ | HIPDF:extrapolate                             |                      off |          off                         | 
+ | HIPDF:GammaHardSet                            |                     void |         void                         | 
+ | HIPDF:GammaSet                                |                        1 |            1           1           1 | 
+ | HIPDF:lepton                                  |                       on |           on                         | 
+ | HIPDF:lepton2gamma                            |                      off |          off                         | 
+ | HIPDF:lepton2gammaSet                         |                        1 |            1           1           2 | 
+ | HIPDF:nPDFBeamA                               |                100822080 |    100822080                         | 
+ | HIPDF:nPDFBeamB                               |                100822080 |    100822080                         | 
+ | HIPDF:nPDFSetA                                |                        1 |            1           0           2 | 
+ | HIPDF:nPDFSetB                                |                        1 |            1           0           2 | 
+ | HIPDF:pHardSet                                |                     void |         void                         | 
+ | HIPDF:pHardSetB                               |                     void |         void                         | 
+ | HIPDF:piSet                                   |                        1 |            1                         | 
+ | HIPDF:piSetB                                  |                     void |         void                         | 
+ | HIPDF:PomGluonA                               |                      0.0 |          0.0    -0.50000     2.00000 | 
+ | HIPDF:PomGluonB                               |                  3.00000 |      3.00000         0.0    10.00000 | 
+ | HIPDF:PomHixSupp                              |                  4.00000 |      4.00000         0.0    10.00000 | 
+ | HIPDF:PomQuarkA                               |                      0.0 |          0.0    -0.50000     2.00000 | 
+ | HIPDF:PomQuarkB                               |                  3.00000 |      3.00000         0.0    10.00000 | 
+ | HIPDF:PomQuarkFrac                            |                  0.20000 |      0.20000         0.0     1.00000 | 
+ | HIPDF:PomRescale                              |                  1.00000 |      1.00000     0.50000     5.00000 | 
+ | HIPDF:PomSet                                  |                        6 |            6                         | 
+ | HIPDF:PomStrangeSupp                          |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | HIPDF:pSet                                    |                       13 |           13                         | 
+ | HIPDF:pSetB                                   |                     void |         void                         | 
+ | HIPDF:useHard                                 |                      off |          off                         | 
+ | HIPDF:useHardNPDFA                            |                      off |          off                         | 
+ | HIPDF:useHardNPDFB                            |                      off |          off                         | 
+ | HISigmaDiffractive:dampen                     |                       on |           on                         | 
+ | HISigmaDiffractive:lowMEnhance                |                  2.00000 |      2.00000         0.0             | 
+ | HISigmaDiffractive:maxAX                      |                 65.00000 |     65.00000         0.0             | 
+ | HISigmaDiffractive:maxAXB                     |                  3.00000 |      3.00000         0.0             | 
+ | HISigmaDiffractive:maxXB                      |                 65.00000 |     65.00000         0.0             | 
+ | HISigmaDiffractive:maxXX                      |                 65.00000 |     65.00000         0.0             | 
+ | HISigmaDiffractive:mMin                       |                  0.28000 |      0.28000         0.0             | 
+ | HISigmaDiffractive:mResMax                    |                  1.06200 |      1.06200         0.0             | 
+ | Init:showAllParticleData                      |                      off |          off                         | 
+ | Init:showAllSettings                          |                      off |          off                         | 
+ | Init:showChangedParticleData                  |                       on |           on                         | 
+ | Init:showChangedResonanceData                 |                      off |          off                         | 
+ | Init:showChangedSettings                      |                       on |           on                         | 
+ | Init:showMultipartonInteractions              |                       on |           on                         | 
+ | Init:showOneParticleData                      |                        0 |            0           0             | 
+ | Init:showProcesses                            |                       on |           on                         | 
+ | JetMatching:clFact                            |                  1.00000 |      1.00000                         | 
+ | JetMatching:coneMatchHeavy                    |                  1.00000 |      1.00000     0.10000             | 
+ | JetMatching:coneMatchLight                    |                  1.50000 |      1.50000     0.10000             | 
+ | JetMatching:coneRadius                        |                  0.70000 |      0.70000     0.10000             | 
+ | JetMatching:coneRadiusHeavy                   |                 -1.00000 |     -1.00000                         | 
+ | JetMatching:doFxFx                            |                      off |          off                         | 
+ | JetMatching:doShowerKt                        |                      off |          off                         | 
+ | JetMatching:doVeto                            |                       on |           on                         | 
+ | JetMatching:etaJetMax                         |                  2.50000 |      2.50000     0.10000             | 
+ | JetMatching:eTjetMin                          |                 20.00000 |     20.00000     5.00000             | 
+ | JetMatching:eTseed                            |                  1.50000 |      1.50000         0.0             | 
+ | JetMatching:eTthreshold                       |                  0.10000 |      0.10000                         | 
+ | JetMatching:exclusive                         |                        2 |            2           0           2 | 
+ | JetMatching:jetAlgorithm                      |                        1 |            1           1           2 | 
+ | JetMatching:jetAllow                          |                        1 |            1           1           2 | 
+ | JetMatching:jetMatch                          |                        1 |            1           1           2 | 
+ | JetMatching:merge                             |                      off |          off                         | 
+ | JetMatching:nEta                              |                      100 |          100          50             | 
+ | JetMatching:nJet                              |                       -1 |           -1          -1             | 
+ | JetMatching:nJetMax                           |                       -1 |           -1          -1             | 
+ | JetMatching:nPartonsNow                       |                       -1 |           -1                         | 
+ | JetMatching:nPhi                              |                       60 |           60          30             | 
+ | JetMatching:nQmatch                           |                        5 |            5           3           6 | 
+ | JetMatching:qCut                              |                 10.00000 |     10.00000         0.0             | 
+ | JetMatching:qCutME                            |                 10.00000 |     10.00000                         | 
+ | JetMatching:scheme                            |                        1 |            1           1           2 | 
+ | JetMatching:setMad                            |                       on |           on                         | 
+ | JetMatching:slowJetPower                      |                       -1 |           -1          -1           1 | 
+ | LeftRightSymmmetry:all                        |                      off |          off                         | 
+ | LeftRightSymmmetry:coupHee                    |                  0.10000 |      0.10000         0.0             | 
+ | LeftRightSymmmetry:coupHmue                   |                0.0100000 |    0.0100000         0.0             | 
+ | LeftRightSymmmetry:coupHmumu                  |                  0.10000 |      0.10000         0.0             | 
+ | LeftRightSymmmetry:coupHtaue                  |                0.0100000 |    0.0100000         0.0             | 
+ | LeftRightSymmmetry:coupHtaumu                 |                0.0100000 |    0.0100000         0.0             | 
+ | LeftRightSymmmetry:coupHtautau                |                  0.30000 |      0.30000         0.0             | 
+ | LeftRightSymmmetry:ff2HLff                    |                      off |          off                         | 
+ | LeftRightSymmmetry:ff2HRff                    |                      off |          off                         | 
+ | LeftRightSymmmetry:ffbar2HLHL                 |                      off |          off                         | 
+ | LeftRightSymmmetry:ffbar2HRHR                 |                      off |          off                         | 
+ | LeftRightSymmmetry:ffbar2WR                   |                      off |          off                         | 
+ | LeftRightSymmmetry:ffbar2ZR                   |                      off |          off                         | 
+ | LeftRightSymmmetry:gL                         |                  0.64000 |      0.64000         0.0             | 
+ | LeftRightSymmmetry:gR                         |                  0.64000 |      0.64000         0.0             | 
+ | LeftRightSymmmetry:lgm2HLe                    |                      off |          off                         | 
+ | LeftRightSymmmetry:lgm2HLmu                   |                      off |          off                         | 
+ | LeftRightSymmmetry:lgm2HLtau                  |                      off |          off                         | 
+ | LeftRightSymmmetry:lgm2HRe                    |                      off |          off                         | 
+ | LeftRightSymmmetry:lgm2HRmu                   |                      off |          off                         | 
+ | LeftRightSymmmetry:lgm2HRtau                  |                      off |          off                         | 
+ | LeftRightSymmmetry:ll2HL                      |                      off |          off                         | 
+ | LeftRightSymmmetry:ll2HR                      |                      off |          off                         | 
+ | LeftRightSymmmetry:vL                         |                  5.00000 |      5.00000         0.0             | 
+ | LeptoQuark:all                                |                      off |          off                         | 
+ | LeptoQuark:gg2LQLQbar                         |                      off |          off                         | 
+ | LeptoQuark:kCoup                              |                  1.00000 |      1.00000         0.0             | 
+ | LeptoQuark:qg2LQl                             |                      off |          off                         | 
+ | LeptoQuark:ql2LQ                              |                      off |          off                         | 
+ | LeptoQuark:qqbar2LQLQbar                      |                      off |          off                         | 
+ | LesHouches:idRenameBeams                      |                  1000022 |      1000022           0             | 
+ | LesHouches:matchInOut                         |                       on |           on                         | 
+ | LesHouches:mRecalculate                       |                 -1.00000 |     -1.00000                         | 
+ | LesHouches:setLeptonMass                      |                        1 |            1           0           2 | 
+ | LesHouches:setLifetime                        |                        1 |            1           0           2 | 
+ | LesHouches:setQuarkMass                       |                        1 |            1           0           2 | 
+ | Main:LHEFskipInit                             |                      off |          off                         | 
+ | Main:numberOfAcceptedEvents                   |                        0 |            0           0             | 
+ | Main:numberOfEvents                           |                     1000 |         1000           0             | 
+ | Main:numberOfSelectedEvents                   |                        0 |            0           0             | 
+ | Main:numberOfSubruns                          |                        0 |            0           0             | 
+ | Main:numberOfTriedEvents                      |                        0 |            0           0             | 
+ | Main:spareFlag1                               |                      off |          off                         | 
+ | Main:spareFlag2                               |                      off |          off                         | 
+ | Main:spareFlag3                               |                      off |          off                         | 
+ | Main:spareMode1                               |                        0 |            0                         | 
+ | Main:spareMode2                               |                        0 |            0                         | 
+ | Main:spareMode3                               |                        0 |            0                         | 
+ | Main:spareParm1                               |                      0.0 |          0.0                         | 
+ | Main:spareParm2                               |                      0.0 |          0.0                         | 
+ | Main:spareParm3                               |                      0.0 |          0.0                         | 
+ | Main:spareWord1                               |                     void |         void                         | 
+ | Main:spareWord2                               |                     void |         void                         | 
+ | Main:spareWord3                               |                     void |         void                         | 
+ | Main:subrun                                   |                     -999 |         -999           0             | 
+ | Main:timesAllowErrors                         |                    10000 |           10           0             | 
+ | Merging:aCollFSR                              |                  1.00000 |      1.00000         0.0    10.00000 | 
+ | Merging:aCollISR                              |                  0.90000 |      0.90000         0.0    10.00000 | 
+ | Merging:allowColourShuffling                  |                      off |          off                         | 
+ | Merging:allowIncompleteHistoriesInReal        |                      off |          off                         | 
+ | Merging:allowSQCDClustering                   |                      off |          off                         | 
+ | Merging:allowWeakClustering                   |                      off |          off                         | 
+ | Merging:applyVeto                             |                       on |           on                         | 
+ | Merging:doCutBasedMerging                     |                      off |          off                         | 
+ | Merging:doKTMerging                           |                      off |          off                         | 
+ | Merging:doMGMerging                           |                      off |          off                         | 
+ | Merging:doNL3Loop                             |                      off |          off                         | 
+ | Merging:doNL3Subt                             |                      off |          off                         | 
+ | Merging:doNL3Tree                             |                      off |          off                         | 
+ | Merging:doPTLundMerging                       |                      off |          off                         | 
+ | Merging:doUMEPSSubt                           |                      off |          off                         | 
+ | Merging:doUMEPSTree                           |                      off |          off                         | 
+ | Merging:doUNLOPSLoop                          |                      off |          off                         | 
+ | Merging:doUNLOPSSubt                          |                      off |          off                         | 
+ | Merging:doUNLOPSSubtNLO                       |                      off |          off                         | 
+ | Merging:doUNLOPSTilde                         |                      off |          off                         | 
+ | Merging:doUNLOPSTree                          |                      off |          off                         | 
+ | Merging:doUserMerging                         |                      off |          off                         | 
+ | Merging:doXSectionEstimate                    |                      off |          off                         | 
+ | Merging:Dparameter                            |                  1.00000 |      1.00000                         | 
+ | Merging:dRijMS                                |                      0.0 |          0.0                         | 
+ | Merging:enforceCutOnLHE                       |                       on |           on                         | 
+ | Merging:enforceStrongOrdering                 |                      off |          off                         | 
+ | Merging:fsrInRecNorm                          |                  1.00000 |      1.00000         0.0    10.00000 | 
+ | Merging:includeMassive                        |                       on |           on                         | 
+ | Merging:includeRedundant                      |                      off |          off                         | 
+ | Merging:includeWeightInXsection               |                       on |           on                         | 
+ | Merging:incompleteScalePrescrip               |                        0 |            0           0           2 | 
+ | Merging:kFactor0j                             |                  1.00000 |      1.00000                         | 
+ | Merging:kFactor1j                             |                  1.00000 |      1.00000                         | 
+ | Merging:kFactor2j                             |                  1.00000 |      1.00000                         | 
+ | Merging:ktType                                |                        1 |            1           1           3 | 
+ | Merging:mayRemoveDecayProducts                |                      off |          off                         | 
+ | Merging:muFac                                 |                 -1.00000 |     -1.00000                         | 
+ | Merging:muFacInME                             |                 -1.00000 |     -1.00000                         | 
+ | Merging:muRen                                 |                 -1.00000 |     -1.00000                         | 
+ | Merging:muRenInME                             |                 -1.00000 |     -1.00000                         | 
+ | Merging:nJetMax                               |                        0 |            0           0             | 
+ | Merging:nJetMaxNLO                            |                        0 |            0           0             | 
+ | Merging:nonJoinedNorm                         |                  1.00000 |      1.00000         0.0    10.00000 | 
+ | Merging:nQuarksMerge                          |                        5 |            5           2           5 | 
+ | Merging:nRecluster                            |                        0 |            0           0             | 
+ | Merging:nRequested                            |                       -1 |           -1          -1             | 
+ | Merging:orderInRapidity                       |                      off |          off                         | 
+ | Merging:pickByFullP                           |                       on |           on                         | 
+ | Merging:pickByPoPT2                           |                      off |          off                         | 
+ | Merging:pickBySumPT                           |                      off |          off                         | 
+ | Merging:Process                               |                     void |         void                         | 
+ | Merging:pTiMS                                 |                      0.0 |          0.0                         | 
+ | Merging:QijMS                                 |                      0.0 |          0.0                         | 
+ | Merging:scaleSeparationFactor                 |                  1.00000 |      1.00000     1.00000    10.00000 | 
+ | Merging:TMS                                   |                      0.0 |          0.0                         | 
+ | Merging:unorderedASscalePrescrip              |                        1 |            1           0           1 | 
+ | Merging:unorderedPDFscalePrescrip             |                        0 |            0           0           1 | 
+ | Merging:unorderedScalePrescrip                |                        0 |            0           0           1 | 
+ | Merging:usePythiaQFacHard                     |                       on |           on                         | 
+ | Merging:usePythiaQRenHard                     |                       on |           on                         | 
+ | Merging:useShowerPlugin                       |                      off |          off                         | 
+ | MiniStringFragmentation:nTry                  |                        2 |            2           1          10 | 
+ | MultipartonInteractions:a1                    |                  0.15000 |      0.15000         0.0     2.00000 | 
+ | MultipartonInteractions:allowDoubleRescatter  |                      off |          off                         | 
+ | MultipartonInteractions:allowRescatter        |                      off |          off                         | 
+ | MultipartonInteractions:alphaEMorder          |                        1 |            1          -1           1 | 
+ | MultipartonInteractions:alphaSorder           |                        1 |            1           0           2 | 
+ | MultipartonInteractions:alphaSvalue           |                  0.13000 |      0.13000   0.0600000     0.25000 | 
+ | MultipartonInteractions:bProfile              |                        3 |            3           0           4 | 
+ | MultipartonInteractions:bSelScale             |                        1 |            1           1           3 | 
+ | MultipartonInteractions:coreFraction          |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | MultipartonInteractions:coreRadius            |                  0.40000 |      0.40000     0.10000     1.00000 | 
+ | MultipartonInteractions:deltaYRescatter       |                  1.00000 |      1.00000     0.10000             | 
+ | MultipartonInteractions:ecmPow                |                  0.25208 |      0.21500         0.0     0.50000 | 
+ | MultipartonInteractions:ecmRef                |                 7000.000 |     7000.000     1.00000             | 
+ | MultipartonInteractions:enhanceScreening      |                        0 |            0           0           2 | 
+ | MultipartonInteractions:expPow                |                  1.60000 |      1.85000     0.40000    10.00000 | 
+ | MultipartonInteractions:Kfactor               |                  1.00000 |      1.00000     0.50000     4.00000 | 
+ | MultipartonInteractions:nQuarkIn              |                        5 |            5           0           5 | 
+ | MultipartonInteractions:nSample               |                     1000 |         1000         100             | 
+ | MultipartonInteractions:processLevel          |                        3 |            3           0           3 | 
+ | MultipartonInteractions:pT0Ref                |                  2.40240 |      2.28000     0.50000    10.00000 | 
+ | MultipartonInteractions:pTmaxMatch            |                        0 |            0           0           3 | 
+ | MultipartonInteractions:pTmin                 |                  0.20000 |      0.20000     0.10000    10.00000 | 
+ | MultipartonInteractions:rescatterMode         |                        0 |            0           0           4 | 
+ | MultipartonInteractions:ySepRescatter         |                      0.0 |          0.0                         | 
+ | NewGaugeBoson:ffbar2gmZZprime                 |                      off |          off                         | 
+ | NewGaugeBoson:ffbar2R0                        |                      off |          off                         | 
+ | NewGaugeBoson:ffbar2Wprime                    |                      off |          off                         | 
+ | Next:numberCount                              |                     1000 |         1000           0             | 
+ | Next:numberShowEvent                          |                        0 |            1           0             | 
+ | Next:numberShowInfo                           |                        1 |            1           0             | 
+ | Next:numberShowLHA                            |                        1 |            1           0             | 
+ | Next:numberShowProcess                        |                        1 |            1           0             | 
+ | Next:showMothersAndDaughters                  |                      off |          off                         | 
+ | Next:showScaleAndVertex                       |                      off |          off                         | 
+ | Onia:all                                      |                      off |          off                         | 
+ | Onia:all(3DJ)                                 |                      off |          off                         | 
+ | Onia:all(3PJ)                                 |                      off |          off                         | 
+ | Onia:all(3S1)                                 |                      off |          off                         | 
+ | Onia:forceMassSplit                           |                       on |           on                         | 
+ | Onia:massSplit                                |                  0.20000 |      0.20000         0.0     1.00000 | 
+ | ParticleData:alphaSvalueMRun                  |                  0.12500 |      0.12500     0.10000     0.20000 | 
+ | ParticleData:maxEnhanceBW                     |                  2.50000 |      2.50000     1.00000     5.00000 | 
+ | ParticleData:mbRun                            |                  4.20000 |      4.20000     4.00000     4.50000 | 
+ | ParticleData:mcRun                            |                  1.25000 |      1.25000     1.00000     1.50000 | 
+ | ParticleData:mdRun                            |                0.0060000 |    0.0060000   0.0030000   0.0080000 | 
+ | ParticleData:modeBreitWigner                  |                        4 |            4           0           4 | 
+ | ParticleData:msRun                            |                0.0950000 |    0.0950000   0.0600000     0.15000 | 
+ | ParticleData:mtRun                            |                165.00000 |    165.00000   150.00000   175.00000 | 
+ | ParticleData:muRun                            |                0.0030000 |    0.0030000   0.0010000   0.0060000 | 
+ | ParticleDecays:allowPhotonRadiation           |                       on |          off                         | 
+ | ParticleDecays:colRearrange                   |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | ParticleDecays:FSRinDecays                    |                       on |           on                         | 
+ | ParticleDecays:limitCylinder                  |                      off |          off                         | 
+ | ParticleDecays:limitRadius                    |                      off |          off                         | 
+ | ParticleDecays:limitTau                       |                      off |          off                         | 
+ | ParticleDecays:limitTau0                      |                       on |          off                         | 
+ | ParticleDecays:mixB                           |                       on |           on                         | 
+ | ParticleDecays:mSafety                        |               5.0000e-04 |   5.0000e-04         0.0   0.0100000 | 
+ | ParticleDecays:multGoffset                    |                  0.50000 |      0.50000         0.0     2.00000 | 
+ | ParticleDecays:multIncrease                   |                  4.00000 |      4.00000     2.00000     6.00000 | 
+ | ParticleDecays:multIncreaseWeak               |                  2.50000 |      2.50000     1.00000     4.00000 | 
+ | ParticleDecays:multRefMass                    |                  0.70000 |      0.70000     0.20000     2.00000 | 
+ | ParticleDecays:rMax                           |                 10.00000 |     10.00000         0.0             | 
+ | ParticleDecays:sigmaSoft                      |                  0.50000 |      0.50000     0.20000     2.00000 | 
+ | ParticleDecays:tau0Max                        |                 10.00000 |     10.00000         0.0             | 
+ | ParticleDecays:tauMax                         |                 10.00000 |     10.00000         0.0             | 
+ | ParticleDecays:xBdMix                         |                  0.77600 |      0.77600     0.74000     0.81000 | 
+ | ParticleDecays:xBsMix                         |                 26.05000 |     26.05000    22.00000    30.00000 | 
+ | ParticleDecays:xyMax                          |                 10.00000 |     10.00000         0.0             | 
+ | ParticleDecays:zMax                           |                 10.00000 |     10.00000         0.0             | 
+ | PartonLevel:all                               |                       on |           on                         | 
+ | PartonLevel:earlyResDec                       |                      off |          off                         | 
+ | PartonLevel:FSR                               |                       on |           on                         | 
+ | PartonLevel:FSRinProcess                      |                       on |           on                         | 
+ | PartonLevel:FSRinResonances                   |                       on |           on                         | 
+ | PartonLevel:ISR                               |                       on |           on                         | 
+ | PartonLevel:MPI                               |                       on |           on                         | 
+ | PartonLevel:Remnants                          |                       on |           on                         | 
+ | PartonVertex:EmissionWidth                    |                  0.10000 |      0.10000         0.0    10.00000 | 
+ | PartonVertex:modeVertex                       |                        2 |            2           1           2 | 
+ | PartonVertex:ProtonRadius                     |                  0.70000 |      0.70000         0.0    10.00000 | 
+ | PartonVertex:pTmin                            |                  0.20000 |      0.20000   0.0500000     1.00000 | 
+ | PartonVertex:setVertex                        |                      off |          off                         | 
+ | PDF:extrapolate                               |                      off |          off                         | 
+ | PDF:GammaHardSet                              |                     void |         void                         | 
+ | PDF:GammaSet                                  |                        1 |            1           1           1 | 
+ | PDF:lepton                                    |                       on |           on                         | 
+ | PDF:lepton2gamma                              |                      off |          off                         | 
+ | PDF:lepton2gammaSet                           |                        1 |            1           1           2 | 
+ | PDF:nPDFBeamA                                 |                100822080 |    100822080                         | 
+ | PDF:nPDFBeamB                                 |                100822080 |    100822080                         | 
+ | PDF:nPDFSetA                                  |                        1 |            1           0           2 | 
+ | PDF:nPDFSetB                                  |                        1 |            1           0           2 | 
+ | PDF:pHardSet                                  |                     void |         void                         | 
+ | PDF:pHardSetB                                 |                     void |         void                         | 
+ | PDF:piSet                                     |                        1 |            1                         | 
+ | PDF:piSetB                                    |                     void |         void                         | 
+ | PDF:PomGluonA                                 |                      0.0 |          0.0    -0.50000     2.00000 | 
+ | PDF:PomGluonB                                 |                  3.00000 |      3.00000         0.0    10.00000 | 
+ | PDF:PomHixSupp                                |                  4.00000 |      4.00000         0.0    10.00000 | 
+ | PDF:PomQuarkA                                 |                      0.0 |          0.0    -0.50000     2.00000 | 
+ | PDF:PomQuarkB                                 |                  3.00000 |      3.00000         0.0    10.00000 | 
+ | PDF:PomQuarkFrac                              |                  0.20000 |      0.20000         0.0     1.00000 | 
+ | PDF:PomRescale                                |                  1.00000 |      1.00000     0.50000     5.00000 | 
+ | PDF:PomSet                                    |                        6 |            6                         | 
+ | PDF:PomStrangeSupp                            |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | PDF:pSet                                      |                       13 |           13                         | 
+ | PDF:pSetB                                     |                     void |         void                         | 
+ | PDF:useHard                                   |                      off |          off                         | 
+ | PDF:useHardNPDFA                              |                      off |          off                         | 
+ | PDF:useHardNPDFB                              |                      off |          off                         | 
+ | PDFinProcess:nQuarkIn                         |                        5 |            5           0           5 | 
+ | PhaseSpace:bias2Selection                     |                      off |          off                         | 
+ | PhaseSpace:bias2SelectionPow                  |                  4.00000 |      4.00000         0.0    10.00000 | 
+ | PhaseSpace:bias2SelectionRef                  |                 10.00000 |     10.00000     1.00000             | 
+ | PhaseSpace:increaseMaximum                    |                      off |          off                         | 
+ | PhaseSpace:mHatMax                            |                 -1.00000 |     -1.00000                         | 
+ | PhaseSpace:mHatMaxSecond                      |                 -1.00000 |     -1.00000                         | 
+ | PhaseSpace:mHatMin                            |                  4.00000 |      4.00000         0.0             | 
+ | PhaseSpace:mHatMinSecond                      |                  4.00000 |      4.00000         0.0             | 
+ | PhaseSpace:minWidthBreitWigners               |                0.0100000 |    0.0100000  1.0000e-06             | 
+ | PhaseSpace:pTHat3Max                          |                 -1.00000 |     -1.00000                         | 
+ | PhaseSpace:pTHat3Min                          |                 10.00000 |     10.00000         0.0             | 
+ | PhaseSpace:pTHat5Max                          |                 -1.00000 |     -1.00000                         | 
+ | PhaseSpace:pTHat5Min                          |                 10.00000 |     10.00000         0.0             | 
+ | PhaseSpace:pTHatMax                           |                 -1.00000 |     -1.00000                         | 
+ | PhaseSpace:pTHatMaxSecond                     |                 -1.00000 |     -1.00000                         | 
+ | PhaseSpace:pTHatMin                           |                 20.00000 |          0.0         0.0             | 
+ | PhaseSpace:pTHatMinDiverge                    |                  1.00000 |      1.00000     0.50000             | 
+ | PhaseSpace:pTHatMinSecond                     |                      0.0 |          0.0         0.0             | 
+ | PhaseSpace:Q2Min                              |                      0.0 |          0.0         0.0             | 
+ | PhaseSpace:RsepMin                            |                  1.00000 |      1.00000                         | 
+ | PhaseSpace:sameForSecond                      |                       on |           on                         | 
+ | PhaseSpace:showSearch                         |                      off |          off                         | 
+ | PhaseSpace:showViolation                      |                      off |          off                         | 
+ | PhaseSpace:useBreitWigners                    |                       on |           on                         | 
+ | Photon:ProcessType                            |                        0 |            0           0           4 | 
+ | Photon:Q2max                                  |                  1.00000 |      1.00000                 2.00000 | 
+ | Photon:sampleQ2                               |                       on |           on                         | 
+ | Photon:showUnres                              |                      off |          off                         | 
+ | Photon:sigmaNDfrac                            |                  0.70000 |      0.70000     0.50000     1.00000 | 
+ | Photon:thetaAMax                              |                 -1.00000 |     -1.00000                 3.14159 | 
+ | Photon:thetaBMax                              |                 -1.00000 |     -1.00000                 3.14159 | 
+ | Photon:Wmax                                   |                 -1.00000 |     -1.00000                         | 
+ | Photon:Wmin                                   |                 10.00000 |     10.00000     5.00000             | 
+ | PhotonCollision:all                           |                      off |          off                         | 
+ | PhotonCollision:gmgm2bbbar                    |                      off |          off                         | 
+ | PhotonCollision:gmgm2ccbar                    |                      off |          off                         | 
+ | PhotonCollision:gmgm2ee                       |                      off |          off                         | 
+ | PhotonCollision:gmgm2mumu                     |                      off |          off                         | 
+ | PhotonCollision:gmgm2qqbar                    |                      off |          off                         | 
+ | PhotonCollision:gmgm2tautau                   |                      off |          off                         | 
+ | PhotonParton:all                              |                      off |          off                         | 
+ | PhotonParton:ggm2bbbar                        |                      off |          off                         | 
+ | PhotonParton:ggm2ccbar                        |                      off |          off                         | 
+ | PhotonParton:ggm2qqbar                        |                      off |          off                         | 
+ | PhotonParton:qgm2qg                           |                      off |          off                         | 
+ | PhotonParton:qgm2qgm                          |                      off |          off                         | 
+ | POWHEG:bb4l                                   |                      off |          off                         | 
+ | POWHEG:bb4l:DEBUG                             |                      off |          off                         | 
+ | POWHEG:bb4l:FSREmission:dryRun                |                      off |          off                         | 
+ | POWHEG:bb4l:FSREmission:onlyDistance1         |                      off |          off                         | 
+ | POWHEG:bb4l:FSREmission:pTpythiaVeto          |                      off |          off                         | 
+ | POWHEG:bb4l:FSREmission:veto                  |                      off |          off                         | 
+ | POWHEG:bb4l:FSREmission:vetoAtPL              |                      off |          off                         | 
+ | POWHEG:bb4l:FSREmission:vetoDipoleFrame       |                      off |          off                         | 
+ | POWHEG:bb4l:FSREmission:vetoQED               |                      off |          off                         | 
+ | POWHEG:bb4l:PartonLevel:excludeFSRConflicting |                      off |          off                         | 
+ | POWHEG:bb4l:PartonLevel:veto                  |                      off |          off                         | 
+ | POWHEG:bb4l:pTminVeto                         |                 10.00000 |     10.00000         0.0    10.00000 | 
+ | POWHEG:bb4l:ScaleResonance:veto               |                      off |          off                         | 
+ | POWHEG:emitted                                |                        0 |            0           0           3 | 
+ | POWHEG:MPIveto                                |                        0 |            0           0           1 | 
+ | POWHEG:nFinal                                 |                        2 |            2           1             | 
+ | POWHEG:pTdef                                  |                        0 |            0           0           2 | 
+ | POWHEG:pTemt                                  |                        0 |            0           0           2 | 
+ | POWHEG:pThard                                 |                        0 |            0           0           2 | 
+ | POWHEG:QEDveto                                |                        0 |            0           0           2 | 
+ | POWHEG:veto                                   |                        0 |            0           0           1 | 
+ | POWHEG:vetoCount                              |                        3 |            3           0             | 
+ | POWHEGres:calcScales                          |                      off |          off                         | 
+ | Print:quiet                                   |                      off |          off                         | 
+ | ProcessLevel:all                              |                       on |           on                         | 
+ | ProcessLevel:resonanceDecays                  |                       on |           on                         | 
+ | PromptPhoton:all                              |                      off |          off                         | 
+ | PromptPhoton:ffbar2gammagamma                 |                      off |          off                         | 
+ | PromptPhoton:gg2gammagamma                    |                      off |          off                         | 
+ | PromptPhoton:gg2ggamma                        |                      off |          off                         | 
+ | PromptPhoton:nQuarkLoop                       |                        5 |            5           3           6 | 
+ | PromptPhoton:qg2qgamma                        |                      off |          off                         | 
+ | PromptPhoton:qqbar2ggamma                     |                      off |          off                         | 
+ | PTFilter:filter                               |                      off |          off                         | 
+ | PTFilter:quarkPt                              |                 -0.10000 |     -0.10000    -0.10000   100.00000 | 
+ | PTFilter:quarkRapidity                        |                 10.00000 |     10.00000         0.0    10.00000 | 
+ | PTFilter:quarkToFilter                        |                        5 |            5           3           6 | 
+ | PTFilter:scaleToFilter                        |                  0.40000 |      0.40000         0.0    10.00000 | 
+ | Pythia:versionDate                            |                 20171006 |     20171006    20171006    20171006 | 
+ | Pythia:versionNumber                          |                  8.23000 |      8.23000                         | 
+ | Random:seed                                   |                       -1 |           -1               900000000 | 
+ | Random:setSeed                                |                      off |          off                         | 
+ | ResonanceDecayFilter:allNuAsEquivalent        |                      off |          off                         | 
+ | ResonanceDecayFilter:eMuAsEquivalent          |                      off |          off                         | 
+ | ResonanceDecayFilter:eMuTauAsEquivalent       |                      off |          off                         | 
+ | ResonanceDecayFilter:exclusive                |                      off |          off                         | 
+ | ResonanceDecayFilter:filter                   |                      off |          off                         | 
+ | ResonanceDecayFilter:udscAsEquivalent         |                      off |          off                         | 
+ | ResonanceDecayFilter:udscbAsEquivalent        |                      off |          off                         | 
+ | ResonanceDecayFilter:wzAsEquivalent           |                      off |          off                         | 
+ | ResonanceWidths:minThreshold                  |                  0.10000 |      0.10000   0.0100000             | 
+ | ResonanceWidths:minWidth                      |               1.0000e-20 |   1.0000e-20  1.0000e-30             | 
+ | RHadrons:allow                                |                      off |          off                         | 
+ | RHadrons:allowDecay                           |                       on |           on                         | 
+ | RHadrons:diquarkSpin1                         |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | RHadrons:idGluino                             |                  1000021 |      1000021                         | 
+ | RHadrons:idSbottom                            |                  1000005 |      1000005                         | 
+ | RHadrons:idStop                               |                  1000006 |      1000006                         | 
+ | RHadrons:maxWidth                             |                  0.20000 |      0.20000         0.0     1.00000 | 
+ | RHadrons:mCollapse                            |                  1.00000 |      1.00000         0.0             | 
+ | RHadrons:mOffsetCloud                         |                  0.20000 |      0.20000         0.0             | 
+ | RHadrons:probGluinoball                       |                  0.10000 |      0.10000         0.0     1.00000 | 
+ | RHadrons:setMasses                            |                       on |           on                         | 
+ | Ropewalk:beta                                 |                  0.20000 |      0.20000         0.0     1.00000 | 
+ | Ropewalk:deltat                               |                  0.10000 |      0.10000   0.0100000   100.00000 | 
+ | Ropewalk:deltay                               |                  0.20000 |      0.20000   0.0100000    10.00000 | 
+ | Ropewalk:doFlavour                            |                      off |          off                         | 
+ | Ropewalk:doShoving                            |                      off |          off                         | 
+ | Ropewalk:gAmplitude                           |                  5.00000 |      5.00000         0.0   100.00000 | 
+ | Ropewalk:gExponent                            |                  1.00000 |      1.00000         0.0   100.00000 | 
+ | Ropewalk:limitMom                             |                       on |           on                         | 
+ | Ropewalk:m0                                   |                  0.20000 |      0.20000   0.0100000     5.00000 | 
+ | Ropewalk:presetKappa                          |                      0.0 |          0.0         0.0   100.00000 | 
+ | Ropewalk:pTcut                                |                  2.00000 |      2.00000         0.0    1000.000 | 
+ | Ropewalk:r0                                   |                  0.50000 |      0.50000         0.0    10.00000 | 
+ | Ropewalk:rCutOff                              |                  6.00000 |      6.00000         0.0   100.00000 | 
+ | Ropewalk:RopeHadronization                    |                      off |          off                         | 
+ | Ropewalk:setFixedKappa                        |                      off |          off                         | 
+ | Ropewalk:shoveGluonLoops                      |                       on |           on                         | 
+ | Ropewalk:shoveJunctionStrings                 |                       on |           on                         | 
+ | Ropewalk:shoveMiniStrings                     |                       on |           on                         | 
+ | Ropewalk:tInit                                |                  1.50000 |      1.50000         0.0   100.00000 | 
+ | Ropewalk:tShove                               |                  1.00000 |      1.00000         0.0   100.00000 | 
+ | Sdm:af                                        |                      0.0 |          0.0                         | 
+ | Sdm:aX                                        |                      0.0 |          0.0                         | 
+ | Sdm:vf                                        |                  0.10000 |      0.10000                         | 
+ | Sdm:vX                                        |                  1.00000 |      1.00000                         | 
+ | SecondHard:Bottomonium                        |                      off |          off                         | 
+ | SecondHard:Charmonium                         |                      off |          off                         | 
+ | SecondHard:generate                           |                      off |          off                         | 
+ | SecondHard:GmZAndJet                          |                      off |          off                         | 
+ | SecondHard:PhotonAndJet                       |                      off |          off                         | 
+ | SecondHard:SingleGmZ                          |                      off |          off                         | 
+ | SecondHard:SingleTop                          |                      off |          off                         | 
+ | SecondHard:SingleW                            |                      off |          off                         | 
+ | SecondHard:TopPair                            |                      off |          off                         | 
+ | SecondHard:TwoBJets                           |                      off |          off                         | 
+ | SecondHard:TwoJets                            |                      off |          off                         | 
+ | SecondHard:TwoPhotons                         |                      off |          off                         | 
+ | SecondHard:WAndJet                            |                      off |          off                         | 
+ | SigmaDiffractive:dampen                       |                       on |           on                         | 
+ | SigmaDiffractive:lowMEnhance                  |                  2.00000 |      2.00000         0.0             | 
+ | SigmaDiffractive:maxAX                        |                 65.00000 |     65.00000         0.0             | 
+ | SigmaDiffractive:maxAXB                       |                  3.00000 |      3.00000         0.0             | 
+ | SigmaDiffractive:maxXB                        |                 65.00000 |     65.00000         0.0             | 
+ | SigmaDiffractive:maxXX                        |                 65.00000 |     65.00000         0.0             | 
+ | SigmaDiffractive:mMin                         |                  0.28000 |      0.28000         0.0             | 
+ | SigmaDiffractive:mResMax                      |                  1.06200 |      1.06200         0.0             | 
+ | SigmaElastic:bSlope                           |                 18.00000 |     18.00000         0.0             | 
+ | SigmaElastic:lambda                           |                  0.71000 |      0.71000     0.10000     2.00000 | 
+ | SigmaElastic:phaseConst                       |                  0.57700 |      0.57700                         | 
+ | SigmaElastic:rho                              |                  0.13000 |      0.13000    -1.00000     1.00000 | 
+ | SigmaElastic:setOwn                           |                      off |          off                         | 
+ | SigmaElastic:tAbsMin                          |               5.0000e-05 |   5.0000e-05  1.0000e-10             | 
+ | SigmaProcess:alphaEMorder                     |                        1 |            1          -1           1 | 
+ | SigmaProcess:alphaSorder                      |                        1 |            1           0           2 | 
+ | SigmaProcess:alphaSvalue                      |                  0.13000 |      0.13000   0.0600000     0.25000 | 
+ | SigmaProcess:bMassiveME                       |                       on |           on                         | 
+ | SigmaProcess:cMassiveME                       |                      off |          off                         | 
+ | SigmaProcess:factorFixScale                   |                10000.000 |    10000.000     1.00000             | 
+ | SigmaProcess:factorMultFac                    |                  1.00000 |      1.00000     0.10000    10.00000 | 
+ | SigmaProcess:factorScale1                     |                        1 |            1           1           2 | 
+ | SigmaProcess:factorScale2                     |                        1 |            1           1           6 | 
+ | SigmaProcess:factorScale3                     |                        2 |            2           1           6 | 
+ | SigmaProcess:factorScale3VV                   |                        2 |            2           1           6 | 
+ | SigmaProcess:Kfactor                          |                  1.00000 |      1.00000     0.50000     4.00000 | 
+ | SigmaProcess:muMassiveME                      |                      off |          off                         | 
+ | SigmaProcess:renormFixScale                   |                10000.000 |    10000.000     1.00000             | 
+ | SigmaProcess:renormMultFac                    |                  1.00000 |      1.00000     0.10000    10.00000 | 
+ | SigmaProcess:renormScale1                     |                        1 |            1           1           2 | 
+ | SigmaProcess:renormScale2                     |                        2 |            2           1           6 | 
+ | SigmaProcess:renormScale3                     |                        3 |            3           1           6 | 
+ | SigmaProcess:renormScale3VV                   |                        3 |            3           1           6 | 
+ | SigmaProcess:tauMassiveME                     |                       on |           on                         | 
+ | SigmaTotal:setOwn                             |                      off |          off                         | 
+ | SigmaTotal:sigmaAX                            |                  8.00000 |      8.00000         0.0             | 
+ | SigmaTotal:sigmaAXB                           |                  1.00000 |      1.00000         0.0             | 
+ | SigmaTotal:sigmaAXB2TeV                       |                  1.50000 |      1.50000         0.0             | 
+ | SigmaTotal:sigmaEl                            |                 20.00000 |     20.00000         0.0             | 
+ | SigmaTotal:sigmaTot                           |                 80.00000 |     80.00000         0.0             | 
+ | SigmaTotal:sigmaXB                            |                  8.00000 |      8.00000         0.0             | 
+ | SigmaTotal:sigmaXX                            |                  4.00000 |      4.00000         0.0             | 
+ | SigmaTotal:zeroAXB                            |                       on |           on                         | 
+ | SLHA:allowUserOverride                        |                      off |          off                         | 
+ | SLHA:file                                     |                     void |         void                         | 
+ | SLHA:keepSM                                   |                       on |           on                         | 
+ | SLHA:meMode                                   |                      100 |          100         100         103 | 
+ | SLHA:minMassSM                                |                 1000.000 |    100.00000                         | 
+ | SLHA:NMSSM                                    |                      off |          off                         | 
+ | SLHA:readFrom                                 |                        1 |            1           0           2 | 
+ | SLHA:useDecayTable                            |                       on |           on                         | 
+ | SLHA:verbose                                  |                        1 |            1           0           3 | 
+ | SoftQCD:all                                   |                      off |          off                         | 
+ | SoftQCD:centralDiffractive                    |                      off |          off                         | 
+ | SoftQCD:doubleDiffractive                     |                      off |          off                         | 
+ | SoftQCD:elastic                               |                      off |          off                         | 
+ | SoftQCD:inelastic                             |                      off |          off                         | 
+ | SoftQCD:nonDiffractive                        |                      off |          off                         | 
+ | SoftQCD:singleDiffractive                     |                      off |          off                         | 
+ | SpaceShower:alphaEMorder                      |                        1 |            1          -1           1 | 
+ | SpaceShower:alphaSorder                       |                        1 |            1           0           2 | 
+ | SpaceShower:alphaSuseCMW                      |                      off |          off                         | 
+ | SpaceShower:alphaSvalue                       |                  0.13650 |      0.13650   0.0600000     0.25000 | 
+ | SpaceShower:dipoleRecoil                      |                      off |          off                         | 
+ | SpaceShower:ecmPow                            |                      0.0 |          0.0         0.0     0.50000 | 
+ | SpaceShower:ecmRef                            |                 7000.000 |     7000.000     1.00000             | 
+ | SpaceShower:factorMultFac                     |                  1.00000 |      1.00000     0.10000    10.00000 | 
+ | SpaceShower:fixedFacScale                     |                100.00000 |    100.00000     1.00000             | 
+ | SpaceShower:MEafterFirst                      |                       on |           on                         | 
+ | SpaceShower:MEcorrections                     |                       on |           on                         | 
+ | SpaceShower:nQuarkIn                          |                        5 |            5           0           5 | 
+ | SpaceShower:phiIntAsym                        |                       on |           on                         | 
+ | SpaceShower:phiPolAsym                        |                       on |           on                         | 
+ | SpaceShower:phiPolAsymHard                    |                       on |           on                         | 
+ | SpaceShower:pT0Ref                            |                  2.00000 |      2.00000     0.50000    10.00000 | 
+ | SpaceShower:pTdampFudge                       |                  1.00000 |      1.00000     0.25000     4.00000 | 
+ | SpaceShower:pTdampMatch                       |                        3 |            3           0           4 | 
+ | SpaceShower:pTmaxFudge                        |                  1.00000 |      1.00000     0.25000     2.00000 | 
+ | SpaceShower:pTmaxFudgeMPI                     |                  1.00000 |      1.00000     0.25000     2.00000 | 
+ | SpaceShower:pTmaxMatch                        |                        0 |            0           0           2 | 
+ | SpaceShower:pTmin                             |                  0.20000 |      0.20000     0.10000    10.00000 | 
+ | SpaceShower:pTminChgL                         |               5.0000e-04 |   5.0000e-04  1.0000e-04             | 
+ | SpaceShower:pTminChgQ                         |                  0.50000 |      0.50000   0.0100000             | 
+ | SpaceShower:pTminWeak                         |                  1.00000 |      1.00000     0.10000     2.00000 | 
+ | SpaceShower:QCDshower                         |                       on |           on                         | 
+ | SpaceShower:QEDshowerByL                      |                       on |           on                         | 
+ | SpaceShower:QEDshowerByQ                      |                       on |           on                         | 
+ | SpaceShower:rapidityOrder                     |                       on |           on                         | 
+ | SpaceShower:rapidityOrderMPI                  |                       on |           on                         | 
+ | SpaceShower:renormMultFac                     |                  1.00000 |      1.00000     0.10000    10.00000 | 
+ | SpaceShower:samePTasMPI                       |                      off |          off                         | 
+ | SpaceShower:strengthIntAsym                   |                  0.70000 |      0.70000         0.0     0.90000 | 
+ | SpaceShower:useFixedFacScale                  |                      off |          off                         | 
+ | SpaceShower:weakShower                        |                      off |          off                         | 
+ | SpaceShower:weakShowerMode                    |                        0 |            0           0           2 | 
+ | StandardModel:alphaEM0                        |                0.0072974 |    0.0072974   0.0072973   0.0072974 | 
+ | StandardModel:alphaEMmZ                       |                0.0078175 |    0.0078175   0.0078000   0.0078300 | 
+ | StandardModel:alphaSnfmax                     |                        6 |            6           5           6 | 
+ | StandardModel:GF                              |               1.1664e-05 |   1.1664e-05  1.0000e-05  1.3000e-05 | 
+ | StandardModel:sin2thetaW                      |                  0.23120 |      0.23120     0.22500     0.24000 | 
+ | StandardModel:sin2thetaWbar                   |                  0.23150 |      0.23150     0.22500     0.24000 | 
+ | StandardModel:Vcb                             |                0.0422100 |    0.0422100   0.0418000   0.0426000 | 
+ | StandardModel:Vcd                             |                  0.22710 |      0.22710     0.22400     0.23000 | 
+ | StandardModel:Vcs                             |                  0.97296 |      0.97296     0.97200     0.97400 | 
+ | StandardModel:Vtb                             |                  0.99910 |      0.99910     0.99907     0.99920 | 
+ | StandardModel:Vtd                             |                0.0081400 |    0.0081400   0.0060000   0.0100000 | 
+ | StandardModel:Vts                             |                0.0416100 |    0.0416100   0.0390000   0.0430000 | 
+ | StandardModel:Vub                             |                0.0039600 |    0.0039600   0.0037000   0.0042000 | 
+ | StandardModel:Vud                             |                  0.97383 |      0.97383     0.97300     0.97500 | 
+ | StandardModel:Vus                             |                  0.22720 |      0.22720     0.22400     0.23000 | 
+ | Stat:reset                                    |                      off |          off                         | 
+ | Stat:showErrors                               |                       on |           on                         | 
+ | Stat:showPartonLevel                          |                      off |          off                         | 
+ | Stat:showProcessLevel                         |                       on |           on                         | 
+ | StringFlav:BtoMratio                          |                  0.35700 |      0.35700     0.10000    10.00000 | 
+ | StringFlav:decupletSup                        |                  1.00000 |      1.00000         0.0     1.00000 | 
+ | StringFlav:etaPrimeSup                        |                  0.12000 |      0.12000         0.0     1.00000 | 
+ | StringFlav:etaSup                             |                  0.60000 |      0.60000         0.0     1.00000 | 
+ | StringFlav:heavyLeadingBSup                   |                  0.90000 |      0.90000         0.0     1.00000 | 
+ | StringFlav:lightLeadingBSup                   |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | StringFlav:mesonBL1S0J1                       |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonBL1S1J0                       |                      0.0 |          0.0         0.0     1.00000 | 
+ | StringFlav:mesonBL1S1J1                       |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonBL1S1J2                       |                      0.0 |          0.0         0.0     5.00000 | 
+ | StringFlav:mesonBvector                       |                  2.20000 |      2.20000         0.0     3.00000 | 
+ | StringFlav:mesonCL1S0J1                       |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonCL1S1J0                       |                      0.0 |          0.0         0.0     1.00000 | 
+ | StringFlav:mesonCL1S1J1                       |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonCL1S1J2                       |                      0.0 |          0.0         0.0     5.00000 | 
+ | StringFlav:mesonCvector                       |                  0.88000 |      0.88000         0.0     3.00000 | 
+ | StringFlav:mesonNonetL1                       |                      off |          off                         | 
+ | StringFlav:mesonSL1S0J1                       |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonSL1S1J0                       |                      0.0 |          0.0         0.0     1.00000 | 
+ | StringFlav:mesonSL1S1J1                       |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonSL1S1J2                       |                      0.0 |          0.0         0.0     5.00000 | 
+ | StringFlav:mesonSvector                       |                  0.55000 |      0.55000         0.0     3.00000 | 
+ | StringFlav:mesonUDL1S0J1                      |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonUDL1S1J0                      |                      0.0 |          0.0         0.0     1.00000 | 
+ | StringFlav:mesonUDL1S1J1                      |                      0.0 |          0.0         0.0     3.00000 | 
+ | StringFlav:mesonUDL1S1J2                      |                      0.0 |          0.0         0.0     5.00000 | 
+ | StringFlav:mesonUDvector                      |                  0.50000 |      0.50000         0.0     3.00000 | 
+ | StringFlav:nQuark                             |                        3 |            3           3           5 | 
+ | StringFlav:popcornRate                        |                  0.50000 |      0.50000         0.0     2.00000 | 
+ | StringFlav:popcornSmeson                      |                  0.50000 |      0.50000         0.0     1.00000 | 
+ | StringFlav:popcornSpair                       |                  0.90000 |      0.90000         0.0     1.00000 | 
+ | StringFlav:probQQ1toQQ0                       |                0.0275000 |    0.0275000         0.0     1.00000 | 
+ | StringFlav:probQQ1toQQ0join                   |                  0.50000 |      0.50000         0.0     1.00000 | 
+ |                                               |                  0.70000 |      0.70000         0.0     1.00000 | 
+ |                                               |                  0.90000 |      0.90000         0.0     1.00000 | 
+ |                                               |                  1.00000 |      1.00000         0.0     1.00000 | 
+ | StringFlav:probQQtoQ                          |                0.0810000 |    0.0810000         0.0     1.00000 | 
+ | StringFlav:probSQtoQQ                         |                  0.91500 |      0.91500         0.0     1.00000 | 
+ | StringFlav:probStoUD                          |                  0.21700 |      0.21700         0.0     1.00000 | 
+ | StringFlav:StrangeSuppression                 |                  0.50000 |      0.50000   0.0100000     1.00000 | 
+ | StringFlav:suppressLeadingB                   |                      off |          off                         | 
+ | StringFlav:thetaL1S0J1                        |                 35.30000 |     35.30000   -90.00000    90.00000 | 
+ | StringFlav:thetaL1S1J0                        |                 35.30000 |     35.30000   -90.00000    90.00000 | 
+ | StringFlav:thetaL1S1J1                        |                 35.30000 |     35.30000   -90.00000    90.00000 | 
+ | StringFlav:thetaL1S1J2                        |                 28.00000 |     28.00000   -90.00000    90.00000 | 
+ | StringFlav:thetaPS                            |                -15.00000 |    -15.00000   -90.00000    90.00000 | 
+ | StringFlav:thetaV                             |                 36.00000 |     36.00000   -90.00000    90.00000 | 
+ | StringFragmentation:eBothLeftJunction         |                  1.00000 |      1.00000     0.50000             | 
+ | StringFragmentation:eMaxLeftJunction          |                 10.00000 |     10.00000         0.0             | 
+ | StringFragmentation:eMinLeftJunction          |                  0.20000 |      0.20000         0.0             | 
+ | StringFragmentation:eNormJunction             |                  2.00000 |      2.00000     0.50000    10.00000 | 
+ | StringFragmentation:stopMass                  |                  1.00000 |      1.00000         0.0     2.00000 | 
+ | StringFragmentation:stopNewFlav               |                  2.00000 |      2.00000         0.0     2.00000 | 
+ | StringFragmentation:stopSmear                 |                  0.20000 |      0.20000         0.0     0.50000 | 
+ | StringPT:closePacking                         |                      off |          off                         | 
+ | StringPT:enhancedFraction                     |                0.0100000 |    0.0100000         0.0     1.00000 | 
+ | StringPT:enhancedWidth                        |                  2.00000 |      2.00000     1.00000    10.00000 | 
+ | StringPT:expMPI                               |                      0.0 |          0.0         0.0     1.00000 | 
+ | StringPT:expNSP                               |                  0.13000 |      0.13000         0.0     1.00000 | 
+ | StringPT:mT2suppression                       |                      off |          off                         | 
+ | StringPT:sigma                                |                  0.33500 |      0.33500         0.0     1.00000 | 
+ | StringPT:temperature                          |                  0.21000 |      0.21000     0.10000     0.50000 | 
+ | StringPT:tempPreFactor                        |                  1.21000 |      1.21000     1.00000     1.50000 | 
+ | StringPT:thermalModel                         |                      off |          off                         | 
+ | StringPT:widthPreDiquark                      |                  1.00000 |      1.00000     1.00000    10.00000 | 
+ | StringPT:widthPreStrange                      |                  1.00000 |      1.00000     1.00000    10.00000 | 
+ | StringZ:aExtraDiquark                         |                  0.97000 |      0.97000         0.0     2.00000 | 
+ | StringZ:aExtraSQuark                          |                      0.0 |          0.0         0.0     2.00000 | 
+ | StringZ:aLund                                 |                  0.68000 |      0.68000         0.0     2.00000 | 
+ | StringZ:aNonstandardB                         |                  0.30000 |      0.30000         0.0     2.00000 | 
+ | StringZ:aNonstandardC                         |                  0.30000 |      0.30000         0.0     2.00000 | 
+ | StringZ:aNonstandardH                         |                  0.30000 |      0.30000         0.0     2.00000 | 
+ | StringZ:bLund                                 |                  0.98000 |      0.98000     0.20000     2.00000 | 
+ | StringZ:bNonstandardB                         |                  0.80000 |      0.80000     0.20000     2.00000 | 
+ | StringZ:bNonstandardC                         |                  0.80000 |      0.80000     0.20000     2.00000 | 
+ | StringZ:bNonstandardH                         |                  0.80000 |      0.80000     0.20000     2.00000 | 
+ | StringZ:epsilonB                              |                0.0050000 |    0.0050000   0.0010000   0.0250000 | 
+ | StringZ:epsilonC                              |                0.0500000 |    0.0500000   0.0100000     0.25000 | 
+ | StringZ:epsilonH                              |                0.0050000 |    0.0050000  1.0000e-04     0.25000 | 
+ | StringZ:rFactB                                |                  0.85500 |      0.85500         0.0     2.00000 | 
+ | StringZ:rFactC                                |                  1.32000 |      1.32000         0.0     2.00000 | 
+ | StringZ:rFactH                                |                  1.00000 |      1.00000         0.0     2.00000 | 
+ | StringZ:useNonstandardB                       |                      off |          off                         | 
+ | StringZ:useNonstandardC                       |                      off |          off                         | 
+ | StringZ:useNonstandardH                       |                      off |          off                         | 
+ | StringZ:usePetersonB                          |                      off |          off                         | 
+ | StringZ:usePetersonC                          |                      off |          off                         | 
+ | StringZ:usePetersonH                          |                      off |          off                         | 
+ | SUSY:all                                      |                      off |          off                         | 
+ | SUSY:gg2gluinogluino                          |                      off |          off                         | 
+ | SUSY:gg2squarkantisquark                      |                      off |          off                         | 
+ | SUSY:idA                                      |                        0 |            0           0             | 
+ | SUSY:idB                                      |                        0 |            0           0             | 
+ | SUSY:idVecA                                   |                        0 |            0           0             | 
+ | SUSY:idVecB                                   |                        0 |            0           0             | 
+ | SUSY:qg2chi+-squark                           |                      off |          off                         | 
+ | SUSY:qg2chi0squark                            |                      off |          off                         | 
+ | SUSY:qg2squarkgluino                          |                      off |          off                         | 
+ | SUSY:qq2antisquark                            |                      off |          off                         | 
+ | SUSY:qq2squarksquark                          |                      off |          off                         | 
+ | SUSY:qq2squarksquark:onlyQCD                  |                      off |          off                         | 
+ | SUSY:qqbar2chi+-chi0                          |                      off |          off                         | 
+ | SUSY:qqbar2chi+-gluino                        |                      off |          off                         | 
+ | SUSY:qqbar2chi+chi-                           |                      off |          off                         | 
+ | SUSY:qqbar2chi0chi0                           |                      off |          off                         | 
+ | SUSY:qqbar2chi0gluino                         |                      off |          off                         | 
+ | SUSY:qqbar2gluinogluino                       |                      off |          off                         | 
+ | SUSY:qqbar2sleptonantislepton                 |                      off |          off                         | 
+ | SUSY:qqbar2squarkantisquark                   |                      off |          off                         | 
+ | SUSY:qqbar2squarkantisquark:onlyQCD           |                      off |          off                         | 
+ | SUSY:sin2thetaWMode                           |                        2 |            2           1           3 | 
+ | SUSYResonance:3BodyMatrixElement              |                      off |          off                         | 
+ | TauDecays:externalMode                        |                        2 |            2           0           2 | 
+ | TauDecays:mode                                |                        1 |            1           0           5 | 
+ | TauDecays:tauMother                           |                        0 |            0           0             | 
+ | TauDecays:tauPolarization                     |                      0.0 |          0.0    -1.00000     1.00000 | 
+ | TimeShower:allowBeamRecoil                    |                       on |           on                         | 
+ | TimeShower:allowMPIdipole                     |                      off |          off                         | 
+ | TimeShower:alphaEMorder                       |                        1 |            1          -1           1 | 
+ | TimeShower:alphaSorder                        |                        1 |            1           0           2 | 
+ | TimeShower:alphaSuseCMW                       |                      off |          off                         | 
+ | TimeShower:alphaSvalue                        |                  0.13650 |      0.13650   0.0600000     0.25000 | 
+ | TimeShower:dampenBeamRecoil                   |                       on |           on                         | 
+ | TimeShower:factorMultFac                      |                  1.00000 |      1.00000     0.10000    10.00000 | 
+ | TimeShower:fixedFacScale                      |                100.00000 |    100.00000     1.00000             | 
+ | TimeShower:globalRecoil                       |                      off |          off                         | 
+ | TimeShower:globalRecoilMode                   |                        0 |            0           0           2 | 
+ | TimeShower:interleave                         |                       on |           on                         | 
+ | TimeShower:limitPTmaxGlobal                   |                      off |          off                         | 
+ | TimeShower:MEafterFirst                       |                       on |           on                         | 
+ | TimeShower:MEcorrections                      |                       on |           on                         | 
+ | TimeShower:MEextended                         |                       on |           on                         | 
+ | TimeShower:mMaxGamma                          |                 10.00000 |     10.00000   0.0010000    5000.000 | 
+ | TimeShower:nGammaToLepton                     |                        3 |            3           0           3 | 
+ | TimeShower:nGammaToQuark                      |                        5 |            5           0           5 | 
+ | TimeShower:nGluonToQuark                      |                        5 |            5           0           5 | 
+ | TimeShower:nMaxGlobalBranch                   |                       -1 |           -1                         | 
+ | TimeShower:nMaxGlobalRecoil                   |                        2 |            2           1             | 
+ | TimeShower:nPartonsInBorn                     |                       -1 |           -1                         | 
+ | TimeShower:octetOniumColFac                   |                  2.00000 |      2.00000         0.0     4.00000 | 
+ | TimeShower:octetOniumFraction                 |                  1.00000 |      1.00000         0.0     1.00000 | 
+ | TimeShower:phiPolAsym                         |                       on |           on                         | 
+ | TimeShower:phiPolAsymHard                     |                       on |           on                         | 
+ | TimeShower:pTdampFudge                        |                  1.00000 |      1.00000     0.25000     4.00000 | 
+ | TimeShower:pTdampMatch                        |                        0 |            0           0           4 | 
+ | TimeShower:pTmaxFudge                         |                  1.00000 |      1.00000     0.25000     2.00000 | 
+ | TimeShower:pTmaxFudgeMPI                      |                  1.00000 |      1.00000     0.25000     2.00000 | 
+ | TimeShower:pTmaxMatch                         |                        1 |            1           0           2 | 
+ | TimeShower:pTmin                              |                  0.50000 |      0.50000     0.10000     2.00000 | 
+ | TimeShower:pTminChgL                          |               1.0000e-06 |   1.0000e-06  1.0000e-10     2.00000 | 
+ | TimeShower:pTminChgQ                          |                  0.50000 |      0.50000     0.10000     2.00000 | 
+ | TimeShower:pTminWeak                          |                  1.00000 |      1.00000     0.10000     2.00000 | 
+ | TimeShower:QCDshower                          |                       on |           on                         | 
+ | TimeShower:QEDshowerByGamma                   |                       on |           on                         | 
+ | TimeShower:QEDshowerByL                       |                       on |           on                         | 
+ | TimeShower:QEDshowerByOther                   |                       on |           on                         | 
+ | TimeShower:QEDshowerByQ                       |                       on |           on                         | 
+ | TimeShower:recoilDeadCone                     |                       on |           on                         | 
+ | TimeShower:recoilToColoured                   |                       on |           on                         | 
+ | TimeShower:renormMultFac                      |                  1.00000 |      1.00000     0.10000    10.00000 | 
+ | TimeShower:scaleGluonToQuark                  |                  1.00000 |      1.00000     0.25000     1.00000 | 
+ | TimeShower:useFixedFacScale                   |                      off |          off                         | 
+ | TimeShower:weakShower                         |                      off |          off                         | 
+ | TimeShower:weakShowerMode                     |                        0 |            0           0           2 | 
+ | TimeShower:weightGluonToQuark                 |                        4 |            4           1           8 | 
+ | Top:all                                       |                      off |          off                         | 
+ | Top:ffbar2tqbar(s:W)                          |                      off |          off                         | 
+ | Top:ffbar2ttbar(s:gmZ)                        |                      off |          off                         | 
+ | Top:gg2ttbar                                  |                      off |          off                         | 
+ | Top:gmgm2ttbar                                |                      off |          off                         | 
+ | Top:qq2tq(t:W)                                |                      off |          off                         | 
+ | Top:qqbar2ttbar                               |                      off |          off                         | 
+ | Tune:ee                                       |                        7 |            7          -1           7 | 
+ | Tune:pp                                       |                       14 |           14          -1          34 | 
+ | Tune:preferLHAPDF                             |                        2 |            1           0           2 | 
+ | UncertaintyBands:cNSpTmin                     |                  5.00000 |      5.00000         0.0    20.00000 | 
+ | UncertaintyBands:deltaAlphaSmax               |                  0.20000 |      0.20000         0.0     1.00000 | 
+ | UncertaintyBands:doVariations                 |                      off |          off                         | 
+ | UncertaintyBands:FSRpTmin2Fac                 |                  4.00000 |      4.00000         0.0   100.00000 | 
+ | UncertaintyBands:ISRpTmin2Fac                 |                  4.00000 |      4.00000         0.0   100.00000 | 
+ | UncertaintyBands:List                         | {alphaShi fsr:muRfac=0.5 isr:muRfac=0.5 | {alphaShi fsr:muRfac=0.5 isr:muRfac=0.5 | 
+ |                                               |   alphaSlo fsr:muRfac=2.0 isr:muRfac=2.0 |   alphaSlo fsr:muRfac=2.0 isr:muRfac=2.0 | 
+ |                                               |   hardHi fsr:cNS=2.0 isr:cNS=2.0 |   hardHi fsr:cNS=2.0 isr:cNS=2.0 | 
+ |                                               |  hardLo fsr:cNS=-2.0 isr:cNS=-2.0} |  hardLo fsr:cNS=-2.0 isr:cNS=-2.0} | 
+ | UncertaintyBands:MPIshowers                   |                      off |          off                         | 
+ | UncertaintyBands:muSoftCorr                   |                       on |           on                         | 
+ | UncertaintyBands:nFlavQ                       |                        6 |            6           2           6 | 
+ | UncertaintyBands:overSampleFSR                |                  3.00000 |      3.00000     1.00000    10.00000 | 
+ | UncertaintyBands:overSampleISR                |                  2.00000 |      2.00000     1.00000    10.00000 | 
+ | UncertaintyBands:type                         |                        0 |            0           0           2 | 
+ | WeakBosonAndParton:all                        |                      off |          off                         | 
+ | WeakBosonAndParton:ffbar2gmZgm                |                      off |          off                         | 
+ | WeakBosonAndParton:ffbar2Wgm                  |                      off |          off                         | 
+ | WeakBosonAndParton:fgm2gmZf                   |                      off |          off                         | 
+ | WeakBosonAndParton:fgm2Wf                     |                      off |          off                         | 
+ | WeakBosonAndParton:qg2gmZq                    |                      off |          off                         | 
+ | WeakBosonAndParton:qg2Wq                      |                      off |          off                         | 
+ | WeakBosonAndParton:qqbar2gmZg                 |                      off |          off                         | 
+ | WeakBosonAndParton:qqbar2Wg                   |                      off |          off                         | 
+ | WeakBosonExchange:all                         |                      off |          off                         | 
+ | WeakBosonExchange:ff2ff(t:gmZ)                |                      off |          off                         | 
+ | WeakBosonExchange:ff2ff(t:W)                  |                      off |          off                         | 
+ | WeakDoubleBoson:all                           |                      off |          off                         | 
+ | WeakDoubleBoson:ffbar2gmZgmZ                  |                      off |          off                         | 
+ | WeakDoubleBoson:ffbar2WW                      |                      off |          off                         | 
+ | WeakDoubleBoson:ffbar2ZW                      |                      off |          off                         | 
+ | WeakShower:enhancement                        |                  1.00000 |      1.00000     1.00000    1000.000 | 
+ | WeakShower:externalSetup                      |                      off |          off                         | 
+ | WeakShower:singleEmission                     |                      off |          off                         | 
+ | WeakShower:vetoQCDjets                        |                      off |          off                         | 
+ | WeakShower:vetoWeakDeltaR                     |                  0.60000 |      0.60000     0.10000     2.00000 | 
+ | WeakShower:vetoWeakJets                       |                      off |          off                         | 
+ | WeakSingleBoson:all                           |                      off |          off                         | 
+ | WeakSingleBoson:ffbar2ffbar(s:gm)             |                      off |          off                         | 
+ | WeakSingleBoson:ffbar2ffbar(s:gmZ)            |                      off |          off                         | 
+ | WeakSingleBoson:ffbar2ffbar(s:W)              |                      off |          off                         | 
+ | WeakSingleBoson:ffbar2gmZ                     |                      off |          off                         | 
+ | WeakSingleBoson:ffbar2W                       |                      off |          off                         | 
+ | WeakZ0:gmZmode                                |                        0 |            0           0           2 | 
+ | Wprime:al                                     |                 -1.00000 |     -1.00000                         | 
+ | Wprime:anglesWZ                               |                      0.0 |          0.0         0.0     1.00000 | 
+ | Wprime:aq                                     |                 -1.00000 |     -1.00000                         | 
+ | Wprime:coup2WZ                                |                      0.0 |          0.0         0.0             | 
+ | Wprime:vl                                     |                  1.00000 |      1.00000                         | 
+ | Wprime:vq                                     |                  1.00000 |      1.00000                         | 
+ | xmlPath                                       | /cvmfs/cms.cern.ch/slc7_amd64_gcc700/external/pythia8/230-gnimlf4/share/Pythia8/xmldoc/ | /cvmfs/cms.cern.ch/slc7_amd64_gcc700/external/pythia8/230-gnimlf4/share/Pythia8/xmldoc/ | 
+ | Zp:ad                                         |                      0.0 |          0.0                         | 
+ | Zp:al                                         |                      0.0 |          0.0                         | 
+ | Zp:au                                         |                      0.0 |          0.0                         | 
+ | Zp:av                                         |                      0.0 |          0.0                         | 
+ | Zp:aX                                         |                      0.0 |          0.0                         | 
+ | Zp:gZp                                        |                  0.10000 |      0.10000                         | 
+ | Zp:vd                                         |                  1.00000 |      1.00000                         | 
+ | Zp:vl                                         |                  1.00000 |      1.00000                         | 
+ | Zp:vu                                         |                  1.00000 |      1.00000                         | 
+ | Zp:vv                                         |                  1.00000 |      1.00000                         | 
+ | Zp:vX                                         |                  1.00000 |      1.00000                         | 
+ | Zprime:ab                                     |                 -1.00000 |     -1.00000                         | 
+ | Zprime:abPrime                                |                 -1.00000 |     -1.00000                         | 
+ | Zprime:ac                                     |                  1.00000 |      1.00000                         | 
+ | Zprime:ad                                     |                 -1.00000 |     -1.00000                         | 
+ | Zprime:ae                                     |                 -1.00000 |     -1.00000                         | 
+ | Zprime:amu                                    |                 -1.00000 |     -1.00000                         | 
+ | Zprime:anglesWW                               |                      0.0 |          0.0         0.0     1.00000 | 
+ | Zprime:anue                                   |                  1.00000 |      1.00000                         | 
+ | Zprime:anumu                                  |                  1.00000 |      1.00000                         | 
+ | Zprime:anutau                                 |                  1.00000 |      1.00000                         | 
+ | Zprime:anutauPrime                            |                  1.00000 |      1.00000                         | 
+ | Zprime:as                                     |                 -1.00000 |     -1.00000                         | 
+ | Zprime:at                                     |                  1.00000 |      1.00000                         | 
+ | Zprime:atau                                   |                 -1.00000 |     -1.00000                         | 
+ | Zprime:atauPrime                              |                 -1.00000 |     -1.00000                         | 
+ | Zprime:atPrime                                |                  1.00000 |      1.00000                         | 
+ | Zprime:au                                     |                  1.00000 |      1.00000                         | 
+ | Zprime:coup2gen4                              |                      off |          off                         | 
+ | Zprime:coup2WW                                |                      0.0 |          0.0         0.0             | 
+ | Zprime:gmZmode                                |                        0 |            0           0           6 | 
+ | Zprime:universality                           |                       on |           on                         | 
+ | Zprime:vb                                     |                 -0.69300 |     -0.69300                         | 
+ | Zprime:vbPrime                                |                 -0.69300 |     -0.69300                         | 
+ | Zprime:vc                                     |                  0.38700 |      0.38700                         | 
+ | Zprime:vd                                     |                 -0.69300 |     -0.69300                         | 
+ | Zprime:ve                                     |               -0.0800000 |   -0.0800000                         | 
+ | Zprime:vmu                                    |               -0.0800000 |   -0.0800000                         | 
+ | Zprime:vnue                                   |                  1.00000 |      1.00000                         | 
+ | Zprime:vnumu                                  |                  1.00000 |      1.00000                         | 
+ | Zprime:vnutau                                 |                  1.00000 |      1.00000                         | 
+ | Zprime:vnutauPrime                            |                  1.00000 |      1.00000                         | 
+ | Zprime:vs                                     |                 -0.69300 |     -0.69300                         | 
+ | Zprime:vt                                     |                  0.38700 |      0.38700                         | 
+ | Zprime:vtau                                   |               -0.0800000 |   -0.0800000                         | 
+ | Zprime:vtauPrime                              |               -0.0800000 |   -0.0800000                         | 
+ | Zprime:vtPrime                                |                  0.38700 |      0.38700                         | 
+ | Zprime:vu                                     |                  0.38700 |      0.38700                         | 
+ |                                                                                                                 | 
+ *-------  End PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec + WVec Settings  -----------------------------* 
+

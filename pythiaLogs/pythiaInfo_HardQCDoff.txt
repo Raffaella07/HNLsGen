@@ -1,0 +1,1344 @@
+Singletons:
+  filePrepend        : 
+                     - String to prepend location of all files
+  maxEvents          : 10
+                     - Number of events to process (-1 for all)
+  outputFile         : output.root
+                     - Name of output file (if needed)
+  secondaryOutputFile: 
+                     - Name of second output file (if needed)
+  section            : 0
+                     - This section (from 1..totalSections inclusive)
+  tag                : 
+                     - tag to add to output filename
+  totalSections      : 0
+                     - Total number of sections
+Lists:
+  inputFiles         : []
+                     - Files to process
+  secondaryInputFiles: []
+                     - Second group of files to process (if needed)
+
+
+ *------------------------------------------------------------------------------------* 
+ |                                                                                    | 
+ |  *------------------------------------------------------------------------------*  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  |   PPP   Y   Y  TTTTT  H   H  III    A      Welcome to the Lund Monte Carlo!  |  | 
+ |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
+ |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
+ |  |   P       Y      T    H   H   I   A   A                                      |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 12:54:14    |  | 
+ |  |                                                                              |  | 
+ |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christian.bierlich@thep.lu.se                                   |  | 
+ |  |   Nishita Desai;  Laboratoire Charles Coulomb (L2C),                         |  | 
+ |  |      CNRS-Universite de Montpellier, 34090 Montpellier, France;              |  | 
+ |  |      e-mail: nishita.desai@umontpellier.fr                                   |  | 
+ |  |   Nadine Fischer;  School of Physics,                                        |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: nadine.fischer@monash.edu                                       |  | 
+ |  |   Ilkka Helenius;  Institute for Theoretical Physics,                        |  | 
+ |  |     Tuebingen University, Auf der Morgenstelle 14, 72076 Tuebingen, Germany; |  | 
+ |  |      e-mail: ilkka.helenius@uni-tuebingen.de                                 |  | 
+ |  |   Philip Ilten;  School of Physics and Astronomy,                            |  | 
+ |  |      University of Birmingham, Birmingham, B152 2TT, UK;                     |  | 
+ |  |      e-mail: philten@cern.ch                                                 |  | 
+ |  |   Leif Lonnblad;  Department of Astronomy and Theoretical Physics,           |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: leif.lonnblad@thep.lu.se                                        |  | 
+ |  |   Stephen Mrenna;  Computing Division, Simulations Group,                    |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 234, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: mrenna@fnal.gov                                                 |  | 
+ |  |   Stefan Prestel;  Theoretical Physics Department,                           |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 106, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: sprestel@fnal.gov                                               |  | 
+ |  |   Christine O. Rasmussen;  Department of Astronomy and Theoretical Physics,  |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christine.rasmussen@thep.lu.se                                  |  | 
+ |  |   Torbjorn Sjostrand;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: torbjorn@thep.lu.se                                             |  | 
+ |  |   Peter Skands;  School of Physics,                                          |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: peter.skands@monash.edu                                         |  | 
+ |  |                                                                              |  | 
+ |  |   The main program reference is 'An Introduction to PYTHIA 8.2',             |  | 
+ |  |   T. Sjostrand et al, Comput. Phys. Commun. 191 (2015) 159                   |  | 
+ |  |   [arXiv:1410.3012 [hep-ph]]                                                 |  | 
+ |  |                                                                              |  | 
+ |  |   The main physics reference is the 'PYTHIA 6.4 Physics and Manual',         |  | 
+ |  |   T. Sjostrand, S. Mrenna and P. Skands, JHEP05 (2006) 026 [hep-ph/0603175]  |  | 
+ |  |                                                                              |  | 
+ |  |   An archive of program versions and documentation is found on the web:      |  | 
+ |  |   http://www.thep.lu.se/Pythia                                               |  | 
+ |  |                                                                              |  | 
+ |  |   This program is released under the GNU General Public Licence version 2.   |  | 
+ |  |   Please respect the MCnet Guidelines for Event Generator Authors and Users. |  | 
+ |  |                                                                              |  | 
+ |  |   Disclaimer: this program comes without any guarantees.                     |  | 
+ |  |   Beware of errors and use common sense when interpreting results.           |  | 
+ |  |                                                                              |  | 
+ |  |   Copyright (C) 2017 Torbjorn Sjostrand                                      |  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  *------------------------------------------------------------------------------*  | 
+ |                                                                                    | 
+ *------------------------------------------------------------------------------------* 
+
+
+ *------------------------------------------------------------------------------------* 
+ |                                                                                    | 
+ |  *------------------------------------------------------------------------------*  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  |   PPP   Y   Y  TTTTT  H   H  III    A      Welcome to the Lund Monte Carlo!  |  | 
+ |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
+ |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
+ |  |   P       Y      T    H   H   I   A   A                                      |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 12:54:14    |  | 
+ |  |                                                                              |  | 
+ |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christian.bierlich@thep.lu.se                                   |  | 
+ |  |   Nishita Desai;  Laboratoire Charles Coulomb (L2C),                         |  | 
+ |  |      CNRS-Universite de Montpellier, 34090 Montpellier, France;              |  | 
+ |  |      e-mail: nishita.desai@umontpellier.fr                                   |  | 
+ |  |   Nadine Fischer;  School of Physics,                                        |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: nadine.fischer@monash.edu                                       |  | 
+ |  |   Ilkka Helenius;  Institute for Theoretical Physics,                        |  | 
+ |  |     Tuebingen University, Auf der Morgenstelle 14, 72076 Tuebingen, Germany; |  | 
+ |  |      e-mail: ilkka.helenius@uni-tuebingen.de                                 |  | 
+ |  |   Philip Ilten;  School of Physics and Astronomy,                            |  | 
+ |  |      University of Birmingham, Birmingham, B152 2TT, UK;                     |  | 
+ |  |      e-mail: philten@cern.ch                                                 |  | 
+ |  |   Leif Lonnblad;  Department of Astronomy and Theoretical Physics,           |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: leif.lonnblad@thep.lu.se                                        |  | 
+ |  |   Stephen Mrenna;  Computing Division, Simulations Group,                    |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 234, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: mrenna@fnal.gov                                                 |  | 
+ |  |   Stefan Prestel;  Theoretical Physics Department,                           |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 106, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: sprestel@fnal.gov                                               |  | 
+ |  |   Christine O. Rasmussen;  Department of Astronomy and Theoretical Physics,  |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christine.rasmussen@thep.lu.se                                  |  | 
+ |  |   Torbjorn Sjostrand;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: torbjorn@thep.lu.se                                             |  | 
+ |  |   Peter Skands;  School of Physics,                                          |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: peter.skands@monash.edu                                         |  | 
+ |  |                                                                              |  | 
+ |  |   The main program reference is 'An Introduction to PYTHIA 8.2',             |  | 
+ |  |   T. Sjostrand et al, Comput. Phys. Commun. 191 (2015) 159                   |  | 
+ |  |   [arXiv:1410.3012 [hep-ph]]                                                 |  | 
+ |  |                                                                              |  | 
+ |  |   The main physics reference is the 'PYTHIA 6.4 Physics and Manual',         |  | 
+ |  |   T. Sjostrand, S. Mrenna and P. Skands, JHEP05 (2006) 026 [hep-ph/0603175]  |  | 
+ |  |                                                                              |  | 
+ |  |   An archive of program versions and documentation is found on the web:      |  | 
+ |  |   http://www.thep.lu.se/Pythia                                               |  | 
+ |  |                                                                              |  | 
+ |  |   This program is released under the GNU General Public Licence version 2.   |  | 
+ |  |   Please respect the MCnet Guidelines for Event Generator Authors and Users. |  | 
+ |  |                                                                              |  | 
+ |  |   Disclaimer: this program comes without any guarantees.                     |  | 
+ |  |   Beware of errors and use common sense when interpreting results.           |  | 
+ |  |                                                                              |  | 
+ |  |   Copyright (C) 2017 Torbjorn Sjostrand                                      |  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  *------------------------------------------------------------------------------*  | 
+ |                                                                                    | 
+ *------------------------------------------------------------------------------------* 
+
+EvtGen:Defining EvtPhotosEngine using photonType = gamma
+EvtGen:Setting up PHOTOS.
+EvtGen:Using EvtGen random number engine also for Photos++
+Message from PHCORK(MODCOR):: initialization
+MODOP=5 -- corrects Energy from mass+flow
+
+********************************************************************************
+
+                            =========================
+                              PHOTOS, Version:  3.61
+                              Released at:  29/9/15
+                            =========================
+
+                     Photos QED corrections in Particle Decays
+
+           Monte Carlo Program - by E. Barberio, B. van Eijk and Z. Was
+           From version 2.09   - by P. Golonka and Z. Was
+           From version 3.00   - by N. Davidson, T. Przedzinski and Z. Was
+********************************************************************************
+
+                  Internal (default) input parameters: 
+
+                    INTERF= 1 ISEC= 0 ITRE= 0 IEXP= 1 IFTOP= 1 IFW= 1
+                    ALPHA_QED= 0x1.de3d3945c2bf2p-8 XPHCUT= 0x1.ad7f29abcaf48p-24
+
+                    Option with interference is active
+                    Option with exponentiation is active EPSEXP=0x1.a36e2eb1c432dp-14
+                    Emision in t tbar production is active
+                    Correction wt in decay of W is active
+
+          WARNING:  /HEPEVT/ is not anymore used.
+
+********************************************************************************
+MODOP=2 -- blocks emission in Kl  to gamma e+e-: DEFAULT
+MODOP=2 -- blocks emission in pi0 to gamma e+e-: DEFAULT
+ IPHQRK_setQarknoEmission MODOP=1 -- blocks emission from light quarks:  DEFAULT
+Message from PHCORK(MODCOR):: initialization
+MODOP=5 -- corrects Energy from mass+flow
+EvtGen:Defining EvtPythiaEngine: data tables defined in /cvmfs/cms.cern.ch/slc7_amd64_gcc700/external/pythia8/230-gnimlf4/share/Pythia8/xmldoc
+EvtGen:Pythia 8 codes need to be used in decay files
+EvtGen:Using EvtGen random engine for Pythia 8 as well
+EvtGen:Creating generic Pythia generator
+
+ *------------------------------------------------------------------------------------* 
+ |                                                                                    | 
+ |  *------------------------------------------------------------------------------*  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  |   PPP   Y   Y  TTTTT  H   H  III    A      Welcome to the Lund Monte Carlo!  |  | 
+ |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
+ |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
+ |  |   P       Y      T    H   H   I   A   A                                      |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 12:54:14    |  | 
+ |  |                                                                              |  | 
+ |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christian.bierlich@thep.lu.se                                   |  | 
+ |  |   Nishita Desai;  Laboratoire Charles Coulomb (L2C),                         |  | 
+ |  |      CNRS-Universite de Montpellier, 34090 Montpellier, France;              |  | 
+ |  |      e-mail: nishita.desai@umontpellier.fr                                   |  | 
+ |  |   Nadine Fischer;  School of Physics,                                        |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: nadine.fischer@monash.edu                                       |  | 
+ |  |   Ilkka Helenius;  Institute for Theoretical Physics,                        |  | 
+ |  |     Tuebingen University, Auf der Morgenstelle 14, 72076 Tuebingen, Germany; |  | 
+ |  |      e-mail: ilkka.helenius@uni-tuebingen.de                                 |  | 
+ |  |   Philip Ilten;  School of Physics and Astronomy,                            |  | 
+ |  |      University of Birmingham, Birmingham, B152 2TT, UK;                     |  | 
+ |  |      e-mail: philten@cern.ch                                                 |  | 
+ |  |   Leif Lonnblad;  Department of Astronomy and Theoretical Physics,           |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: leif.lonnblad@thep.lu.se                                        |  | 
+ |  |   Stephen Mrenna;  Computing Division, Simulations Group,                    |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 234, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: mrenna@fnal.gov                                                 |  | 
+ |  |   Stefan Prestel;  Theoretical Physics Department,                           |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 106, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: sprestel@fnal.gov                                               |  | 
+ |  |   Christine O. Rasmussen;  Department of Astronomy and Theoretical Physics,  |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christine.rasmussen@thep.lu.se                                  |  | 
+ |  |   Torbjorn Sjostrand;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: torbjorn@thep.lu.se                                             |  | 
+ |  |   Peter Skands;  School of Physics,                                          |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: peter.skands@monash.edu                                         |  | 
+ |  |                                                                              |  | 
+ |  |   The main program reference is 'An Introduction to PYTHIA 8.2',             |  | 
+ |  |   T. Sjostrand et al, Comput. Phys. Commun. 191 (2015) 159                   |  | 
+ |  |   [arXiv:1410.3012 [hep-ph]]                                                 |  | 
+ |  |                                                                              |  | 
+ |  |   The main physics reference is the 'PYTHIA 6.4 Physics and Manual',         |  | 
+ |  |   T. Sjostrand, S. Mrenna and P. Skands, JHEP05 (2006) 026 [hep-ph/0603175]  |  | 
+ |  |                                                                              |  | 
+ |  |   An archive of program versions and documentation is found on the web:      |  | 
+ |  |   http://www.thep.lu.se/Pythia                                               |  | 
+ |  |                                                                              |  | 
+ |  |   This program is released under the GNU General Public Licence version 2.   |  | 
+ |  |   Please respect the MCnet Guidelines for Event Generator Authors and Users. |  | 
+ |  |                                                                              |  | 
+ |  |   Disclaimer: this program comes without any guarantees.                     |  | 
+ |  |   Beware of errors and use common sense when interpreting results.           |  | 
+ |  |                                                                              |  | 
+ |  |   Copyright (C) 2017 Torbjorn Sjostrand                                      |  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  *------------------------------------------------------------------------------*  | 
+ |                                                                                    | 
+ *------------------------------------------------------------------------------------* 
+
+EvtGen:Creating alias Pythia generator
+
+ *------------------------------------------------------------------------------------* 
+ |                                                                                    | 
+ |  *------------------------------------------------------------------------------*  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  |   PPP   Y   Y  TTTTT  H   H  III    A      Welcome to the Lund Monte Carlo!  |  | 
+ |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
+ |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
+ |  |   P       Y      T    H   H   I   A   A                                      |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 12:54:14    |  | 
+ |  |                                                                              |  | 
+ |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christian.bierlich@thep.lu.se                                   |  | 
+ |  |   Nishita Desai;  Laboratoire Charles Coulomb (L2C),                         |  | 
+ |  |      CNRS-Universite de Montpellier, 34090 Montpellier, France;              |  | 
+ |  |      e-mail: nishita.desai@umontpellier.fr                                   |  | 
+ |  |   Nadine Fischer;  School of Physics,                                        |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: nadine.fischer@monash.edu                                       |  | 
+ |  |   Ilkka Helenius;  Institute for Theoretical Physics,                        |  | 
+ |  |     Tuebingen University, Auf der Morgenstelle 14, 72076 Tuebingen, Germany; |  | 
+ |  |      e-mail: ilkka.helenius@uni-tuebingen.de                                 |  | 
+ |  |   Philip Ilten;  School of Physics and Astronomy,                            |  | 
+ |  |      University of Birmingham, Birmingham, B152 2TT, UK;                     |  | 
+ |  |      e-mail: philten@cern.ch                                                 |  | 
+ |  |   Leif Lonnblad;  Department of Astronomy and Theoretical Physics,           |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: leif.lonnblad@thep.lu.se                                        |  | 
+ |  |   Stephen Mrenna;  Computing Division, Simulations Group,                    |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 234, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: mrenna@fnal.gov                                                 |  | 
+ |  |   Stefan Prestel;  Theoretical Physics Department,                           |  | 
+ |  |      Fermi National Accelerator Laboratory, MS 106, Batavia, IL 60510, USA;  |  | 
+ |  |      e-mail: sprestel@fnal.gov                                               |  | 
+ |  |   Christine O. Rasmussen;  Department of Astronomy and Theoretical Physics,  |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: christine.rasmussen@thep.lu.se                                  |  | 
+ |  |   Torbjorn Sjostrand;  Department of Astronomy and Theoretical Physics,      |  | 
+ |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
+ |  |      e-mail: torbjorn@thep.lu.se                                             |  | 
+ |  |   Peter Skands;  School of Physics,                                          |  | 
+ |  |      Monash University, PO Box 27, 3800 Melbourne, Australia;                |  | 
+ |  |      e-mail: peter.skands@monash.edu                                         |  | 
+ |  |                                                                              |  | 
+ |  |   The main program reference is 'An Introduction to PYTHIA 8.2',             |  | 
+ |  |   T. Sjostrand et al, Comput. Phys. Commun. 191 (2015) 159                   |  | 
+ |  |   [arXiv:1410.3012 [hep-ph]]                                                 |  | 
+ |  |                                                                              |  | 
+ |  |   The main physics reference is the 'PYTHIA 6.4 Physics and Manual',         |  | 
+ |  |   T. Sjostrand, S. Mrenna and P. Skands, JHEP05 (2006) 026 [hep-ph/0603175]  |  | 
+ |  |                                                                              |  | 
+ |  |   An archive of program versions and documentation is found on the web:      |  | 
+ |  |   http://www.thep.lu.se/Pythia                                               |  | 
+ |  |                                                                              |  | 
+ |  |   This program is released under the GNU General Public Licence version 2.   |  | 
+ |  |   Please respect the MCnet Guidelines for Event Generator Authors and Users. |  | 
+ |  |                                                                              |  | 
+ |  |   Disclaimer: this program comes without any guarantees.                     |  | 
+ |  |   Beware of errors and use common sense when interpreting results.           |  | 
+ |  |                                                                              |  | 
+ |  |   Copyright (C) 2017 Torbjorn Sjostrand                                      |  | 
+ |  |                                                                              |  | 
+ |  |                                                                              |  | 
+ |  *------------------------------------------------------------------------------*  | 
+ |                                                                                    | 
+ *------------------------------------------------------------------------------------* 
+
+EvtGen:Defining EvtTauolaEngine.
+EvtGen:Setting up TAUOLA.
+EvtGen:Using EvtGen random number engine also for Tauola++
+
+ *************************************
+ *     TAUOLA C++ Interface v1.1.5   *
+ *-----------------------------------*
+ *                                   *
+ *   (c) Nadia    Davidson,   (1,2)  *
+ *       Gizo     Nanava,     (3)    *
+ *       Tomasz   Przedzinski,(4)    *
+ *       Elzbieta Richter-Was,(2,4)  *
+ *       Zbigniew Was         (2,5)  *
+ *                                   *
+ *  1) Unimelb, Melbourne, Australia *
+ *  2)     INP, Krakow, Poland       *
+ *  3) University Bonn, Germany      *
+ *  4)      UJ, Krakow, Poland       *
+ *  5)    CERN, Geneva, Switzerland  *
+ *************************************
+Reading SANC input files.
+File 'table1-1.txt'  missing... skipped.
+File 'table2-2.txt'  missing... skipped.
+File 'table11-11.txt' missing... skipped.
+
+EvtGen:Initializing EvtGen
+EvtGen:Storing known decay models
+EvtGen:Defining EvtBcToNPi model: Bc -> V + npi and Bc -> P + npi decays
+from A.V. Berezhnoy, A.K. Likhoded, A.V. Luchinsky: Phys.Rev.D 82, 014012 (2010) and arXiV:1104.0808.
+EvtGen:Main decay file name  :/work/mratti/GEN_HNL/CMSSW_10_2_3/src/GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC
+EvtGen:PDT table file name   :/work/mratti/GEN_HNL/CMSSW_10_2_3/src/GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl
+EvtGen:In readDecayFile, reading:/work/mratti/GEN_HNL/CMSSW_10_2_3/src/GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC
+EvtGen:Warning, sum of branching fractions for omega is 0.994
+EvtGen:rescaled to one! 
+EvtGen:Warning, sum of branching fractions for phi is 0.999
+EvtGen:rescaled to one! 
+EvtGen:Warning, sum of branching fractions for f_2 is 0.999
+EvtGen:rescaled to one! 
+EvtGen:Warning, sum of branching fractions for chi_c1 is 0.996
+EvtGen:rescaled to one! 
+EvtGen:Warning, sum of branching fractions for Upsilon(2S) is 0.992
+EvtGen:rescaled to one! 
+EvtGen:Warning, sum of branching fractions for Upsilon(3S) is 0.999
+EvtGen:rescaled to one! 
+EvtGen:Mixing type integer set to 1
+EvtGen:Done initializing EvtGen
+EvtGen:In readDecayFile, reading:/tmp/478e-4414-7b56-9c03
+
+ *-------  PYTHIA Process Initialization  --------------------------*
+ |                                                                  |
+ | We collide p+ with p+ at a CM energy of 1.300e+04 GeV            |
+ |                                                                  |
+ |------------------------------------------------------------------|
+ |                                                    |             |
+ | Subprocess                                    Code |   Estimated |
+ |                                                    |    max (mb) |
+ |                                                    |             |
+ |------------------------------------------------------------------|
+ |                                                    |             |
+ | non-diffractive                                101 |   5.679e+01 |
+ | A B -> X B single diffractive                  103 |   6.416e+00 |
+ | A B -> A X single diffractive                  104 |   6.416e+00 |
+ | A B -> X X double diffractive                  105 |   8.798e+00 |
+ |                                                                  |
+ *-------  End PYTHIA Process Initialization -----------------------*
+
+ *-------  PYTHIA Multiparton Interactions Initialization  ---------* 
+ |                                                                  | 
+ |                   sigmaNonDiffractive =    56.79 mb              | 
+ |                                                                  | 
+ |    pT0 =  2.81 gives sigmaInteraction =   269.13 mb: accepted    | 
+ |                                                                  | 
+ *-------  End PYTHIA Multiparton Interactions Initialization  -----* 
+
+ *-------  PYTHIA Multiparton Interactions Initialization  ---------* 
+ |                                                                  | 
+ |                          diffraction XB                          | 
+ |                                                                  | 
+ |    diffractive mass = 1.000e+01 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  0.46 gives sigmaInteraction =    54.56 mb: accepted    | 
+ |    diffractive mass = 6.005e+01 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  0.72 gives sigmaInteraction =    28.83 mb: accepted    | 
+ |    diffractive mass = 3.606e+02 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  1.14 gives sigmaInteraction =    20.47 mb: accepted    | 
+ |    diffractive mass = 2.165e+03 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  1.79 gives sigmaInteraction =    31.15 mb: accepted    | 
+ |    diffractive mass = 1.300e+04 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  2.81 gives sigmaInteraction =    53.35 mb: accepted    | 
+ |                                                                  | 
+ *-------  End PYTHIA Multiparton Interactions Initialization  -----* 
+ PYTHIA Warning in MultipartonInteractions::init: maximum increased by factor 4.286
+
+ *-------  PYTHIA Multiparton Interactions Initialization  ---------* 
+ |                                                                  | 
+ |                          diffraction AX                          | 
+ |                                                                  | 
+ |    diffractive mass = 1.000e+01 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  0.46 gives sigmaInteraction =    55.08 mb: accepted    | 
+ |    diffractive mass = 6.005e+01 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  0.72 gives sigmaInteraction =    28.71 mb: accepted    | 
+ |    diffractive mass = 3.606e+02 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  1.14 gives sigmaInteraction =    20.45 mb: accepted    | 
+ |    diffractive mass = 2.165e+03 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  1.79 gives sigmaInteraction =    31.06 mb: accepted    | 
+ |    diffractive mass = 1.300e+04 GeV and sigmaNorm = 10.000 mb    | 
+ |    pT0 =  2.81 gives sigmaInteraction =    53.32 mb: accepted    | 
+ |                                                                  | 
+ *-------  End PYTHIA Multiparton Interactions Initialization  -----* 
+
+ *-------  PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec + WVec Settings (changes only)  ------------------* 
+ |                                                                                                                 | 
+ | Name                                          |                      Now |      Default         Min         Max | 
+ |                                               |                          |                                      | 
+ | Beams:eCM                                     |                13000.000 |    14000.000    10.00000             | 
+ | Check:epTolErr                                |                0.0100000 |   1.0000e-04                         | 
+ | Main:timesAllowErrors                         |                    10000 |           10           0             | 
+ | MultipartonInteractions:ecmPow                |                  0.25208 |      0.21500         0.0     0.50000 | 
+ | MultipartonInteractions:expPow                |                  1.60000 |      1.85000     0.40000    10.00000 | 
+ | MultipartonInteractions:pT0Ref                |                  2.40240 |      2.28000     0.50000    10.00000 | 
+ | Next:numberShowEvent                          |                        0 |            1           0             | 
+ | ParticleDecays:allowPhotonRadiation           |                       on |          off                         | 
+ | ParticleDecays:limitTau0                      |                       on |          off                         | 
+ | PTFilter:filter                               |                       on |          off                         | 
+ | PTFilter:scaleToFilter                        |                  1.00000 |      0.40000         0.0    10.00000 | 
+ | SLHA:minMassSM                                |                 1000.000 |    100.00000                         | 
+ | SoftQCD:doubleDiffractive                     |                       on |          off                         | 
+ | SoftQCD:nonDiffractive                        |                       on |          off                         | 
+ | SoftQCD:singleDiffractive                     |                       on |          off                         | 
+ | Tune:preferLHAPDF                             |                        2 |            1           0           2 | 
+ |                                                                                                                 | 
+ *-------  End PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec + WVec Settings  -----------------------------* 
+
+ --------  PYTHIA Particle Data Table (changed only)  ------------------------------------------------------------------------------
+ 
+      id   name            antiName         spn chg col      m0        mWidth      mMin       mMax       tau0    res dec ext vis wid
+             no onMode   bRatio   meMode     products 
+
+     521  B+               B-                 1   3   0    5.27925    0.00000    0.00000    0.00000  4.91100e-01   0   0   0   1   0
+              0     1   0.0000930    0       16      -15 
+              1     1   0.0000720   22       12      -11      111 
+              2     1   0.0001450   22       12      -11      113 
+              3     1   0.0000840   22       12      -11      221 
+              4     1   0.0001450   22       12      -11      223 
+              5     1   0.0000840   22       12      -11      331 
+              6     1   0.0224000   22       12      -11     -421 
+              7     1   0.0617000   22       12      -11     -423 
+              8     1   0.0030000   22       12      -11     -425 
+              9     1   0.0049000   22       12      -11   -10421 
+             10     1   0.0056000   22       12      -11   -10423 
+             11     1   0.0090000   22       12      -11   -20423 
+             12     1   0.0000720   22       14      -13      111 
+             13     1   0.0001450   22       14      -13      113 
+             14     1   0.0000840   22       14      -13      221 
+             15     1   0.0001450   22       14      -13      223 
+             16     1   0.0000840   22       14      -13      331 
+             17     1   0.0224000   22       14      -13     -421 
+             18     1   0.0617000   22       14      -13     -423 
+             19     1   0.0030000   22       14      -13     -425 
+             20     1   0.0049000   22       14      -13   -10421 
+             21     1   0.0056000   22       14      -13   -10423 
+             22     1   0.0090000   22       14      -13   -20423 
+             23     1   0.0000300   22       16      -15      111 
+             24     1   0.0000420   22       16      -15      113 
+             25     1   0.0000120   22       16      -15      221 
+             26     1   0.0000420   22       16      -15      223 
+             27     1   0.0000200   22       16      -15      225 
+             28     1   0.0000180   22       16      -15      331 
+             29     1   0.0000200   22       16      -15      335 
+             30     1   0.0070000   22       16      -15     -421 
+             31     1   0.0160000   22       16      -15     -423 
+             32     1   0.0020000   22       16      -15     -425 
+             33     1   0.0000270   22       16      -15    10113 
+             34     1   0.0000020   22       16      -15    10221 
+             35     1   0.0000130   22       16      -15    10223 
+             36     1   0.0000130   22       16      -15    10333 
+             37     1   0.0013000   22       16      -15   -10421 
+             38     1   0.0013000   22       16      -15   -10423 
+             39     1   0.0000460   22       16      -15    20113 
+             40     1   0.0000230   22       16      -15    20223 
+             41     1   0.0000230   22       16      -15    20333 
+             42     1   0.0020000   22       16      -15   -20423 
+             43     1   0.0000040   22       16      -15  9000111 
+             44     1   0.0000020   22       16      -15  9010221 
+             45     1   0.0019000   22       12      -11     -411      211 
+             46     1   0.0006000   22       12      -11     -413      211 
+             47     1   0.0010000   22       12      -11     -421      111 
+             48     1   0.0003000   22       12      -11     -423      111 
+             49     1   0.0019000   22       14      -13     -411      211 
+             50     1   0.0006000   22       14      -13     -413      211 
+             51     1   0.0010000   22       14      -13     -421      111 
+             52     1   0.0003000   22       14      -13     -423      111 
+             53     1   0.0000055    0      211      111 
+             54     1   0.0000091    0      211      113 
+             55     1   0.0000120    0      211      130 
+             56     1   0.0000120    0      213      111 
+             57     1   0.0000150    0      213      113 
+             58     1   0.0000048    0      221      211 
+             59     1   0.0000086    0      221      213 
+             60     1   0.0000059    0      223      211 
+             61     1   0.0000130    0      223      213 
+             62     1   0.0000023    0      225      211 
+             63     1   0.0000120    0      310      211 
+             64     1   0.0000010    0      311      213 
+             65     1   0.0000100    0      313      213 
+             66     1   0.0000120    0      321      111 
+             67     1   0.0000052    0      321      113 
+             68     1   0.0000026    0      321      221 
+             69     1   0.0000051    0      321      223 
+             70     1   0.0000010    0      321      311 
+             71     1   0.0000403    0      323       22 
+             72     1   0.0000020    0      323      111 
+             73     1   0.0000100    0      323      113 
+             74     1   0.0000240    0      323      221 
+             75     1   0.0000010    0      323      223 
+             76     1   0.0000030    0      323      311 
+             77     1   0.0000010    0      323     -313 
+             78     1   0.0000042    0      331      211 
+             79     1   0.0000010    0      331      213 
+             80     1   0.0000780    0      331      321 
+             81     1   0.0000010    0      331      323 
+             82     1   0.0000010    0      333      211 
+             83     1   0.0000010    0      333      213 
+             84     1   0.0000090    0      333      321 
+             85     1   0.0000110    0      333      323 
+             86     1   0.0000005    0      411      111 
+             87     1   0.0000110    0      411      311 
+             88     1   0.0000005    0      413      111 
+             89     1   0.0000060    0      413      311 
+             90     1   0.0050000    0     -421      211 
+             91     1   0.0134000    0     -421      213 
+             92     1   0.0004100    0     -421      321 
+             93     1   0.0006100    0     -421      323 
+             94     1   0.0002700    0     -421      411 
+             95     1   0.0003350    0     -421      413 
+             96     1   0.0046000    0     -423      211 
+             97     1   0.0098000    0     -423      213 
+             98     1   0.0003600    0     -423      321 
+             99     1   0.0007700    0     -423      323 
+            100     1   0.0003350    0     -423      411 
+            101     1   0.0010400    0     -423      413 
+            102     1   0.0008000    0     -425      211 
+            103     1   0.0038000    0     -425      213 
+            104     1   0.0000200    0      431      111 
+            105     1   0.0000280    0      431      113 
+            106     1   0.0129000    0      431     -421 
+            107     1   0.0124000    0      431     -423 
+            108     1   0.0042000    0      431     -425 
+            109     1   0.0000200    0      433      111 
+            110     1   0.0000280    0      433      113 
+            111     1   0.0111000    0      433     -421 
+            112     1   0.0278000    0      433     -423 
+            113     1   0.0040000    0      433     -425 
+            114     1   0.0009000    0      441      321 
+            115     1   0.0012000    0      441      323 
+            116     1   0.0000400    0      443      211 
+            117     1   0.0000600    0      443      213 
+            118     1   0.0010600    0      443      321 
+            119     1   0.0014300    0      443      323 
+            120     1   0.0005000    0      443      325 
+            121     1   0.0000200    0      445      321 
+            122     1   0.0000100    0    10113      211 
+            123     1   0.0000100    0    10113      321 
+            124     1   0.0000100    0    10213      111 
+            125     1   0.0000100    0    10213      311 
+            126     1   0.0000700    0    10311      211 
+            127     1   0.0000100    0    10311      213 
+            128     1   0.0000020    0   -10311      321 
+            129     1   0.0000020    0    10321      111 
+            130     1   0.0000100    0    10321      113 
+            131     1   0.0000020    0    10321      311 
+            132     1   0.0000100    0    10321      333 
+            133     1   0.0018000    0    10323      443 
+            134     1   0.0009100    0   -10421      211 
+            135     1   0.0010000    0   -10423      211 
+            136     1   0.0007000    0   -10423      213 
+            137     1   0.0012000    0   -10423      431 
+            138     1   0.0024000    0   -10423      433 
+            139     1   0.0016000    0    10431     -421 
+            140     1   0.0016000    0    10431     -423 
+            141     1   0.0003000    0    10441      321 
+            142     1   0.0004000    0    10441      323 
+            143     1   0.0000400    0    20113      211 
+            144     1   0.0000100    0    20113      321 
+            145     1   0.0000200    0    20113      323 
+            146     1   0.0000400    0    20213      111 
+            147     1   0.0000100    0    20213      113 
+            148     1   0.0000100    0    20213      223 
+            149     1   0.0000100    0    20213      311 
+            150     1   0.0000200    0    20213      313 
+            151     1   0.0088700    0    20213     -421 
+            152     1   0.0159700    0    20213     -423 
+            153     1   0.0000500    0    20213    20113 
+            154     1   0.0000020    0    20323      333 
+            155     1   0.0001000    0    20323      443 
+            156     1   0.0007500    0   -20423      211 
+            157     1   0.0022000    0   -20423      213 
+            158     1   0.0006000    0   -20423      431 
+            159     1   0.0012000    0   -20423      433 
+            160     1   0.0041000    0    20433     -421 
+            161     1   0.0098000    0    20433     -423 
+            162     1   0.0005700    0    20443      321 
+            163     1   0.0002900    0    20443      323 
+            164     1   0.0004800    0    30443      321 
+            165     1   0.0005000    0    30443      323 
+            166     1   0.0003000    0    30443    10323 
+            167     1   0.0000022    0   100113      211 
+            168     1   0.0000010    0   100113      321 
+            169     1   0.0003600    0   100441      321 
+            170     1   0.0004800    0   100441      323 
+            171     1   0.0006300    0   100443      321 
+            172     1   0.0006000    0   100443      323 
+            173     1   0.0004000    0   100443    10323 
+            174     1   0.0000010    0  9000111      211 
+            175     1   0.0000100    0  9000111      213 
+            176     1   0.0000010    0  9000111      321 
+            177     1   0.0000050    0  9000111      323 
+            178     1   0.0000010    0  9000211      111 
+            179     1   0.0000020    0  9000211      113 
+            180     1   0.0000010    0  9000211      311 
+            181     1   0.0000050    0  9000211      313 
+            182     1   0.0000010    0  9010221      211 
+            183     1   0.0000100    0  9010221      213 
+            184     1   0.0000085    0  9010221      321 
+            185     1   0.0000100    0  9010221      323 
+            186     1   0.0000100    0  9010221    20213 
+            187     1   0.0000260    0      211      111      111 
+            188     1   0.0000100    0      211      113      111 
+            189     1   0.0000100    0      211      113      113 
+            190     1   0.0000160    0      211      211     -211 
+            191     1   0.0000100    0      213      111      111 
+            192     1   0.0000100    0      213      113      111 
+            193     1   0.0000100    0      213      211     -211 
+            194     1   0.0000100    0      213     -213      211 
+            195     1   0.0000100    0     -213      211      211 
+            196     1   0.0000010    0      221      211      111 
+            197     1   0.0000050    0      221      211      113 
+            198     1   0.0000050    0      221      213      111 
+            199     1   0.0000050    0      221      213      113 
+            200     1   0.0000010    0      221      221      211 
+            201     1   0.0000020    0      221      221      213 
+            202     1   0.0000100    0      223      211      111 
+            203     1   0.0000100    0      223      211      113 
+            204     1   0.0000100    0      223      213      111 
+            205     1   0.0000050    0      223      221      211 
+            206     1   0.0000050    0      223      221      213 
+            207     1   0.0000010    0      311      211      111 
+            208     1   0.0000050    0      311      211      113 
+            209     1   0.0000100    0      311      213      111 
+            210     1   0.0000010    0      311      221      211 
+            211     1   0.0000050    0      311      221      213 
+            212     1   0.0000050    0      311      223      211 
+            213     1   0.0000010    0      311      311      211 
+            214     1   0.0000010    0      311      311      213 
+            215     1   0.0000100    0      313      211      111 
+            216     1   0.0000100    0      313      211      113 
+            217     1   0.0000100    0      313      213      111 
+            218     1   0.0000050    0      313      221      211 
+            219     1   0.0000050    0      313      221      213 
+            220     1   0.0000100    0      313      223      211 
+            221     1   0.0000010    0      313      311      211 
+            222     1   0.0000010    0      313     -313      211 
+            223     1   0.0000010    0     -313      311      211 
+            224     1   0.0000006   11      321       11      -11 
+            225     1   0.0000006   11      321       13      -13 
+            226     1   0.0000001   11      321       15      -15 
+            227     1   0.0000010    0      321      111      111 
+            228     1   0.0000050    0      321      113      111 
+            229     1   0.0000049    0      321      211     -211 
+            230     1   0.0000100    0      321      213     -211 
+            231     1   0.0000100    0      321     -213      211 
+            232     1   0.0000010    0      321      221      111 
+            233     1   0.0000020    0      321      221      113 
+            234     1   0.0000010    0      321      221      221 
+            235     1   0.0000050    0      321      223      111 
+            236     1   0.0000020    0      321      223      221 
+            237     1   0.0000010    0      321      311      111 
+            238     1   0.0000010    0      321      311      113 
+            239     1   0.0000010    0      321      311      221 
+            240     1   0.0000010    0      321      311      223 
+            241     1   0.0000480    0      321      311      311 
+            242     1   0.0000100    0      321      313      311 
+            243     1   0.0000010    0      321     -313      111 
+            244     1   0.0000005    0      321     -313      221 
+            245     1   0.0000100    0      321     -313      311 
+            246     1   0.0000001    0      321      321     -211 
+            247     1   0.0000260    0      321      321     -321 
+            248     1   0.0000010    0      321     -321      211 
+            249     1   0.0000010    0      321     -321      213 
+            250     1   0.0000001    0     -321      211      211 
+            251     1   0.0000018   11      323       11      -11 
+            252     1   0.0000014   11      323       13      -13 
+            253     1   0.0000002   11      323       15      -15 
+            254     1   0.0000100    0      323      111      111 
+            255     1   0.0000100    0      323      113      111 
+            256     1   0.0000100    0      323      211     -211 
+            257     1   0.0000100    0      323      213     -211 
+            258     1   0.0000100    0      323     -213      211 
+            259     1   0.0000050    0      323      221      111 
+            260     1   0.0000050    0      323      221      113 
+            261     1   0.0000020    0      323      221      221 
+            262     1   0.0000100    0      323      223      111 
+            263     1   0.0000050    0      323      223      221 
+            264     1   0.0000010    0      323      311      111 
+            265     1   0.0000005    0      323      311      221 
+            266     1   0.0000100    0      323      311      311 
+            267     1   0.0000010    0      323     -313      111 
+            268     1   0.0000005    0      323     -313      221 
+            269     1   0.0000100    0      323      321     -321 
+            270     1   0.0000010    0      323     -321      211 
+            271     1   0.0000010    0     -323      321      211 
+            272     1   0.0000100    0     -323      321      321 
+            273     1   0.0000010    0      331      211      111 
+            274     1   0.0000020    0      331      211      113 
+            275     1   0.0000020    0      331      213      111 
+            276     1   0.0000020    0      331      213      113 
+            277     1   0.0000010    0      331      221      211 
+            278     1   0.0000020    0      331      223      211 
+            279     1   0.0000020    0      331      223      213 
+            280     1   0.0000010    0      331      311      211 
+            281     1   0.0000020    0      331      311      213 
+            282     1   0.0000020    0      331      313      213 
+            283     1   0.0000010    0      331      321      111 
+            284     1   0.0000010    0      331      321      113 
+            285     1   0.0000010    0      331      321      221 
+            286     1   0.0000010    0      331      321      223 
+            287     1   0.0000010    0      331      321      311 
+            288     1   0.0000002    0      331      321     -313 
+            289     1   0.0000020    0      331      323      111 
+            290     1   0.0000020    0      331      323      113 
+            291     1   0.0000010    0      331      323      221 
+            292     1   0.0000020    0      331      323      223 
+            293     1   0.0000002    0      331      323      311 
+            294     1   0.0000002    0      331      323     -313 
+            295     1   0.0000010    0      331      331      321 
+            296     1   0.0000010    0      333      211      111 
+            297     1   0.0000010    0      333      211      113 
+            298     1   0.0000010    0      333      213      111 
+            299     1   0.0000005    0      333      221      211 
+            300     1   0.0000005    0      333      221      213 
+            301     1   0.0000010    0      333      223      211 
+            302     1   0.0000100    0      333      311      211 
+            303     1   0.0000100    0      333      311      213 
+            304     1   0.0000100    0      333      321      111 
+            305     1   0.0000100    0      333      321      113 
+            306     1   0.0000050    0      333      321      221 
+            307     1   0.0000100    0      333      321      223 
+            308     1   0.0000010    0      333      321      311 
+            309     1   0.0000100    0      333      323      111 
+            310     1   0.0000002    0      333      331      211 
+            311     1   0.0000002    0      333      331      213 
+            312     1   0.0000020    0      333      331      321 
+            313     1   0.0000010    0      333      333      211 
+            314     1   0.0000030    0      333      333      321 
+            315     1   0.0000030    0      333      333      323 
+            316     1   0.0005000    0      411     -411      321 
+            317     1   0.0005000    0      411     -411      323 
+            318     1   0.0010200    0     -411      211      211 
+            319     1   0.0020000    0     -411      213      211 
+            320     1   0.0005000    0      413     -411      321 
+            321     1   0.0005000    0      413     -411      323 
+            322     1   0.0015000    0      413     -413      321 
+            323     1   0.0010000    0      413     -413      323 
+            324     1   0.0012500    0     -413      211      211 
+            325     1   0.0020000    0     -413      213      211 
+            326     1   0.0015000    0     -413      411      321 
+            327     1   0.0005000    0     -413      411      323 
+            328     1   0.0015000    0      421     -421      321 
+            329     1   0.0025000    0      421     -421      323 
+            330     1   0.0005000    0     -421      211      111 
+            331     1   0.0021000    0     -421      211      113 
+            332     1   0.0017000    0     -421      411      311 
+            333     1   0.0025000    0     -421      411      313 
+            334     1   0.0049000    0     -421      413      311 
+            335     1   0.0025000    0     -421      413      313 
+            336     1   0.0047000    0      423     -421      321 
+            337     1   0.0025000    0      423     -421      323 
+            338     1   0.0070000    0      423     -423      321 
+            339     1   0.0050000    0      423     -423      323 
+            340     1   0.0005000    0     -423      211      111 
+            341     1   0.0005000    0     -423      211      113 
+            342     1   0.0005000    0     -423      213      111 
+            343     1   0.0031000    0     -423      411      311 
+            344     1   0.0025000    0     -423      411      313 
+            345     1   0.0100000    0     -423      413      311 
+            346     1   0.0050000    0     -423      413      313 
+            347     1   0.0018000    0     -423      421      321 
+            348     1   0.0025000    0     -423      421      323 
+            349     1   0.0036000    0      431     -411      211 
+            350     1   0.0018000    0      431     -421      111 
+            351     1   0.0037000    0      433     -411      211 
+            352     1   0.0018000    0      433     -421      111 
+            353     1   0.0002000    0      441      311      211 
+            354     1   0.0001000    0      441      321      111 
+            355     1   0.0002000    0      443      311      211 
+            356     1   0.0001000    0      443      321      111 
+            357     1   0.0000900    0      443      333      321 
+            358     1   0.0002000    0      445      311      211 
+            359     1   0.0001000    0      445      321      111 
+            360     1   0.0000100    0    10311      211      111 
+            361     1   0.0000100    0    10311      211      113 
+            362     1   0.0000100    0    10311      213      111 
+            363     1   0.0000050    0    10311      221      213 
+            364     1   0.0000100    0    10311      321      311 
+            365     1   0.0000020    0    10311      331      213 
+            366     1   0.0000100    0    10311      333      211 
+            367     1   0.0000100    0   -10311      321      311 
+            368     1   0.0000100    0    10321      111      111 
+            369     1   0.0000100    0    10321      113      111 
+            370     1   0.0000100    0    10321      213     -211 
+            371     1   0.0000050    0    10321      221      113 
+            372     1   0.0000100    0    10321      321     -321 
+            373     1   0.0000020    0    10321      331      113 
+            374     1   0.0000100    0    10321      333      111 
+            375     1   0.0000050    0    10321      333      221 
+            376     1   0.0000020    0    10321      333      331 
+            377     1   0.0000100    0   -10321      321      321 
+            378     1   0.0002000    0    10441      311      211 
+            379     1   0.0001000    0    10441      321      111 
+            380     1   0.0000100    0    20113      211      111 
+            381     1   0.0000050    0    20113      221      211 
+            382     1   0.0000100    0    20113      311      211 
+            383     1   0.0000100    0    20113      321      111 
+            384     1   0.0000020    0    20113      331      211 
+            385     1   0.0000100    0    20213      111      111 
+            386     1   0.0000100    0    20213      211     -211 
+            387     1   0.0000050    0    20213      221      111 
+            388     1   0.0000100    0    20213      311      111 
+            389     1   0.0000100    0    20213      321     -211 
+            390     1   0.0000020    0    20213      331      111 
+            391     1   0.0000100    0   -20213      211      211 
+            392     1   0.0000020    0    20313      333      211 
+            393     1   0.0000020    0    20323      321     -321 
+            394     1   0.0000020    0    20323      333      111 
+            395     1   0.0000010    0    20323      333      221 
+            396     1   0.0000010    0    20323      333      331 
+            397     1   0.0004000    0    20443      311      211 
+            398     1   0.0002000    0    20443      321      111 
+            399     1   0.0003000    0    30443      311      211 
+            400     1   0.0002000    0    30443      321      111 
+            401     1   0.0000800    0   100441      311      211 
+            402     1   0.0000500    0   100441      321      111 
+            403     1   0.0004000    0   100443      311      211 
+            404     1   0.0002000    0   100443      321      111 
+            405     1   0.0000010    0  9000111      211      111 
+            406     1   0.0000100    0  9000111      213      111 
+            407     1   0.0000050    0  9000111      221      213 
+            408     1   0.0000050    0  9000111      323      111 
+            409     1   0.0000020    0  9000111      331      213 
+            410     1   0.0000010    0  9000211      111      111 
+            411     1   0.0000100    0  9000211      113      111 
+            412     1   0.0000100    0  9000211     -213      211 
+            413     1   0.0000050    0  9000211      221      113 
+            414     1   0.0000050    0  9000211      313      111 
+            415     1   0.0000020    0  9000211      331      113 
+            416     1   0.0000010    0 -9000211      211      211 
+            417     1   0.0000100    0  9010221      211      111 
+            418     1   0.0000100    0  9010221      211      113 
+            419     1   0.0000100    0  9010221      213      111 
+            420     1   0.0000050    0  9010221      221      213 
+            421     1   0.0000100    0  9010221      223      211 
+            422     1   0.0000100    0  9010221      313      211 
+            423     1   0.0000100    0  9010221      323      111 
+            424     1   0.0000050    0  9010221      323      221 
+            425     1   0.0000020    0  9010221      331      213 
+            426     1   0.0000020    0  9010221      331      323 
+            427     1   0.0000010    0  9010221      333      211 
+            428     1   0.0000100    0  9010221      333      321 
+            429     1   0.0000100    0      211      111      111      111 
+            430     1   0.0000020    0      211      113      111      111 
+            431     1   0.0000100    0      211      211     -211      111 
+            432     1   0.0000020    0      211      211     -211      113 
+            433     1   0.0000020    0      213      111      111      111 
+            434     1   0.0000020    0      213      211     -211      111 
+            435     1   0.0000020    0     -213      211      211      111 
+            436     1   0.0000050    0      221      211      111      111 
+            437     1   0.0000010    0      221      211      113      111 
+            438     1   0.0000050    0      221      211      211     -211 
+            439     1   0.0000010    0      221      213      111      111 
+            440     1   0.0000010    0      221      213      211     -211 
+            441     1   0.0000010    0      221     -213      211      211 
+            442     1   0.0000020    0      221      221      211      111 
+            443     1   0.0000010    0      221      221      213      111 
+            444     1   0.0000020    0      223      211      111      111 
+            445     1   0.0000010    0      223      221      211      111 
+            446     1   0.0000100    0      311      211      111      111 
+            447     1   0.0000100    0      311      211      113      111 
+            448     1   0.0000100    0      311      211      211     -211 
+            449     1   0.0000100    0      311      213      111      111 
+            450     1   0.0000100    0      311      213      211     -211 
+            451     1   0.0000100    0      311     -213      211      211 
+            452     1   0.0000050    0      311      221      211      111 
+            453     1   0.0000050    0      311      221      213      111 
+            454     1   0.0000020    0      311      221      221      211 
+            455     1   0.0000100    0      311      223      211      111 
+            456     1   0.0000010    0      311      311      211      111 
+            457     1   0.0000010    0      311      311      211      113 
+            458     1   0.0000010    0      311      311      213      111 
+            459     1   0.0000005    0      311      311      221      211 
+            460     1   0.0000005    0      311      311      221      213 
+            461     1   0.0000010    0      311      311      223      211 
+            462     1   0.0000100    0      311      311      311      211 
+            463     1   0.0000100    0      313      211      111      111 
+            464     1   0.0000100    0      313      211      211     -211 
+            465     1   0.0000050    0      313      221      211      111 
+            466     1   0.0000010    0      313      311      211      111 
+            467     1   0.0000010    0     -313      311      211      111 
+            468     1   0.0000100    0      321      111      111      111 
+            469     1   0.0000100    0      321      113      111      111 
+            470     1   0.0000100    0      321      211     -211      111 
+            471     1   0.0000100    0      321      213     -211      111 
+            472     1   0.0000100    0      321     -213      211      111 
+            473     1   0.0000050    0      321      221      111      111 
+            474     1   0.0000050    0      321      221      113      111 
+            475     1   0.0000050    0      321      221      211     -211 
+            476     1   0.0000020    0      321      221      221      111 
+            477     1   0.0000100    0      321      223      111      111 
+            478     1   0.0000050    0      321      223      221      111 
+            479     1   0.0000010    0      321      311      111      111 
+            480     1   0.0000010    0      321      311      113      111 
+            481     1   0.0000010    0      321      311      211     -211 
+            482     1   0.0000010    0      321      311      213     -211 
+            483     1   0.0000010    0      321      311     -213      211 
+            484     1   0.0000005    0      321      311      221      111 
+            485     1   0.0000005    0      321      311      221      113 
+            486     1   0.0000002    0      321      311      221      221 
+            487     1   0.0000010    0      321      311      223      111 
+            488     1   0.0000100    0      321      311      311      111 
+            489     1   0.0000050    0      321      311      311      221 
+            490     1   0.0000010    0      321      311      311      311 
+            491     1   0.0000100    0      321      313      311      111 
+            492     1   0.0000010    0      321     -313      111      111 
+            493     1   0.0000005    0      321     -313      221      111 
+            494     1   0.0000100    0      321     -313      311      111 
+            495     1   0.0000100    0      321      321     -321      111 
+            496     1   0.0000100    0      321      321     -321      113 
+            497     1   0.0000050    0      321      321     -321      221 
+            498     1   0.0000100    0      321      321     -321      223 
+            499     1   0.0000010    0      321      321     -321      311 
+            500     1   0.0000010    0      321     -321      211      111 
+            501     1   0.0000010    0      321     -321      211      113 
+            502     1   0.0000010    0      321     -321      213      111 
+            503     1   0.0000005    0      321     -321      221      211 
+            504     1   0.0000005    0      321     -321      221      213 
+            505     1   0.0000010    0      321     -321      223      211 
+            506     1   0.0000100    0      321     -321      311      211 
+            507     1   0.0000100    0      321     -321      311      213 
+            508     1   0.0000010    0     -321      311      213      211 
+            509     1   0.0000010    0     -321      313      211      211 
+            510     1   0.0000100    0      323      111      111      111 
+            511     1   0.0000100    0      323      211     -211      111 
+            512     1   0.0000050    0      323      221      111      111 
+            513     1   0.0000050    0      323      221      211     -211 
+            514     1   0.0000020    0      323      221      221      111 
+            515     1   0.0000010    0      323      311      111      111 
+            516     1   0.0000005    0      323      311      221      111 
+            517     1   0.0000100    0      323      311      311      111 
+            518     1   0.0000100    0      323      321     -321      111 
+            519     1   0.0000010    0      323     -321      211      111 
+            520     1   0.0000010    0     -323      311      211      211 
+            521     1   0.0000010    0     -323      321      211      111 
+            522     1   0.0000100    0     -323      321      321      111 
+            523     1   0.0000020    0      331      211      111      111 
+            524     1   0.0000010    0      331      211      113      111 
+            525     1   0.0000020    0      331      211      211     -211 
+            526     1   0.0000010    0      331      213      111      111 
+            527     1   0.0000010    0      331      213      211     -211 
+            528     1   0.0000010    0      331     -213      211      211 
+            529     1   0.0000010    0      331      221      211      111 
+            530     1   0.0000010    0      331      223      211      111 
+            531     1   0.0000020    0      331      311      213      111 
+            532     1   0.0000002    0      331      311      311      211 
+            533     1   0.0000002    0      331      311      311      213 
+            534     1   0.0000020    0      331      313      211      111 
+            535     1   0.0000020    0      331      321      111      111 
+            536     1   0.0000020    0      331      321      113      111 
+            537     1   0.0000010    0      331      321      221      111 
+            538     1   0.0000020    0      331      321      223      111 
+            539     1   0.0000002    0      331      321      311      111 
+            540     1   0.0000002    0      331      321      311      113 
+            541     1   0.0000001    0      331      321      311      221 
+            542     1   0.0000020    0      331      321      311      311 
+            543     1   0.0000002    0      331      321     -313      111 
+            544     1   0.0000020    0      331      321      321     -321 
+            545     1   0.0000002    0      331      321     -321      211 
+            546     1   0.0000002    0      331      321     -321      213 
+            547     1   0.0000020    0      331      323      111      111 
+            548     1   0.0000020    0      331      323      211     -211 
+            549     1   0.0000010    0      331      323      221      111 
+            550     1   0.0000002    0      331      323      311      111 
+            551     1   0.0000010    0      333      211      111      111 
+            552     1   0.0000010    0      333      211      211     -211 
+            553     1   0.0000005    0      333      221      211      111 
+            554     1   0.0000100    0      333      311      211      111 
+            555     1   0.0000010    0      333      311      311      211 
+            556     1   0.0000100    0      333      321      111      111 
+            557     1   0.0000100    0      333      321      211     -211 
+            558     1   0.0000050    0      333      321      221      111 
+            559     1   0.0000010    0      333      321      311      111 
+            560     1   0.0000010    0      333      321      311      311 
+            561     1   0.0000010    0      333      321      321     -321 
+            562     1   0.0000010    0      333      323      311      311 
+            563     1   0.0000010    0      333      323      321     -321 
+            564     1   0.0000002    0      333      331      211      111 
+            565     1   0.0000020    0      333      331      321      111 
+            566     1   0.0020000    0     -411      211      211      111 
+            567     1   0.0150000    0     -413      211      211      111 
+            568     1   0.0050000    0     -421      211      211     -211 
+            569     1   0.0005000    0     -423      211      111      111 
+            570     1   0.0005000    0     -423      211      211     -211 
+            571     1   0.0033000    0      431     -411      211      111 
+            572     1   0.0008000    0      431     -421      111      111 
+            573     1   0.0033000    0      431     -421      211     -211 
+            574     1   0.0033000    0      433     -411      211      111 
+            575     1   0.0008000    0      433     -421      111      111 
+            576     1   0.0033000    0      433     -421      211     -211 
+            577     1   0.0001000    0      441      311      211      111 
+            578     1   0.0001000    0      441      321      111      111 
+            579     1   0.0002000    0      441      321      211     -211 
+            580     1   0.0001000    0      445      311      211      111 
+            581     1   0.0001000    0      445      321      111      111 
+            582     1   0.0002000    0      445      321      211     -211 
+            583     1   0.0000100    0    10311      211      111      111 
+            584     1   0.0000100    0    10311      211      211     -211 
+            585     1   0.0000050    0    10311      221      211      111 
+            586     1   0.0000100    0    10311      321      311      111 
+            587     1   0.0000050    0    10311      321      311      221 
+            588     1   0.0000100    0    10311      321     -321      211 
+            589     1   0.0000020    0    10311      331      211      111 
+            590     1   0.0000020    0    10311      331      321      311 
+            591     1   0.0000100    0   -10311      311      311      211 
+            592     1   0.0000100    0   -10311      321      311      111 
+            593     1   0.0000050    0   -10311      321      311      221 
+            594     1   0.0000100    0   -10311      321      321     -211 
+            595     1   0.0000020    0   -10311      331      321      311 
+            596     1   0.0000100    0    10321      111      111      111 
+            597     1   0.0000050    0    10321      221      111      111 
+            598     1   0.0000100    0    10321      321     -321      111 
+            599     1   0.0000050    0    10321      321     -321      221 
+            600     1   0.0000020    0    10321      331      111      111 
+            601     1   0.0000020    0    10321      331      321     -321 
+            602     1   0.0000100    0   -10321      321      321      111 
+            603     1   0.0000050    0   -10321      321      321      221 
+            604     1   0.0000020    0   -10321      331      321      321 
+            605     1   0.0001000    0    10441      311      211      111 
+            606     1   0.0001000    0    10441      321      111      111 
+            607     1   0.0002000    0    10441      321      211     -211 
+            608     1   0.0000020    0    20313      311      311      211 
+            609     1   0.0000100    0    20313      321      311      111 
+            610     1   0.0000050    0    20313      321      311      221 
+            611     1   0.0000020    0    20313      321     -321      211 
+            612     1   0.0000020    0    20313      331      321      311 
+            613     1   0.0000020    0   -20313      311      311      211 
+            614     1   0.0000100    0   -20313      321      311      111 
+            615     1   0.0000050    0   -20313      321      311      221 
+            616     1   0.0000020    0   -20313      331      321      311 
+            617     1   0.0000040    0    20323      311      311      111 
+            618     1   0.0000020    0    20323      311      311      221 
+            619     1   0.0000020    0    20323      321     -321      111 
+            620     1   0.0000010    0    20323      321     -321      221 
+            621     1   0.0000020    0    20323      331      311      311 
+            622     1   0.0000010    0    20323      331      321     -321 
+            623     1   0.0000020    0   -20323      321      321      111 
+            624     1   0.0002000    0    20443      311      211      111 
+            625     1   0.0002000    0    20443      321      111      111 
+            626     1   0.0004000    0    20443      321      211     -211 
+            627     1   0.0001000    0    30443      311      211      111 
+            628     1   0.0001000    0    30443      321      111      111 
+            629     1   0.0002000    0    30443      321      211     -211 
+            630     1   0.0000500    0   100441      311      211      111 
+            631     1   0.0000500    0   100441      321      111      111 
+            632     1   0.0000800    0   100441      321      211     -211 
+            633     1   0.0001000    0   100443      311      211      111 
+            634     1   0.0001000    0   100443      321      111      111 
+            635     1   0.0002000    0   100443      321      211     -211 
+            636     1   0.0000010    0  9000111      211      111      111 
+            637     1   0.0000010    0  9000211      111      111      111 
+            638     1   0.0000010    0 -9000211      211      211      111 
+            639     1   0.0000020    0  9010221      211      111      111 
+            640     1   0.0000020    0  9010221      211      211     -211 
+            641     1   0.0000010    0  9010221      221      211      111 
+            642     1   0.0000010    0  9010221      311      311      211 
+            643     1   0.0000010    0  9010221      321      311      111 
+            644     1   0.0000100    0  9010221      321      321     -321 
+            645     1   0.0000010    0  9010221      331      211      111 
+            646     1   0.0000010    0      211      111      111      111      111 
+            647     1   0.0000010    0      211      211     -211      111      111 
+            648     1   0.0000010    0      221      211      111      111      111 
+            649     1   0.0000010    0      221      211      211     -211      111 
+            650     1   0.0000020    0      311      211      111      111      111 
+            651     1   0.0000020    0      311      211      211     -211      111 
+            652     1   0.0000010    0      311      221      211      111      111 
+            653     1   0.0000010    0      311      221      211      211     -211 
+            654     1   0.0000010    0      311      221      221      211      111 
+            655     1   0.0000002    0      311      311      211      111      111 
+            656     1   0.0000002    0      311      311      211      211     -211 
+            657     1   0.0000001    0      311      311      221      211      111 
+            658     1   0.0000100    0      311      311      311      211      111 
+            659     1   0.0000020    0      321      111      111      111      111 
+            660     1   0.0000020    0      321      211      211     -211     -211 
+            661     1   0.0000020    0      321      211     -211      111      111 
+            662     1   0.0000010    0      321      221      111      111      111 
+            663     1   0.0000010    0      321      221      211     -211      111 
+            664     1   0.0000010    0      321      221      221      111      111 
+            665     1   0.0000002    0      321      311      111      111      111 
+            666     1   0.0000002    0      321      311      211     -211      111 
+            667     1   0.0000001    0      321      311      221      111      111 
+            668     1   0.0000001    0      321      311      221      211     -211 
+            669     1   0.0000100    0      321      311      311      111      111 
+            670     1   0.0000050    0      321      311      311      221      111 
+            671     1   0.0000010    0      321      311      311      311      111 
+            672     1   0.0000100    0      321      321     -321      111      111 
+            673     1   0.0000050    0      321      321     -321      221      111 
+            674     1   0.0000010    0      321      321     -321      311      111 
+            675     1   0.0000010    0      321      321     -321     -321      211 
+            676     1   0.0000002    0      321     -321      211      111      111 
+            677     1   0.0000002    0      321     -321      211      211     -211 
+            678     1   0.0000001    0      321     -321      221      211      111 
+            679     1   0.0000100    0      321     -321      311      211      111 
+            680     1   0.0000010    0      321     -321      311      311      211 
+            681     1   0.0000002    0     -321      311      211      211      111 
+            682     1   0.0000001    0     -321      311      221      211      211 
+            683     1   0.0000010    0      331      211      111      111      111 
+            684     1   0.0000010    0      331      211      211     -211      111 
+            685     1   0.0000010    0      331      311      211      211     -211 
+            686     1   0.0000001    0      331      311      311      211      111 
+            687     1   0.0000010    0      331      321      111      111      111 
+            688     1   0.0000010    0      331      321      211     -211      111 
+            689     1   0.0000010    0      331      321      221      111      111 
+            690     1   0.0000001    0      331      321      311      111      111 
+            691     1   0.0000001    0      331      321      311      211     -211 
+            692     1   0.0000020    0      331      321      311      311      111 
+            693     1   0.0000020    0      331      321      321     -321      111 
+            694     1   0.0000001    0      331      321     -321      211      111 
+            695     1   0.0000001    0      331     -321      311      211      211 
+            696     1   0.0000010    0      333      311      311      311      211 
+            697     1   0.0000010    0      333      321      311      311      111 
+            698     1   0.0000010    0      333      321      321      311     -211 
+            699     1   0.0000010    0      333      321      321     -321      111 
+            700     1   0.0000010    0      333      321     -321      311      211 
+            701     1   0.0050000   55       -3        2 
+            702     1   0.0330000   63    -4103     2203 
+            703     1   0.0090000   63    -4303     2203 
+            704     1   0.0000700   23        1       -1       -1        2 
+            705     1   0.0018000   23        1       -1       -3        2 
+            706     1   0.0030000   23        2       -1       -2        2 
+            707     1   0.0020500   23        2       -2       -1        2 
+            708     1   0.0022000   23        2       -2       -3        2 
+            709     1   0.0225000   43        2       -3       -4        2 
+            710     1   0.0000900   23        3       -3       -1        2 
+            711     1   0.0015000   23        3       -3       -3        2 
+            712     1   0.0040000   43        4       -1       -4        2 
+            713     1   0.0040000   23        4       -3       -2        2 
+            714     1   0.0740000   43        4       -3       -4        2 
+            715     2   0.0019480   22       12      -11        2       -2 
+            716     2   0.0019480   22       14      -13        2       -2 
+            717     2   0.0000200    0      445      323 
+            718     2   0.0000010    0      333      321      313      311 
+            719     2   0.0000020    0   -20313      321      321     -211 
+            720     2   0.0003118   31        2       -3       22 
+            721     2   0.2682660   23        2       -1       -4        2 
+            722     2   0.0000050   12        2       -3       11      -11 
+            723     2   0.0000025   12        2       -3       13      -13 
+            724     2   0.0000002   12        2       -3       15      -15 
+            725     3   0.0019480   22       12      -11       -2        2 
+            726     3   0.0019480   22       14      -13       -2        2 
+            727     3   0.0000400    0      445      323 
+            728     3   0.0000010    0      333      321     -313      311 
+            729     3   0.0000020    0    20313      321      321     -211 
+            730     3   0.0003118   31       -3        2       22 
+            731     3   0.2683360   23        2       -1       -4        2 
+            732     3   0.0000050   12       -3        2       11      -11 
+            733     3   0.0000025   12       -3        2       13      -13 
+            734     3   0.0000002   12       -3        2       15      -15 
+
+ --------  End PYTHIA Particle Data Table  -----------------------------------------------------------------------------------------
+
+
+ *-------  PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec + WVec Settings (changes only)  ------------------* 
+ |                                                                                                                 | 
+ | Name                                          |                      Now |      Default         Min         Max | 
+ |                                               |                          |                                      | 
+ | Next:numberShowEvent                          |                        0 |            1           0             | 
+ | ParticleDecays:allowPhotonRadiation           |                       on |          off                         | 
+ | ParticleDecays:limitTau0                      |                       on |          off                         | 
+ | ParticleDecays:mixB                           |                      off |           on                         | 
+ | ProcessLevel:all                              |                      off |           on                         | 
+ |                                                                                                                 | 
+ *-------  End PYTHIA Flag + Mode + Parm + Word + FVec + MVec + PVec + WVec Settings  -----------------------------* 
+
+ --------  PYTHIA Particle Data Table (changed only)  ------------------------------------------------------------------------------
+ 
+      id   name            antiName         spn chg col      m0        mWidth      mMin       mMax       tau0    res dec ext vis wid
+             no onMode   bRatio   meMode     products 
+
+ no particle data has been changed from its default value 
+
+ --------  End PYTHIA Particle Data Table  -----------------------------------------------------------------------------------------
+
+
+ --------  PYTHIA Info Listing  ---------------------------------------- 
+ 
+ Beam A: id =   2212, pz =  6.500e+03, e =  6.500e+03, m =  9.383e-01.
+ Beam B: id =   2212, pz = -6.500e+03, e =  6.500e+03, m =  9.383e-01.
+
+ In 1: id =   21, x =  1.840e-03, pdf =  1.709e+01 at Q2 =  1.411e+02.
+ In 2: id =   21, x =  2.747e-03, pdf =  1.400e+01 at same Q2.
+
+ Process non-diffractive with code 101 is 2 -> 2.
+ Subprocess g g -> g g with code 111 is 2 -> 2.
+ It has sHat =  8.542e+02,    tHat = -1.783e+02,    uHat = -6.759e+02,
+       pTHat =  1.188e+01,   m3Hat =  0.000e+00,   m4Hat =  0.000e+00,
+    thetaHat =  9.490e-01,  phiHat =  2.901e+00.
+     alphaEM =  7.643e-03,  alphaS =  1.909e-01    at Q2 =  1.490e+02.
+
+ Impact parameter b =  1.604e+00 gives enhancement factor =  4.937e-02.
+ Max pT scale for MPI =  1.188e+01, ISR =  1.188e+01, FSR =  1.188e+01.
+ Number of MPI =     2, ISR =     6, FSRproc =    10, FSRreson =     0.
+
+ --------  End PYTHIA Info Listing  ------------------------------------
+
+ --------  PYTHIA Event Listing  (hard process)  -----------------------------------------------------------------------------------
+ 
+    no         id  name            status     mothers   daughters     colours      p_x        p_y        p_z         e          m 
+     0         90  (system)           -11     0     0     0     0     0     0      0.000      0.000      0.000  13000.000  13000.000
+     1       2212  (p+)               -12     0     0     3     0     0     0      0.000      0.000   6500.000   6500.000      0.938
+     2       2212  (p+)               -12     0     0     4     0     0     0      0.000      0.000  -6500.000   6500.000      0.938
+     3         21  (g)                -21     1     0     5     6   101   102      0.000      0.000     11.962     11.962      0.000
+     4         21  (g)                -21     2     0     5     6   103   104      0.000      0.000    -17.853     17.853      0.000
+     5         21  g                   23     3     4     0     0   101   104      2.825    -11.538      5.739     13.192      0.000
+     6         21  g                   23     3     4     0     0   103   102     -2.825     11.538    -11.629     16.623      0.000
+                                   Charge sum:  0.000           Momentum sum:      0.000      0.000     -5.890     29.815     29.228
+
+ --------  End PYTHIA Event Listing  -----------------------------------------------------------------------------------------------
+ PYTHIA Warning in SpaceShower::pT2nextQCD: weight above unity  
+
+ *-------  PYTHIA Event and Cross Section Statistics  -------------------------------------------------------------*
+ |                                                                                                                 |
+ | Subprocess                                    Code |            Number of events       |      sigma +- delta    |
+ |                                                    |       Tried   Selected   Accepted |     (estimated) (mb)   |
+ |                                                    |                                   |                        |
+ |-----------------------------------------------------------------------------------------------------------------|
+ |                                                    |                                   |                        |
+ | non-diffractive                                101 |          62         62          1 |   9.159e-01  9.159e-01 |
+ | A B -> X B single diffractive                  103 |           9          9          3 |   2.139e+00  1.008e+00 |
+ | A B -> A X single diffractive                  104 |          10         10          4 |   2.566e+00  9.940e-01 |
+ | A B -> X X double diffractive                  105 |          12         12          2 |   1.466e+00  9.465e-01 |
+ |                                                    |                                   |                        |
+ | sum                                                |          93         93         10 |   7.087e+00  1.934e+00 |
+ |                                                                                                                 |
+ *-------  End PYTHIA Event and Cross Section Statistics ----------------------------------------------------------*
+
+ *-------  PYTHIA Error and Warning Messages Statistics  ----------------------------------------------------------* 
+ |                                                                                                                 | 
+ |  times   message                                                                                                | 
+ |                                                                                                                 | 
+ |      2   Warning in MultipartonInteractions::init: maximum increased                                            | 
+ |      2   Warning in SpaceShower::pT2nextQCD: weight above unity                                                 | 
+ |                                                                                                                 | 
+ *-------  End PYTHIA Error and Warning Messages Statistics  ------------------------------------------------------* 
+
+ *-------  PYTHIA Event and Cross Section Statistics  -------------------------------------------------------------*
+ |                                                                                                                 |
+ | Subprocess                                    Code |            Number of events       |      sigma +- delta    |
+ |                                                    |       Tried   Selected   Accepted |     (estimated) (mb)   |
+ |                                                    |                                   |                        |
+ |-----------------------------------------------------------------------------------------------------------------|
+ |                                                    |                                   |                        |
+ | non-diffractive                                101 |          62         62          1 |   9.159e-01  9.159e-01 |
+ | A B -> X B single diffractive                  103 |           9          9          3 |   2.139e+00  1.008e+00 |
+ | A B -> A X single diffractive                  104 |          10         10          4 |   2.566e+00  9.940e-01 |
+ | A B -> X X double diffractive                  105 |          12         12          2 |   1.466e+00  9.465e-01 |
+ |                                                    |                                   |                        |
+ | sum                                                |          93         93         10 |   7.087e+00  1.934e+00 |
+ |                                                                                                                 |
+ *-------  End PYTHIA Event and Cross Section Statistics ----------------------------------------------------------*
+
+ *-------  PYTHIA Error and Warning Messages Statistics  ----------------------------------------------------------* 
+ |                                                                                                                 | 
+ |  times   message                                                                                                | 
+ |                                                                                                                 | 
+ |      2   Warning in MultipartonInteractions::init: maximum increased                                            | 
+ |      2   Warning in SpaceShower::pT2nextQCD: weight above unity                                                 | 
+ |                                                                                                                 | 
+ *-------  End PYTHIA Error and Warning Messages Statistics  ------------------------------------------------------* 
+  KORB: rho/rhop -> pi-pi0 mixing:
+  KORB: rho   =  0.769900024      0.151199996    
+  KORB: rhop  =   1.37000000      0.509999990     -0.109999999    
+  KORB: K*/K*prime -> Kpi mixing:
+  KORB: kstp  =   1.70000005      0.234999999      -3.79999988E-02
+  KORB: a1/a1prime -> 3pi, KKpi mixing:
+  KORB: a1    =   1.27499998      0.699999988    
+  KORB: a1prim=   1.46099997      0.250000000       0.00000000    
+  KORB: K1A/K1B -> Kpipi mixing:
+  KORB: K1A   =   1.26999998       9.00000036E-02   1.00000000    
+  KORB: K1B   =   1.40199995      0.173999995      0.800000012    
+  KORB: rho/rhop/rhopp -> 4pi mixing:
+  KORB: rho   =  0.769900024      0.151199996    
+  KORB: rhopp =   1.46500003      0.310000002     -0.109999999    
+  KORB: rhoppp=   1.70000005      0.234999999     -0.109999999    
+  KORB: 3PI-PI0 PARAMS:   0.00000000      0.124200001      0.160400003      0.271100014      0.444299996    
+  KORB: PI-3PI0 PARAMS:   0.00000000       1.00000000    
+  In F3pi: add (rho-pi S-wave) + (rhop-pi S-wave) +
+               (rho-pi D-wave) + (rhop-pi D-wave) +
+    (f2 pi D-wave) + (sigmapi S-wave) + (f0pi S-wave)

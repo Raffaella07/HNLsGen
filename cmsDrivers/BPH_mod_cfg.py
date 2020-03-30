@@ -101,16 +101,26 @@ process.BpFilter = cms.EDFilter("PythiaFilter",
 process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     ExternalDecays = cms.PSet(
         EvtGen130 = cms.untracked.PSet(
+            ### for info, see https://twiki.cern.ch/twiki/bin/view/CMS/EvtGenInterface
             convertPythiaCodes = cms.untracked.bool(False),
+            
             decay_table = cms.string('GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC'),
-            list_forced_decays = cms.vstring(
+            
+            ### the list of particles that are aliased and forced to be decayed by EvtGen
+            list_forced_decays = cms.vstring(       
                 'myB+', 
                 'myB-'
             ),
-            operates_on_particles = cms.vint32(521, -521),
+            
+            ### the list of particles that to remain undecayed for EvtGen to operate on. 
+            ### If the vector has a size 0 or size of 1 with a value of 0, the default list is used. 
+            ### These are are hard-coded in: GeneratorInterface/EvtGenInterface/plugins/EvtGen/EvtGenInterface.cc., in the function SetDefault_m_PDGs().            
+            operates_on_particles = cms.vint32(521, -521), 
+
             #particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'), 
             particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl'), 
             #particle_property_file = cms.FileInPath.fullPath('$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/evt_2010.pdl'),
+
             #user_decay_embedded = cms.vstring("\nAlias myB+ B+\nAlias myB- B-\nAlias mytau+ tau+\nAlias mytau- tau-\nChargeConj myB+ myB-\nChargeConj mytau+ mytau-\n\nDecay myB-\n0.259     anti-D0       mytau-     nu_tau    ISGW2;\n0.592     anti-D*0      mytau-     nu_tau    ISGW2;\n0.074     anti-D_2*0    mytau-     nu_tau    ISGW2;\n0.074     anti-D\'_10    mytau-     nu_tau    ISGW2;\nEnddecay\nCDecay myB+\n\nDecay mytau-\n1.0 mu-    mu+    mu-             PHOTOS PHSP;\nEnddecay\nCDecay mytau+\n\nEnd\n")
             
             # decay to neutrino
@@ -136,38 +146,57 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             'processParameters'
         ),
         processParameters = cms.vstring(
-            'SoftQCD:nonDiffractive = on', 
-            'SoftQCD:singleDiffractive = on', 
-            'SoftQCD:doubleDiffractive = on', 
-            'PTFilter:filter = on', 
-            'PTFilter:quarkToFilter = 5', 
-            'PTFilter:scaleToFilter = 1.0'
+            #### original settings for tau->3mu   
+            #'SoftQCD:nonDiffractive = on',            # default is off     
+            #'SoftQCD:singleDiffractive = on',         # default is off
+            #'SoftQCD:doubleDiffractive = on',         # default is off
+            ## 'SoftQCD' vs 'HardQCD' 
+            ##     you want SoftQCD if you don't want to put any pT cut on the hard scatter process 
+            ##     http://home.thep.lu.se/~torbjorn/pythia81html/QCDProcesses.html
+            ##     eventually use SoftQCD if you're interested in the full bottom production at high energies
+            #'PTFilter:filter = on',                   # default is off  # could not find **ANYWHERE** in the Pythia code PTFilter 
+            #'PTFilter:quarkToFilter = 5',                               # it's something that exists in CMSSW only, see Py8InterfaceBase.cc
+            #'PTFilter:scaleToFilter = 1.0'            # default is 0.4 
+           
+            #### settings to generate bbar only as per tip https://twiki.cern.ch/twiki/bin/view/CMS/EvtGenInterface#Tips_for_Pythia8   
+            'SoftQCD:nonDiffractive = off',            # 
+            'SoftQCD:singleDiffractive = off',         #
+            'SoftQCD:doubleDiffractive = off',         #
+            'PTFilter:filter = off',                   #
+            'HardQCD:gg2bbbar = on ',                  # default is off 
+            'HardQCD:qqbar2bbbar = on ',               # default is off  
+            'HardQCD:hardbbbar = off',                 # default is off  # should be set to off if gg2bbbar and hardbbbar on, otherwise double-counting
+            'PhaseSpace:pTHatMin = 20.',               # default is 0    # minimum invariant pT
+            ## 'PhaseSpace' to constrain the kinematics of a 2->2 process, 
+            ##              for hard physics only, 
+            ##              in the rest frame of the hard process, 
+            ##              cross-section is adjusted to correspond for the allowed phase-space
         ),
-        pythia8CUEP8M1Settings = cms.vstring(
+        pythia8CUEP8M1Settings = cms.vstring( # these probably remain the same
             'Tune:pp 14', 
             'Tune:ee 7', 
-            'MultipartonInteractions:pT0Ref=2.4024', 
-            'MultipartonInteractions:ecmPow=0.25208', 
-            'MultipartonInteractions:expPow=1.6'
+            'MultipartonInteractions:pT0Ref=2.4024',    # default is 2.28000 
+            'MultipartonInteractions:ecmPow=0.25208',   # default is 0.21500
+            'MultipartonInteractions:expPow=1.6'        # default is 1.85000
         ),
-        pythia8CommonSettings = cms.vstring(
-            'Tune:preferLHAPDF = 2', 
-            'Main:timesAllowErrors = 10000', 
-            'Check:epTolErr = 0.01', 
+        pythia8CommonSettings = cms.vstring( 
+            'Tune:preferLHAPDF = 2',                    # default is 1 
+            'Main:timesAllowErrors = 10000',            # default is 10
+            'Check:epTolErr = 0.01',                    # default is 1.0000e-04
             'Beams:setProductionScalesFromLHEF = off', 
-            'SLHA:keepSM = on', 
+            'SLHA:keepSM = on',                         # default is 100
             'SLHA:minMassSM = 1000.', 
-            'ParticleDecays:limitTau0 = on', 
-            'ParticleDecays:tau0Max = 10', 
-            'ParticleDecays:allowPhotonRadiation = on'
+            'ParticleDecays:limitTau0 = on',            # default is false
+            'ParticleDecays:tau0Max = 10',   
+            'ParticleDecays:allowPhotonRadiation = on'  # default is false
         ) 
         # do we want pythia8PSweightsSettings ?
     ),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(0.0013), # MG: this will not be used by Pythia, only saved in GenInfo
-    maxEventsToPrint = cms.untracked.int32(1000),
-    pythiaHepMCVerbosity = cms.untracked.bool(False),
-    pythiaPylistVerbosity = cms.untracked.int32(1)
+    maxEventsToPrint = cms.untracked.int32(1),
+    pythiaHepMCVerbosity = cms.untracked.bool(False), # to display HepMC information: vertices and particles (not interesting)
+    pythiaPylistVerbosity = cms.untracked.int32(1) # 11 to display all Pythia Settings
 )
 
 

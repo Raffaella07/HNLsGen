@@ -40,3 +40,8 @@ BPH_mod_cfg.py                    => tentative HNL with Fall18
 cmsRun BPH_mod_cfg.py maxEvents=100 
 ```
 
+test 
+```
+GeneratorInterface/ExternalDecays/test
+cmsRun evtgentest_cfg.py 
+```
