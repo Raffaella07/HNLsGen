@@ -32,6 +32,7 @@ cmsenv
 If you modify ```evtGenData/evt_2014_mod.pdl```, repeat the copy step above
 
 ## Instructions to set up a different version of Pythia within CMSSW
+(WORK IN PROGRESS)
 
 This needs to be started from clean CMSSW directory, before cmsenv
 
@@ -43,7 +44,7 @@ This needs to be started from clean CMSSW directory, before cmsenv
 
 Therefore adopt different strategy:
 * start from 8230 version (as obtained from pythia8 website)
-* compile on laptop
+* compile on laptop => but then removed in /lib the file
 * copy it somewhere on t3
 * copy there from sonia's pythia the files she added / changed
 * the follow again above mentioend twiki page...

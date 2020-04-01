@@ -546,7 +546,7 @@
  | HardQCD:gg2ggg                                |                      off |          off                         | 
  | HardQCD:gg2qqbar                              |                      off |          off                         | 
  | HardQCD:gg2qqbarg                             |                      off |          off                         | 
- | HardQCD:hardbbbar                             |                       on |          off                         | 
+ | HardQCD:hardbbbar                             |                      off |          off                         | 
  | HardQCD:hardccbar                             |                      off |          off                         | 
  | HardQCD:nQuarkNew                             |                        3 |            3           0           5 | 
  | HardQCD:qg2qg                                 |                      off |          off                         | 

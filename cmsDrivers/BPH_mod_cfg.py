@@ -84,12 +84,12 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
 # Additional output definition
 
 # Message logger
-process.MessageLogger = cms.Service("MessageLogger",
-    cout = cms.untracked.PSet(
-         threshold  = cms.untracked.string(options.severityLevel) 
-    ),
-    destinations = cms.untracked.vstring('cout')
-)
+#process.MessageLogger = cms.Service("MessageLogger",
+#    cout = cms.untracked.PSet(
+#         threshold  = cms.untracked.string(options.severityLevel) 
+#    ),
+#    destinations = cms.untracked.vstring('cout')
+#)
 
 # Other statements
 process.XMLFromDBSource.label = cms.string("Extended")
@@ -212,7 +212,7 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     ),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(0.0013),  # this will not be used by Pythia, only saved in GenInfo
-    maxEventsToPrint = cms.untracked.int32(1),
+    maxEventsToPrint = cms.untracked.int32(10),
     pythiaHepMCVerbosity = cms.untracked.bool(False), # to display HepMC information: vertices and particles (not interesting)
     pythiaPylistVerbosity = cms.untracked.int32(1)    # 11 to display all Pythia Settings
 )
