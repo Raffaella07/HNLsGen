@@ -8,7 +8,13 @@ from FWCore.ParameterSet.VarParsing import VarParsing
 options = VarParsing ('analysis')
 # define the defaults here, changed from command line
 options.maxEvents = -1 # -1 means all events, maxEvents considers the total over files considered
+options.outputFile = 'BPH-test.root'
 # add costum parameters
+options.register ("severityLevel",
+                  'ERROR', # default value
+                  VarParsing.multiplicity.singleton, # singleton or list
+                  VarParsing.varType.string,          # string, int, or float
+                  "severity level for log messages, DEBUG, INFO, WARNING, ERROR")
 #options.register ("doDirac",
 #                  1, # default value
 #                  VarParsing.multiplicity.singleton, # singleton or list
@@ -70,12 +76,20 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(20971520),
-    fileName = cms.untracked.string('file:BPH-test.root'),
+    fileName = cms.untracked.string('genSimFiles/'+options.outputFile),
     outputCommands = process.RAWSIMEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
 
 # Additional output definition
+
+# Message logger
+process.MessageLogger = cms.Service("MessageLogger",
+    cout = cms.untracked.PSet(
+         threshold  = cms.untracked.string(options.severityLevel) 
+    ),
+    destinations = cms.untracked.vstring('cout')
+)
 
 # Other statements
 process.XMLFromDBSource.label = cms.string("Extended")
@@ -91,7 +105,10 @@ process.MuFilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
-
+### Operates on all particles in the HepMC::GenEvent
+### accpects events if:
+###  - there is at least one particle with specified pdgID in the entire HepMC::GenEvent
+###  - any status (but can be specified)
 process.BpFilter = cms.EDFilter("PythiaFilter",
     #ParticleID = cms.untracked.int32(14) # nu_mu anti_numu filter
     ParticleID = cms.untracked.int32(521) # b+ b- filter 
@@ -112,7 +129,7 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
                 'myB-'
             ),
             
-            ### the list of particles that to remain undecayed for EvtGen to operate on. 
+            ### the list of particles that remain undecayed by Pythia for EvtGen to operate on. 
             ### If the vector has a size 0 or size of 1 with a value of 0, the default list is used. 
             ### These are are hard-coded in: GeneratorInterface/EvtGenInterface/plugins/EvtGen/EvtGenInterface.cc., in the function SetDefault_m_PDGs().            
             operates_on_particles = cms.vint32(521, -521), 
@@ -146,19 +163,20 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             'processParameters'
         ),
         processParameters = cms.vstring(
-            #### original settings for tau->3mu   
+            ## 'SoftQCD' vs 'HardQCD' 
+            ##     you want SoftQCD if you don#'t want to put any pT cut on the hard scatter process 
+            ##     http://home.thep.lu.se/~torbjorn/pythia81html/QCDProcesses.html
+            ##     eventually use SoftQCD if you#'re interested in the full bottom production at high energies
+
+            ### original settings for tau->3mu   
             #'SoftQCD:nonDiffractive = on',            # default is off     
             #'SoftQCD:singleDiffractive = on',         # default is off
             #'SoftQCD:doubleDiffractive = on',         # default is off
-            ## 'SoftQCD' vs 'HardQCD' 
-            ##     you want SoftQCD if you don't want to put any pT cut on the hard scatter process 
-            ##     http://home.thep.lu.se/~torbjorn/pythia81html/QCDProcesses.html
-            ##     eventually use SoftQCD if you're interested in the full bottom production at high energies
             #'PTFilter:filter = on',                   # default is off  # could not find **ANYWHERE** in the Pythia code PTFilter 
             #'PTFilter:quarkToFilter = 5',                               # it's something that exists in CMSSW only, see Py8InterfaceBase.cc
             #'PTFilter:scaleToFilter = 1.0'            # default is 0.4 
            
-            #### settings to generate bbar only as per tip https://twiki.cern.ch/twiki/bin/view/CMS/EvtGenInterface#Tips_for_Pythia8   
+            ### settings to generate bbar only as per tip https://twiki.cern.ch/twiki/bin/view/CMS/EvtGenInterface#Tips_for_Pythia8   
             'SoftQCD:nonDiffractive = off',            # 
             'SoftQCD:singleDiffractive = off',         #
             'SoftQCD:doubleDiffractive = off',         #
@@ -193,15 +211,15 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
         # do we want pythia8PSweightsSettings ?
     ),
     comEnergy = cms.double(13000.0),
-    filterEfficiency = cms.untracked.double(0.0013), # MG: this will not be used by Pythia, only saved in GenInfo
+    filterEfficiency = cms.untracked.double(0.0013),  # this will not be used by Pythia, only saved in GenInfo
     maxEventsToPrint = cms.untracked.int32(1),
     pythiaHepMCVerbosity = cms.untracked.bool(False), # to display HepMC information: vertices and particles (not interesting)
-    pythiaPylistVerbosity = cms.untracked.int32(1) # 11 to display all Pythia Settings
+    pythiaPylistVerbosity = cms.untracked.int32(1)    # 11 to display all Pythia Settings
 )
 
 
 #process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.MuFilter)
-process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) # MG, if applied after B decay, does it make sense?
+process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)

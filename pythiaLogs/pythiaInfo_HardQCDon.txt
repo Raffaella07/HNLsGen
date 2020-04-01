@@ -29,7 +29,7 @@ Lists:
  |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
  |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
  |  |   P       Y      T    H   H   I   A   A                                      |  | 
- |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 19:09:36    |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 31 Mar 2020 at 10:03:27    |  | 
  |  |                                                                              |  | 
  |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
  |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
@@ -98,7 +98,7 @@ Lists:
  |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
  |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
  |  |   P       Y      T    H   H   I   A   A                                      |  | 
- |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 19:09:36    |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 31 Mar 2020 at 10:03:27    |  | 
  |  |                                                                              |  | 
  |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
  |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
@@ -209,7 +209,7 @@ EvtGen:Creating generic Pythia generator
  |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
  |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
  |  |   P       Y      T    H   H   I   A   A                                      |  | 
- |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 19:09:36    |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 31 Mar 2020 at 10:03:27    |  | 
  |  |                                                                              |  | 
  |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
  |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
@@ -279,7 +279,7 @@ EvtGen:Creating alias Pythia generator
  |  |   P  P   Y Y     T    H   H   I    A A     This is PYTHIA version 8.230      |  | 
  |  |   PPP     Y      T    HHHHH   I   AAAAA    Last date of change:  6 Oct 2017  |  | 
  |  |   P       Y      T    H   H   I   A   A                                      |  | 
- |  |   P       Y      T    H   H  III  A   A    Now is 30 Mar 2020 at 19:09:36    |  | 
+ |  |   P       Y      T    H   H  III  A   A    Now is 31 Mar 2020 at 10:03:27    |  | 
  |  |                                                                              |  | 
  |  |   Christian Bierlich;  Department of Astronomy and Theoretical Physics,      |  | 
  |  |      Lund University, Solvegatan 14A, SE-223 62 Lund, Sweden;                |  | 
@@ -384,7 +384,7 @@ EvtGen:Warning, sum of branching fractions for Upsilon(3S) is 0.999
 EvtGen:rescaled to one! 
 EvtGen:Mixing type integer set to 1
 EvtGen:Done initializing EvtGen
-EvtGen:In readDecayFile, reading:/tmp/43f1-1830-c8eb-e224
+EvtGen:In readDecayFile, reading:/tmp/744b-9c0a-72a3-ab64
 
  *-------  PYTHIA Process Initialization  --------------------------*
  |                                                                  |
@@ -1197,6 +1197,7 @@ EvtGen:In readDecayFile, reading:/tmp/43f1-1830-c8eb-e224
 
  --------  End PYTHIA Particle Data Table  -----------------------------------------------------------------------------------------
 
+Begin processing the 1st record. Run 1, Event 1, LumiSection 1 on stream 0 at 31-Mar-2020 10:03:29.248 CEST
 
  --------  PYTHIA Info Listing  ---------------------------------------- 
  
@@ -3346,23 +3347,28 @@ part=1599 status=1 pdgid=130 fdecCanDec=1
                                    Charge sum:  2.000           Momentum sum:     -0.000      0.000      0.000  13000.000  13000.000
 
  --------  End PYTHIA Event Listing  -----------------------------------------------------------------------------------------------
+Begin processing the 2nd record. Run 1, Event 2, LumiSection 1 on stream 0 at 31-Mar-2020 10:03:51.209 CEST
 part=1411 status=1 pdgid=22 fdecCanDec=0
 part=1410 status=1 pdgid=-9900015 fdecCanDec=0
 part=1409 status=1 pdgid=13 fdecCanDec=1
 part=1408 status=1 pdgid=211 fdecCanDec=1
 part=1407 status=1 pdgid=-321 fdecCanDec=1
+Begin processing the 3rd record. Run 1, Event 3, LumiSection 1 on stream 0 at 31-Mar-2020 10:04:03.266 CEST
 part=1565 status=1 pdgid=9900015 fdecCanDec=0
 part=1564 status=1 pdgid=-13 fdecCanDec=1
 part=1563 status=1 pdgid=-211 fdecCanDec=1
 part=1562 status=1 pdgid=321 fdecCanDec=1
+Begin processing the 4th record. Run 1, Event 4, LumiSection 1 on stream 0 at 31-Mar-2020 10:04:15.106 CEST
 part=1585 status=1 pdgid=9900015 fdecCanDec=0
 part=1584 status=1 pdgid=-13 fdecCanDec=1
 part=1583 status=1 pdgid=-211 fdecCanDec=1
 part=1582 status=1 pdgid=321 fdecCanDec=1
+Begin processing the 5th record. Run 1, Event 5, LumiSection 1 on stream 0 at 31-Mar-2020 10:04:27.506 CEST
 part=1277 status=1 pdgid=-9900015 fdecCanDec=0
 part=1276 status=1 pdgid=13 fdecCanDec=1
 part=1275 status=1 pdgid=211 fdecCanDec=1
 part=1274 status=1 pdgid=-321 fdecCanDec=1
+Begin processing the 6th record. Run 1, Event 6, LumiSection 1 on stream 0 at 31-Mar-2020 10:04:37.384 CEST
 part=1006 status=1 pdgid=-211 fdecCanDec=1
 part=1005 status=1 pdgid=22 fdecCanDec=0
 part=1004 status=1 pdgid=22 fdecCanDec=0
@@ -3385,6 +3391,7 @@ part=988 status=1 pdgid=9900015 fdecCanDec=0
 part=987 status=1 pdgid=-13 fdecCanDec=1
 part=986 status=1 pdgid=-211 fdecCanDec=1
 part=985 status=1 pdgid=321 fdecCanDec=1
+Begin processing the 7th record. Run 1, Event 7, LumiSection 1 on stream 0 at 31-Mar-2020 10:04:46.827 CEST
 part=1697 status=1 pdgid=321 fdecCanDec=1
 part=1696 status=1 pdgid=22 fdecCanDec=0
 part=1695 status=1 pdgid=-12 fdecCanDec=0
@@ -3405,11 +3412,13 @@ part=1681 status=1 pdgid=9900015 fdecCanDec=0
 part=1680 status=1 pdgid=-13 fdecCanDec=1
 part=1679 status=1 pdgid=-211 fdecCanDec=1
 part=1678 status=1 pdgid=321 fdecCanDec=1
+Begin processing the 8th record. Run 1, Event 8, LumiSection 1 on stream 0 at 31-Mar-2020 10:05:00.886 CEST
 part=2280 status=1 pdgid=-9900015 fdecCanDec=0
 part=2279 status=1 pdgid=13 fdecCanDec=1
 part=2278 status=1 pdgid=22 fdecCanDec=0
 part=2277 status=1 pdgid=211 fdecCanDec=1
 part=2276 status=1 pdgid=-321 fdecCanDec=1
+Begin processing the 9th record. Run 1, Event 9, LumiSection 1 on stream 0 at 31-Mar-2020 10:05:20.894 CEST
 part=1226 status=1 pdgid=22 fdecCanDec=0
 part=1225 status=1 pdgid=-9900015 fdecCanDec=0
 part=1224 status=1 pdgid=13 fdecCanDec=1
@@ -3457,6 +3466,7 @@ part=1183 status=2 pdgid=111 fdecCanDec=1
 part=1182 status=1 pdgid=310 fdecCanDec=1
 part=1181 status=2 pdgid=311 fdecCanDec=1
 part=1180 status=2 pdgid=-421 fdecCanDec=1
+Begin processing the 10th record. Run 1, Event 10, LumiSection 1 on stream 0 at 31-Mar-2020 10:05:31.040 CEST
 part=660 status=1 pdgid=-9900015 fdecCanDec=0
 part=659 status=1 pdgid=13 fdecCanDec=1
 part=658 status=1 pdgid=22 fdecCanDec=0
@@ -3506,6 +3516,89 @@ part=656 status=1 pdgid=-321 fdecCanDec=1
  |      0   no errors or warnings to report                                                                        | 
  |                                                                                                                 | 
  *-------  End PYTHIA Error and Warning Messages Statistics  ------------------------------------------------------* 
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+Before Filter: total cross section = 2.949e+06 +- 5.461e+05 pb
+Filter efficiency (taking into account weights)= (10) / (10) = 1.000e+00 +- 0.000e+00
+Filter efficiency (event-level)= (10) / (10) = 1.000e+00 +- 0.000e+00    [TO BE USED IN MCM]
+
+After filter: final cross section = 2.949e+06 +- 5.461e+05 pb
+After filter: final fraction of events with negative weights = 0.000e+00 +- 0.000e+00
+After filter: final equivalent lumi for 1M events (1/fb) = 3.391e-04 +- 2.130e-08
+TimeReport> Time report complete in 189.255 seconds
+ Time Summary: 
+ - Min event:   6.32621
+ - Max event:   21.9585
+ - Avg event:   12.81
+ - Total loop:  161.727
+ - Total init:  27.1963
+ - Total job:   189.255
+ - EventSetup Lock:   1.66893e-05
+ - EventSetup Get:   9.64215
+ Event Throughput: 0.0618327 ev/s
+ CPU Summary: 
+ - Total loop:  156.087
+ - Total init:  5.57903
+ - Total extra: 0
+ - Total job:   161.839
+ Processing Summary: 
+ - Number of Events:  10
+ - Number of Global Begin Lumi Calls:  1
+ - Number of Global Begin Run Calls: 1
+
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 GenXSecAnalyzer      -w GenXSecAnalyzer:                       7        7
+    2 TimeReport           -e AfterModEndJob                         1        1
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 GenXSecAnalyzer      PostGlobalEndRun PostGlobalEndRun PostGlobalEndRun
+    2 TimeReport           PostGlobalEndRun                  
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 7                   7
+Error                   1                   1
+
+dropped waiting message count 0
+
+
+
+ ***************************************************************************
+ *                         *****TAUOLA LIBRARY: VERSION 2.9 ******         *
+ *                         ***********October 2011 ***************         *
+ *                         **AUTHORS: S.JADACH, Z.WAS*************         *
+ *                         **R. DECKER, M. JEZABEK, J.H.KUEHN*****         *
+ *                         **AVAILABLE FROM: www.cern.ch/wasm****          *
+ *                         ***** PUBLISHED IN COMP. PHYS. COMM.***         *
+ *                         0: Physics initialization  CLEO collab          *
+ *                          see Alain Weinstein www home page:             *
+ *                         http://www.cithep.caltech.edu/~ajw/             *
+ *                         /korb_doc.html#files                            *
+ *                         1: Physics initialization RChL of:              *
+ *                          O. Shekhovtsova, T. Przedzinski,               *
+ *                          P. Roig and Z. Was                             *
+ *                          IFJPAN-2013-5, UAB-FT-731                      *
+ *                         *******CPC 76 (1993) 361          *****         *
+ *                         **5 or more pi dec.: precision limited          *
+ *                         ****DEKAY ROUTINE: INITIALIZATION******         *
+ *                   0     JAK1   = DECAY MODE TAU+                        *
+ *                   0     JAK2   = DECAY MODE TAU-                        *
+ ***************************************************************************
+
+ *                   0     IVER   = hadronic current version           *
+  RANMAR INITIALIZED:   54217137           0         0
+
+ ***************************************************************************
+
   KORB: rho/rhop -> pi-pi0 mixing:
   KORB: rho   =  0.769900024      0.151199996    
   KORB: rhop  =   1.37000000      0.509999990     -0.109999999    
