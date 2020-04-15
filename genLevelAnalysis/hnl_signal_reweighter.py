@@ -13,7 +13,11 @@ from scipy.constants import c as speed_of_light
 def isAncestor(a, p):
     if a == p :
         return True
+        print 'a==p'
+    idx=0
     for i in xrange(0,p.numberOfMothers()):
+        #print idx
+        idx=idx+1
         if isAncestor(a,p.mother(i)):
             return True
     return False
@@ -41,7 +45,8 @@ branches = [
     'run',  
     'lumi', 
     'event',
-
+     
+    # the mother
     'b_pt',
     'b_eta',
     'b_phi',
@@ -49,6 +54,8 @@ branches = [
     'b_q',
     'b_pdgid',
     
+    # daughters of the B
+    # # the HNL
     'hnl_pt',
     'hnl_eta',
     'hnl_phi',
@@ -60,20 +67,15 @@ branches = [
     'hnl_beta',  # Lorentz
     'hnl_gamma', # Lorentz
 
-    'pi_pt',
-    'pi_eta',
-    'pi_phi',
-    'pi_mass',
-    'pi_q',
-    'pi_pdgid',
-    
-    'k_pt',
-    'k_eta',
-    'k_phi',
-    'k_mass',
-    'k_q',
-    'k_pdgid',
-    
+    # # the D meson
+    'd_pt',
+    'd_eta',
+    'd_phi',
+    'd_mass',
+    'd_q',
+    'd_pdgid',
+
+    # # the prompt lepton
     'l0_pt',
     'l0_eta',
     'l0_phi',
@@ -81,6 +83,25 @@ branches = [
     'l0_q',
     'l0_pdgid',
 
+    # daughters of the D meson
+    # # the pion
+    'pi_pt',
+    'pi_eta',
+    'pi_phi',
+    'pi_mass',
+    'pi_q',
+    'pi_pdgid',
+    
+    # # the kaon
+    'k_pt',
+    'k_eta',
+    'k_phi',
+    'k_mass',
+    'k_q',
+    'k_pdgid',
+    
+    # daughters of the HNL
+    # # the lepton
     'l1_pt',
     'l1_eta',
     'l1_phi',
@@ -88,13 +109,19 @@ branches = [
     'l1_q',
     'l1_pdgid',
 
+    # # the pion
     'pi1_pt',
     'pi1_eta',
     'pi1_phi',
     'pi1_mass',
     'pi1_q',
     'pi1_pdgid',
-    
+   
+    # invariant masses
+    'lep_pi_invmass',
+    'k_pi_invmass',
+    'hn_d_pl_invmass'
+
     #'Lxy', # 2D transverse displacement
     #'Lxyz',  # 3D displacement
     #'Lxy_cos', # cosine of the pointing angle in the transverse plane
@@ -151,8 +178,8 @@ tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branc
 
 # get to the real thing
 print 'loading the file ...'
-#events = Events('samples/BPH-test_numEvent50.root')
-events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST0/BPH-test_numEvent10000.root')
+events = Events('samples/BPH-test_numEvent50.root')
+#events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST0/BPH-test_numEvent10000.root')
 print '... done!'
 
 for i, event in enumerate(events):
@@ -165,7 +192,7 @@ for i, event in enumerate(events):
       percentage = float(i)/events.size()*100.
       print '\t===> processing %d / %d event \t completed %.1f%s' %(i, events.size(), percentage, '%')
 
-  #print '\n Event {a}'.format(a=i)
+  print '\n Event {a}'.format(a=i)
 
   #for the moment, comment everything that has to do with lhe   
   #hepup = event.lhe.hepeup()
@@ -181,91 +208,93 @@ for i, event in enumerate(events):
   # all gen particles
   event.genp = [ip for ip in event.genP] #+ [ip for ip in event.genp_packed]
 
-
-  # find the B
-  # we sort the Bs from highest pt to lowest
-  #the_bs = sorted([ip for ip in event.genP if ip.isLastCopy() and ip.statusFlags().isPrompt() and abs(ip.pdgId())==521], key = lambda x : x.pt(), reverse=True)
-  #if len(the_bs):
-      #print '1. found a B'
-  #    event.the_b = the_bs[0]
-  #else:
-  #    event.the_b = None
-  
-  # find the mu
-  # we sort the muons from highest pt to lowest
-  #the_mus = sorted([ip for ip in event.genP if ip.isLastCopy() and ip.statusFlags().isPrompt() and abs(ip.pdgId())==13], key = lambda x : x.pt(), reverse=True)
-  #if len(the_mus):
-  #    #print 'found a mu'
-  #    event.the_mu = the_mus[0]
-  #else:
-  #    event.the_mu = None
-  
-  # D0s daughters
-  # find the pion
-  # we sort the pions from highest pt to lowest
-  the_pis = sorted([ip for ip in event.genP if ip.isLastCopy() and ip.statusFlags().isPrompt() and abs(ip.pdgId())==211], key = lambda x : x.pt(), reverse=True)
-  if len(the_pis):
-      #print '2. found a pion'
-      event.the_pi = the_pis[0]
-  else:
-      event.the_pi = None
-      
-  # find the kaon
-  # we sort the kaons from highest pt to lowest
-  the_ks = sorted([ip for ip in event.genP if ip.isLastCopy() and ip.statusFlags().isPrompt() and abs(ip.pdgId())==321], key = lambda x : x.pt(), reverse=True)
-  if len(the_ks):
-      #print '3. found a kaon'
-      event.the_k = the_ks[0]
-  else:
-      event.the_k = None
       
   # get the heavy neutrino
   the_hns = [ip for ip in event.genP if abs(ip.pdgId()) in [9900015, -9990015] and ip.isLastCopy()] # 9900012 is Majorana, 9990012 is Dirac. Dirac comes in two species, particle and anti-particle!
   if len(the_hns):
      event.the_hn = the_hns[0] # one per event
-     #print '4. found hnls of pdgId {a}'.format(a=event.the_hn.pdgId())
-      
-  # find the B mother
-  # we sort the Bs from highest pt to lowest
-  #the_bs = sorted([ip for ip in event.genP if ip.isLastCopy() and ip.statusFlags().isPrompt() and abs(ip.pdgId())==521], key = lambda x : x.pt(), reverse=True)
-  the_bs = sorted([ip for ip in event.genP if ip.isLastCopy() and abs(ip.pdgId())==521 and isAncestor(event.the_hn, ip)], key = lambda x : x.pt(), reverse=True)
-  if len(the_bs):
-      #print '1. found a B'
-      event.the_b = the_bs[0]
-  else:
-      event.the_b = None
+     #print '0. found hnls of pdgId {a}'.format(a=event.the_hn.pdgId())
   
-  # prompt lepton
-  #event.the_pl = [ip for ip in event.genP if abs(ip.pdgId()) in [11,13,15] and ip.isPromptFinalState() and not isAncestor(event.the_hn, ip)]#[0]
-  the_pls = [ip for ip in event.genP if abs(ip.pdgId()) in [11, 13, 15] and ip.isLastCopy() and not isAncestor(event.the_hn, ip)] 
-  #the_pls = [ip for ip in event.genP if abs(ip.pdgId()) in [11,13,15] and ip.isPromptFinalState() and not isAncestor(event.the_hn, ip)]
+  # find the B mother  
+  event.the_hn.mothers = [event.the_hn.mother(jj) for jj in range(event.the_hn.numberOfMothers())]
+  the_b_mothers = sorted([ii for ii in event.the_hn.mothers if abs(ii.pdgId())==521], key = lambda x : x.pt(), reverse=True)
+  if len(the_b_mothers):
+    event.the_b_mother = the_b_mothers[0]
+    #print '1. found a B of pdgId {a}'.format(a=event.the_b_mother.pdgId())
+  else:
+    event.the_b_mother = None
+
+  # get the other two daughters of the B meson
+  event.the_b_mother.daughters = [event.the_b_mother.daughter(jj) for jj in range(event.the_b_mother.numberOfDaughters())]
+
+  # # first the D0 meson
+  the_ds = sorted([ii for ii in event.the_b_mother.daughters if abs(ii.pdgId())==421], key = lambda x : x.pt(), reverse=True)
+  if len(the_ds):
+    event.the_d = the_ds[0]
+    #print '2. found a D of pdgId {a}'.format(a=event.the_d.pdgId())
+  else:
+    event.the_d = None
+
+  # # then the prompt lepton
+  the_pls = sorted([ii for ii in event.the_b_mother.daughters if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt(), reverse=True)
   if len(the_pls):
-     #print '5. found a prompt lepton'
-     event.the_pl = the_pls[0]
+    event.the_pl = the_pls[0]
+    #print '3. found a prompt lepton of pdgId {a}'.format(a=event.the_pl.pdgId())
   else:
-     event.the_pl = None
+    event.the_pl = None
   
+  # D0s daughters
+  event.the_d.daughters = [event.the_d.daughter(jj) for jj in range(event.the_d.numberOfDaughters())]
   
-  # get the immediate daughters of the heavy neutrino decay
+  # #find the pion
+  the_pis = sorted([ii for ii in event.the_d.daughters if abs(ii.pdgId())==211], key = lambda x : x.pt(), reverse=True)
+  if len(the_pis):
+      event.the_pi = the_pis[0]
+      #print '4. found a pion with pdgId {a}'.format(a=event.the_pi.pdgId())
+  else:
+      event.the_pi = None
+      
+  # find the kaon
+  the_ks = sorted([ii for ii in event.the_d.daughters if abs(ii.pdgId())==321], key = lambda x : x.pt(), reverse=True)
+  if len(the_ks):
+      event.the_k = the_ks[0]
+      #print '5. found a kaon with pdgId {a}'.format(a=event.the_k.pdgId())
+  else:
+      event.the_k = None
+ 
+
+  # HNL daughters
   event.the_hn.initialdaus = [event.the_hn.daughter(jj) for jj in range(event.the_hn.numberOfDaughters())]
 
-  #event.the_hn.lep = max([ii for ii in event.the_hn.initialdaus if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt())
-  the_lep_daughters = sorted([ii for ii in event.the_hn.initialdaus if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt())
+  # # the lepton
+  the_lep_daughters = sorted([ii for ii in event.the_hn.initialdaus if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt(), reverse=True)
   if len(the_lep_daughters):
      #print '6. found a daughter lepton'
      event.the_hn.lep = the_lep_daughters[0]
   else: 
      event.the_hn.lep = None
-  
-  the_pi_daughters = sorted([ii for ii in event.the_hn.initialdaus if abs(ii.pdgId())==211], key = lambda x : x.pt())
+ 
+  # # the pion
+  the_pi_daughters = sorted([ii for ii in event.the_hn.initialdaus if abs(ii.pdgId())==211], key = lambda x : x.pt(), reverse=True)
   if len(the_pi_daughters):
      #print '7. found a daughter pion'
      event.the_hn.pi = the_pi_daughters[0]
   else:
      event.the_hn.pi = None
-
-  #event.the_dilepton = event.the_hn.lep1.p4() + event.the_hn.lep2.p4()
  
+  # invariant masses   
+  # # to get the invariant mass of the HNL daughters
+  if len(the_pi_daughters) and len(the_lep_daughters):   
+    event.the_hnldaughters = event.the_hn.lep.p4() + event.the_hn.pi.p4()
+  
+  # # to get the invariant mass of the D0 daughters
+  if len(the_ks) and len(the_pis):   
+    event.the_d0daughters = event.the_k.p4() + event.the_pi.p4()
+
+  # # to get the invariant mass of the D0 daughters
+  if len(the_ds) and len(the_pls) and len(the_hns):
+     event.the_bdaughters = event.the_hn.p4() + event.the_d.p4() + event.the_pl.p4()
+    
   # identify the primary vertex
   # for that, needs the prompt lepton
   #if len(the_pls):
@@ -308,13 +337,13 @@ for i, event in enumerate(events):
   tofill['lumi'       ] = event.eventAuxiliary().luminosityBlock()
   tofill['event'      ] = event.eventAuxiliary().event()
    
-  if event.the_b:
-      tofill['b_pt'   ] = event.the_b.pt()     
-      tofill['b_eta'  ] = event.the_b.eta()    
-      tofill['b_phi'  ] = event.the_b.phi()    
-      tofill['b_mass' ] = event.the_b.mass()   
-      tofill['b_q'    ] = event.the_b.charge()   
-      tofill['b_pdgid'] = event.the_b.pdgId()   
+  if event.the_b_mother:
+      tofill['b_pt'   ] = event.the_b_mother.pt()     
+      tofill['b_eta'  ] = event.the_b_mother.eta()    
+      tofill['b_phi'  ] = event.the_b_mother.phi()    
+      tofill['b_mass' ] = event.the_b_mother.mass()   
+      tofill['b_q'    ] = event.the_b_mother.charge()   
+      tofill['b_pdgid'] = event.the_b_mother.pdgId()   
    
   tofill['hnl_pt'     ] = event.the_hn.pt()     
   tofill['hnl_eta'    ] = event.the_hn.eta()    
@@ -326,6 +355,14 @@ for i, event in enumerate(events):
   tofill['hnl_beta'   ] = event.the_hn.beta  
   tofill['hnl_gamma'  ] = event.the_hn.gamma  
   tofill['hnl_pdgid'  ] = event.the_hn.pdgId()  
+
+  if event.the_d:
+      tofill['d_pt'   ] = event.the_d.pt()     
+      tofill['d_eta'  ] = event.the_d.eta()    
+      tofill['d_phi'  ] = event.the_d.phi()    
+      tofill['d_mass' ] = event.the_d.mass()   
+      tofill['d_q'    ] = event.the_d.charge()   
+      tofill['d_pdgid'] = event.the_d.pdgId()   
 
   if event.the_k:
       tofill['k_pt'   ] = event.the_k.pt()     
@@ -367,6 +404,10 @@ for i, event in enumerate(events):
      tofill['pi1_q'       ] = event.the_hn.pi.charge()
      tofill['pi1_pdgid'   ] = event.the_hn.pi.pdgId()
 
+  # invariant mass
+     tofill['lep_pi_invmass' ] = event.the_hnldaughters.mass()
+  tofill['k_pi_invmass' ] = event.the_d0daughters.mass()
+  tofill['hn_d_pl_invmass'] = event.the_bdaughters.mass()
   #tofill['Lxy'        ] = event.Lxy
   #tofill['Lxyz'       ] = event.Lxyz
   #tofill['Lxy_cos'    ] = event.cos_pointing
