@@ -2,7 +2,7 @@
 * 5/10/2013 Updated by R. Godang. The format and convention are based on the current evt.pdl and PDG 2012
 *--------------------------------------------------------------------------------------------------------------------------------------- 
 *                  name                  id      mass/GeV    width/GeV     max_Dm/GeV    3*charge   2*spin    lifetime*c/mm    PythiaId   
-add  p Particle  hnl                          9900015  1.0000000e+00  0.0000000e+00  0.0000000e+00     0     1  0.0000000e+00    9900015
+add  p Particle  hnl                          9900015  1.0000000e+00  0.0000000e+00  0.0000000e+00     0     1  1.0000000e+02    9900015
 add  p Particle  anti_hnl                    -9900015  1.0000000e+00  0.0000000e+00  0.0000000e+00     0     1  0.0000000e+00   -9900015
 add  p Particle  K_4*+                            329  2.0450000e+00  1.9800000e-01  2.0000000e-01     3     8  0.0000000e+00          0
 add  p Particle  h_b(2P)                       110553  1.0255000e+01  0.0000000e+00  0.0000000e+00     0     2  0.0000000e+00     110553
