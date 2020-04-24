@@ -60,7 +60,7 @@ BPH_mod_cfg.py                    => tentative HNL with Fall18
 ## Produce GEN-SIM
 ```
 cd HNLsGen 
-cmsRun cmsDrivers/BPH_mod_cfg.py maxEvents=100 outputFile=BPH-test.root
+cmsRun cmsDrivers/BPH_mod_cfg.py maxEvents=100 outputFile=genSimFiles/BPH-test.root
 ```
 
 ## Analyze
