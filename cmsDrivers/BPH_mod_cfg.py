@@ -111,6 +111,13 @@ process.MuFilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
+process.SingleMuFilter = cms.EDFilter("PythiaFilter", # using PythiaFilter instead of MCParticleFilter because the particleID is taken in abs value
+    MaxEta = cms.untracked.double(1.6),
+    MinEta = cms.untracked.double(-1.6),
+    MinPt = cms.untracked.double(5), # <=== keep it a bit lower than the pt cut at reco level... 
+    ParticleID = cms.untracked.int32(13)
+)
+
 ### Operates on all particles in the HepMC::GenEvent
 ### accpects events if:
 ###  - there is at least one particle with specified pdgID in the entire HepMC::GenEvent
@@ -224,8 +231,8 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
 )
 
 
-#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.MuFilter)
-process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
+process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
+#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
