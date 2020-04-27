@@ -13,11 +13,7 @@ from scipy.constants import c as speed_of_light
 def isAncestor(a, p):
     if a == p :
         return True
-        print 'a==p'
-    idx=0
     for i in xrange(0,p.numberOfMothers()):
-        #print idx
-        idx=idx+1
         if isAncestor(a,p.mother(i)):
             return True
     return False
@@ -41,6 +37,17 @@ def scale_to_new_xs(old_v2, new_v2):
     return new_v2 / old_v2
 
 
+class Vertex(object):
+   def __init__(self, index=0, x=0, y=0, z=0, pT=0):    
+      self.index = index
+      self.x     = x
+      self.y     = y
+      self.z     = z
+      self.pT    = pT
+
+def getpT(input):
+   return input.pT
+
 branches = [
     'run',  
     'lumi', 
@@ -53,6 +60,7 @@ branches = [
     'b_mass',
     'b_q',
     'b_pdgid',
+    'b_ct_reco',
     
     # daughters of the B
     # # the HNL
@@ -63,7 +71,7 @@ branches = [
     'hnl_q',
     'hnl_pdgid',
     #'hnl_ct_lhe', # from LHE information
-    #'hnl_ct_reco', # from Lxyz = ct\gamma\beta --> ct = Lxyz/(\gamma\beta)
+    'hnl_ct_reco', # from Lxyz = ct\gamma\beta --> ct = Lxyz/(\gamma\beta)
     'hnl_beta',  # Lorentz
     'hnl_gamma', # Lorentz
 
@@ -120,11 +128,14 @@ branches = [
     # invariant masses
     'lep_pi_invmass',
     'k_pi_invmass',
-    'hn_d_pl_invmass'
+    'hn_d_pl_invmass',
 
-    #'Lxy', # 2D transverse displacement
-    #'Lxyz',  # 3D displacement
-    #'Lxy_cos', # cosine of the pointing angle in the transverse plane
+    'Lxy', # 2D transverse displacement for the HNL
+    'Lxyz',  # 3D displacement for the HNL
+    'Lxy_cos', # cosine of the pointing angle in the transverse plane
+
+    'Lxyz_b', #3D displacement of the B wrt to primary vertex
+    'Lxyz_l0' #3D displacement of the prompt lepton wrt to B vertex
 ]
 
 # couplings to be tested, for which the reweight is run
@@ -165,12 +176,13 @@ for vv in new_v2s:
     branches.append('xs_scale_to_%s' %(str(vv).replace('-', 'm')))
 
 handles = OrderedDict()
-handles['genP'] = ('genParticles' , Handle('std::vector<reco::GenParticle>')     )
+handles['genP'] = ('genParticles' , Handle('std::vector<reco::GenParticle>'))
 #handles['genp_packed'] = ('packedGenParticles' , Handle('std::vector<pat::PackedGenParticle>'))
 #handles['lhe']         = ('externalLHEProducer', Handle('LHEEventProduct'))
 
 # output file and tree gymnastics
 outfile = ROOT.TFile.Open('lifetimes_test.root', 'recreate')
+#outfile = ROOT.TFile.Open('genNTuples_10k.root', 'recreate')
 ntuple  = ROOT.TNtuple('tree', 'tree', ':'.join(branches))
 tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branches to unphysical -99       
 
@@ -192,7 +204,7 @@ for i, event in enumerate(events):
       percentage = float(i)/events.size()*100.
       print '\t===> processing %d / %d event \t completed %.1f%s' %(i, events.size(), percentage, '%')
 
-  print '\n Event {a}'.format(a=i)
+  #print '\n Event {a}'.format(a=i)
 
   #for the moment, comment everything that has to do with lhe   
   #hepup = event.lhe.hepeup()
@@ -206,14 +218,13 @@ for i, event in enumerate(events):
   #####
 
   # all gen particles
-  event.genp = [ip for ip in event.genP] #+ [ip for ip in event.genp_packed]
-
+  #event.genp = [ip for ip in event.genP] #+ [ip for ip in event.genp_packed]
       
   # get the heavy neutrino
-  the_hns = [ip for ip in event.genP if abs(ip.pdgId()) in [9900015, -9990015] and ip.isLastCopy()] # 9900012 is Majorana, 9990012 is Dirac. Dirac comes in two species, particle and anti-particle!
+  the_hns = [ip for ip in event.genP if abs(ip.pdgId())==9900015 and ip.isLastCopy()] 
   if len(the_hns):
      event.the_hn = the_hns[0] # one per event
-     #print '0. found hnls of pdgId {a}'.format(a=event.the_hn.pdgId())
+     #print '0. found hnl of pdgId {a}'.format(a=event.the_hn.pdgId())
   
   # find the B mother  
   event.the_hn.mothers = [event.the_hn.mother(jj) for jj in range(event.the_hn.numberOfMothers())]
@@ -297,39 +308,112 @@ for i, event in enumerate(events):
     
   # identify the primary vertex
   # for that, needs the prompt lepton
-  #if len(the_pls):
-  #  event.the_hn.the_pv = event.the_pl.vertex()
+  if len(the_pls):
+    event.the_hn.the_pv = event.the_pl.vertex()
   
   # identify the secondary vertex
-  #if len(the_lep_daughters):
-  #  event.the_hn.the_sv = event.the_hn.lep.vertex()
+  if len(the_lep_daughters):
+    event.the_hn.the_sv = event.the_hn.lep.vertex()
   
   # 2D transverse and 3D displacement, Pythagoras
-  #event.Lxy  = np.sqrt((event.the_hn.the_pv.x() - event.the_hn.the_sv.x())**2 + \
-  #                     (event.the_hn.the_pv.y() - event.the_hn.the_sv.y())**2)
+  if len(the_pls) and len(the_lep_daughters):
+    event.Lxy  = np.sqrt((event.the_hn.the_pv.x() - event.the_hn.the_sv.x())**2 + \
+                         (event.the_hn.the_pv.y() - event.the_hn.the_sv.y())**2)
 
-  #event.Lxyz = np.sqrt((event.the_hn.the_pv.x() - event.the_hn.the_sv.x())**2 + \
-  #                     (event.the_hn.the_pv.y() - event.the_hn.the_sv.y())**2 + \
-  #                     (event.the_hn.the_pv.z() - event.the_hn.the_sv.z())**2)
+    event.Lxyz = np.sqrt((event.the_hn.the_pv.x() - event.the_hn.the_sv.x())**2 + \
+                         (event.the_hn.the_pv.y() - event.the_hn.the_sv.y())**2 + \
+                         (event.the_hn.the_pv.z() - event.the_hn.the_sv.z())**2)
 
+    #print 'pvx: {a} svx: {b} pvy: {c} svy: {d} Lxy: {e}'.format(a=event.the_hn.the_pv.x(), b= event.the_hn.the_sv.x(), c=event.the_hn.the_pv.y(), d=event.the_hn.the_sv.y(), e=event.Lxy)
+    #print 'pvz: {a} svz: {b} Lxyz: {c}'.format(a=event.the_hn.the_pv.z(), b= event.the_hn.the_sv.z(), c=event.Lxyz)
   # per event ct, as derived from the flight distance and Lorentz boost  
   event.the_hn.beta  = event.the_hn.p4().Beta()
   event.the_hn.gamma = event.the_hn.p4().Gamma()
-  #event.the_hn.ct_reco = event.Lxyz / (event.the_hn.beta * event.the_hn.gamma)
+  
+  # we get the lifetime from the kinematics 
+  if len(the_pls) and len(the_lep_daughters):
+    event.the_hn.ct_reco = event.Lxyz / (event.the_hn.beta * event.the_hn.gamma)
 
   # pointing angle    
-  #hn_pt_vect = ROOT.math.XYZVector(event.the_dilepton.px(),
-  #                                 event.the_dilepton.py(),
-  #                                 0.)
+  #if len(the_pls) and len(the_lep_daughters):
+  #  hn_pt_vect = ROOT.math.XYZVector(event.the_hnldaughters.px(),
+  #                                   event.the_hnldaughters.py(),
+  #                                   0.)
 
-  #Lxy_vect = ROOT.GlobalPoint(-1*((event.the_hn.the_pv.x() - event.the_hn.the_sv.x())), 
-  #                            -1*((event.the_hn.the_pv.y() - event.the_hn.the_sv.y())),
-  #                             0)
+  #  Lxy_vect = ROOT.GlobalPoint(-1*((event.the_hn.the_pv.x() - event.the_hn.the_sv.x())), 
+  #                              -1*((event.the_hn.the_pv.y() - event.the_hn.the_sv.y())),
+  #                               0)
 
-  #vperptau = ROOT.math.XYZVector(Lxy_vect.x(), Lxy_vect.y(), 0.)
+  #  vperptau = ROOT.math.XYZVector(Lxy_vect.x(), Lxy_vect.y(), 0.)
+ 
+    #event.cos_pointing = vperptau.Dot(hn_pt_vect)/(vperptau.R()*hn_pt_vect.R())
 
-  #event.cos_pointing = vperptau.Dot(hn_pt_vect)/(vperptau.R()*hn_pt_vect.R())
+
+  '''
+  # get the primary vertex (of the event)
+  # all gen particles
+  the_genps = [ip for ip in event.genP] #+ [ip for ip in event.genp_packed]
+  #print 'len tot: {a}'.format(a=len(the_genps))
+
+  allvertices = []
+  for genParticle in the_genps:
+    tpl = genParticle.vx(), genParticle.vy(), genParticle.vz()
+    allvertices.append(tpl)
   
+  #print 'len all vertices: {a}'.format(a=len(allvertices))
+  #print 'len vertices: {a}'.format(a=len(set(allvertices)))
+
+  vertices = []
+  idx = 0
+  for vertex in set(allvertices):
+     vertices.append(Vertex(idx, vertex[0], vertex[1], vertex[2], 0))
+     idx = idx + 1
+
+  for vertex in vertices:
+    the_pt = 0
+    for genParticle in the_genps:
+      if genParticle.vx() == vertex.x and genParticle.vy() == vertex.y and genParticle.vz() == vertex.z:
+        the_pt = the_pt + genParticle.pt()
+    vertex.pT = the_pt
+
+
+  #print 'before'  
+  #for vertex in vertices:
+  #  print '{a} {b} {c} {d} {e}'.format(a=vertex.index, b=vertex.x, c=vertex.y, d=vertex.z, e=vertex.pT)
+
+  vertices.sort(key=getpT, reverse=True)  
+  
+  #print '\n after' 
+  #for vertex in vertices:
+  #  print '{a} {b} {c} {d} {e}'.format(a=vertex.index, b=vertex.x, c=vertex.y, d=vertex.z, e=vertex.pT)
+
+  event.theprimaryvertex = vertices[0]
+
+  #event.theBvertex = Vertex(0, event.the_b
+
+  event.Lxy_bmother = np.sqrt((event.theprimaryvertex.x - event.the_b_mother.vx())**2 + \
+                      (event.theprimaryvertex.y - event.the_b_mother.vy())**2)
+
+  event.Lxyz_bmother = np.sqrt((event.theprimaryvertex.x - event.the_b_mother.vx())**2 + \
+                      (event.theprimaryvertex.y - event.the_b_mother.vy())**2 + \
+                      (event.theprimaryvertex.z - event.the_b_mother.vz())**2)
+  #print event.Lxyz_bmother
+  '''
+
+  event.Lxyz_pl = np.sqrt((event.the_b_mother.vx() - event.the_pl.vx())**2 + \
+                      (event.the_b_mother.vy() - event.the_pl.vy())**2 + \
+                      (event.the_b_mother.vz() - event.the_pl.vz())**2)
+  
+  #print event.Lxyz_pl
+ 
+  # get the lifetime of the B
+  event.the_b_mother.beta  = event.the_b_mother.p4().Beta()
+  event.the_b_mother.gamma = event.the_b_mother.p4().Gamma()
+  
+  event.the_b_mother.ct_reco = event.Lxyz_pl / (event.the_b_mother.beta * event.the_b_mother.gamma)
+  
+  #print event.the_b_mother.ct_reco
+   
   # reset before filling
   for k, v in tofill.iteritems(): tofill[k] = -99. # initialise before filling
 
@@ -344,6 +428,7 @@ for i, event in enumerate(events):
       tofill['b_mass' ] = event.the_b_mother.mass()   
       tofill['b_q'    ] = event.the_b_mother.charge()   
       tofill['b_pdgid'] = event.the_b_mother.pdgId()   
+      tofill['b_ct_reco'] = event.the_b_mother.ct_reco   
    
   tofill['hnl_pt'     ] = event.the_hn.pt()     
   tofill['hnl_eta'    ] = event.the_hn.eta()    
@@ -351,7 +436,8 @@ for i, event in enumerate(events):
   tofill['hnl_mass'   ] = event.the_hn.mass()   
   tofill['hnl_q'      ] = event.the_hn.charge()   
   #tofill['hnl_ct_lhe' ] = event.hnl_ct_lhe 
-  #tofill['hnl_ct_reco'] = event.the_hn.ct_reco * 10. # convert cm to mm 
+  if len(the_lep_daughters):
+    tofill['hnl_ct_reco'] = event.the_hn.ct_reco * 10. # convert cm to mm 
   tofill['hnl_beta'   ] = event.the_hn.beta  
   tofill['hnl_gamma'  ] = event.the_hn.gamma  
   tofill['hnl_pdgid'  ] = event.the_hn.pdgId()  
@@ -408,9 +494,15 @@ for i, event in enumerate(events):
      tofill['lep_pi_invmass' ] = event.the_hnldaughters.mass()
   tofill['k_pi_invmass' ] = event.the_d0daughters.mass()
   tofill['hn_d_pl_invmass'] = event.the_bdaughters.mass()
-  #tofill['Lxy'        ] = event.Lxy
-  #tofill['Lxyz'       ] = event.Lxyz
-  #tofill['Lxy_cos'    ] = event.cos_pointing
+  
+  
+  if len(the_pls) and len(the_lep_daughters):
+    tofill['Lxy'        ] = event.Lxy
+    tofill['Lxyz'       ] = event.Lxyz
+    #tofill['Lxy_cos'    ] = event.cos_pointing
+
+  #tofill['Lxyz_b']  = event.Lxyz_bmother
+  tofill['Lxyz_l0'] = event.Lxyz_pl
 
   #for iv2 in new_v2s:
       #tofill['weight_%s'      %(str(iv2).replace('-', 'm'))] = weight_to_new_ctau(mysample.ctau, mysample.v2, iv2, event.hnl_ct_lhe)[0]
