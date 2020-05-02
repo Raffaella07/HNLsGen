@@ -10,11 +10,17 @@ options = VarParsing ('analysis')
 options.maxEvents = -1 # -1 means all events, maxEvents considers the total over files considered
 options.outputFile = 'BPH-test.root'
 # add costum parameters
-options.register ("severityLevel",
+options.register ('severityLevel',
                   'ERROR', # default value
                   VarParsing.multiplicity.singleton, # singleton or list
                   VarParsing.varType.string,          # string, int, or float
-                  "severity level for log messages, DEBUG, INFO, WARNING, ERROR")
+                  'severity level for log messages, DEBUG, INFO, WARNING, ERROR')
+options.register('nThr',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'Number of threads')
+
 #options.register ("doDirac",
 #                  1, # default value
 #                  VarParsing.multiplicity.singleton, # singleton or list
@@ -76,7 +82,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(20971520),
-    fileName = cms.untracked.string('genSimFiles/'+options.outputFile),
+    fileName = cms.untracked.string(options.outputFile),
     outputCommands = process.RAWSIMEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -184,7 +190,7 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             'HardQCD:gg2bbbar = on ',                  # default is off 
             'HardQCD:qqbar2bbbar = on ',               # default is off  
             'HardQCD:hardbbbar = off',                 # default is off  # should be set to off if gg2bbbar and hardbbbar on, otherwise double-counting
-            'PhaseSpace:pTHatMin = 20.',               # default is 0    # minimum invariant pT
+            'PhaseSpace:pTHatMin = 5.',               # default is 0    # minimum invariant pT
             ## 'PhaseSpace' to constrain the kinematics of a 2->2 process, 
             ##              for hard physics only, 
             ##              in the rest frame of the hard process, 
@@ -234,7 +240,7 @@ from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(1)
+process.options.numberOfThreads=cms.untracked.uint32(options.nThr)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 # filter all path with the production filter sequence
 for path in process.paths:
