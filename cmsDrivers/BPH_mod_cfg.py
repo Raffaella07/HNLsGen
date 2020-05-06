@@ -225,14 +225,14 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     ),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(0.0013),  # this will not be used by Pythia, only saved in GenInfo
-    maxEventsToPrint = cms.untracked.int32(10),
+    maxEventsToPrint = cms.untracked.int32(0),        # max events to print the complete event list information
     pythiaHepMCVerbosity = cms.untracked.bool(False), # to display HepMC information: vertices and particles (not interesting)
-    pythiaPylistVerbosity = cms.untracked.int32(1)    # 11 to display all Pythia Settings
+    pythiaPylistVerbosity = cms.untracked.int32(1)    # 1 for "normal" verbosity, 11 to display all Pythia Settings
 )
 
 
-process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
-#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
+#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
+process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)

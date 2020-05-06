@@ -16,7 +16,7 @@ git clone git@github.com:BParkHNLs/HNLsGen.git
 
 cp HNLsGen/evtGenData/evt_2014_mod.pdl GeneratorInterface/EvtGenInterface/data/.
 
-export CMSSW_SEARCH_PATH=$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/:$CMSSW_SEARCH_PATH  # needed to use local evt.pdf file
+export CMSSW_SEARCH_PATH=$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/:$CMSSW_SEARCH_PATH  # needed to use local evt_xx.pdl file
 
 scram b
 
