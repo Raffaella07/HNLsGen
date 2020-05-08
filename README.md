@@ -14,9 +14,7 @@ git cms-addpkg GeneratorInterface/EvtGenInterface
 
 git clone git@github.com:BParkHNLs/HNLsGen.git
 
-cp HNLsGen/evtGenData/evt_2014_mod.pdl GeneratorInterface/EvtGenInterface/data/.
-
-export CMSSW_SEARCH_PATH=$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/:$CMSSW_SEARCH_PATH  # needed to use local evt_xx.pdl file
+export CMSSW_SEARCH_PATH=$CMSSW_BASE/src/HNLsGen/evtGenData/:$CMSSW_SEARCH_PATH  # needed to use local evt_xx.pdl file
 
 scram b
 
@@ -29,7 +27,6 @@ After first installation:
 cd CMSSW_10_2_3/src
 cmsenv
 ```
-If you modify ```evtGenData/evt_2014_mod.pdl```, repeat the copy step above
 
 ## Instructions to set up a different version of Pythia within CMSSW
 (WORK IN PROGRESS)

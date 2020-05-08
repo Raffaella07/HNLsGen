@@ -147,8 +147,8 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             ### These are are hard-coded in: GeneratorInterface/EvtGenInterface/plugins/EvtGen/EvtGenInterface.cc., in the function SetDefault_m_PDGs().            
             operates_on_particles = cms.vint32(521, -521), 
 
-            #particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'), 
-            particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl'), 
+            particle_property_file = cms.FileInPath('HNLsGen/evtGenData/evt_2014_mod.pdl'), 
+            #particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl'), 
             #particle_property_file = cms.FileInPath.fullPath('$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/evt_2010.pdl'),
 
             #user_decay_embedded = cms.vstring("\nAlias myB+ B+\nAlias myB- B-\nAlias mytau+ tau+\nAlias mytau- tau-\nChargeConj myB+ myB-\nChargeConj mytau+ mytau-\n\nDecay myB-\n0.259     anti-D0       mytau-     nu_tau    ISGW2;\n0.592     anti-D*0      mytau-     nu_tau    ISGW2;\n0.074     anti-D_2*0    mytau-     nu_tau    ISGW2;\n0.074     anti-D\'_10    mytau-     nu_tau    ISGW2;\nEnddecay\nCDecay myB+\n\nDecay mytau-\n1.0 mu-    mu+    mu-             PHOTOS PHSP;\nEnddecay\nCDecay mytau+\n\nEnd\n")
