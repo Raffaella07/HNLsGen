@@ -22,7 +22,7 @@ process.source = cms.Source("PoolSource",
 
 process.printTree1 = cms.EDAnalyzer("ParticleListDrawer",
     src = cms.InputTag("genParticles"),
-    maxEventsToPrint  = cms.untracked.int32(1)
+    maxEventsToPrint  = cms.untracked.int32(3)
 )
 
 process.printTree2 = cms.EDAnalyzer("ParticleTreeDrawer",
