@@ -1,8 +1,9 @@
-# Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Configuration/GenProduction/python/BPH-RunIIFall17GS-00087-fragment.py --fileout file:BPH-RunIIFall17GS-00087.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 93X_mc2017_realistic_v3 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --nThreads 2 --geometry DB:Extended --era Run2_2017 --python_filename BPH-RunIIFall17GS-00087_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 21456
+'''
+Job option for the B-initiated HNL generation
+'''
+
+#TODO find a way to set the mass and lifetime with an option
+
 from FWCore.ParameterSet.VarParsing import VarParsing
 
 options = VarParsing ('analysis')
@@ -20,7 +21,11 @@ options.register('nThr',
                  VarParsing.multiplicity.singleton,
                  VarParsing.varType.int,
                  'Number of threads')
-
+options.register('seedOffset',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'Seed offset')
 #options.register ("doDirac",
 #                  1, # default value
 #                  VarParsing.multiplicity.singleton, # singleton or list
@@ -111,12 +116,6 @@ process.MuFilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
-process.SingleMuFilter = cms.EDFilter("PythiaFilter", # using PythiaFilter instead of MCParticleFilter because the particleID is taken in abs value
-    MaxEta = cms.untracked.double(1.6),
-    MinEta = cms.untracked.double(-1.6),
-    MinPt = cms.untracked.double(5), # <=== keep it a bit lower than the pt cut at reco level... 
-    ParticleID = cms.untracked.int32(13)
-)
 
 ### Operates on all particles in the HepMC::GenEvent
 ### accpects events if:
@@ -124,9 +123,17 @@ process.SingleMuFilter = cms.EDFilter("PythiaFilter", # using PythiaFilter inste
 ###  - any status (but can be specified)
 process.BpFilter = cms.EDFilter("PythiaFilter",
     #ParticleID = cms.untracked.int32(14) # nu_mu anti_numu filter
-    ParticleID = cms.untracked.int32(521) # b+ b- filter 
+    ParticleID = cms.untracked.int32(521) # B+ B- filter 
 )
 
+process.SingleMuFilter = cms.EDFilter("PythiaFilter", # using PythiaFilter instead of MCParticleFilter because the particleID is taken in abs value
+    MaxEta = cms.untracked.double(1.6),
+    MinEta = cms.untracked.double(-1.6),
+    MinPt = cms.untracked.double(5), # <=== keep it a bit lower than the pt cut at reco level... 
+    ParticleID = cms.untracked.int32(13), # abs value is taken
+    #Status = cms.untracked.int32(1),
+    MotherID = cms.untracked.int32(521), # require muon to come from B+/B- decay
+)
 
 process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     ExternalDecays = cms.PSet(
@@ -246,15 +253,16 @@ process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 process.schedule = cms.Schedule(process.generation_step,process.genfiltersummary_step,process.simulation_step,process.endjob_step,process.RAWSIMoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
-
-#Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(options.nThr)
-process.options.numberOfStreams=cms.untracked.uint32(0)
 # filter all path with the production filter sequence
 for path in process.paths:
 	getattr(process,path)._seq = process.ProductionFilterSequence * getattr(process,path)._seq 
 
-# customisation of the process.
+#Setup FWK for multithreaded
+process.options.numberOfThreads=cms.untracked.uint32(options.nThr)
+process.options.numberOfStreams=cms.untracked.uint32(0)
+
+# set a different offset seed, if you run multiple jobs 
+process.RandomNumberGeneratorService.eventSeedOffset=cms.untracked.uint32(options.seedOffset)
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
 from Configuration.DataProcessing.Utils import addMonitoring 
