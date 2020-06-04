@@ -90,7 +90,7 @@ def getOptions():
 
   from argparse import ArgumentParser
 
-  parser = ArgumentParser(description='Production helper for Clustering studies', add_help=True)
+  parser = ArgumentParser(description='Production helper for B-initiated HNL signals', add_help=True)
 
   parser.add_argument('-v','--ver', type=str, dest='ver', help='version of production, e.g. V00_v00', default='V00_v00')
   parser.add_argument('-n','--nevts', type=int, dest='nevts', help='total number of events to be generated', default=10)
@@ -117,12 +117,12 @@ if __name__ == "__main__":
   if opt.domultijob and opt.domultithread: raise RuntimeError('either multijob or multithread, choose, otherwise seed for generation will repeat')
   njobs = opt.njobs if opt.domultijob else 1
   nevtsjob = opt.nevts if not opt.domultijob else opt.nevts/opt.njobs
-  prodLabel = '{v}_m{m}_ctau{ct}_n{n}'.format(v=opt.ver,n=opt.nevts,m=opt.mass,ct=opt.ctau)
+  prodLabel = '{v}_m{m}_ctau{ct}_n{n}_njt{nj}'.format(v=opt.ver,n=opt.nevts,m=opt.mass,ct=opt.ctau,nj=njobs)
   nthr = 8 if opt.domultithread else 1
   user = os.environ["USER"]
 
   ##############################
-  # create local and remote  production directory 
+  # create local production directory 
   ############################# 
   if not os.path.isdir(prodLabel):
     os.system('mkdir -p ./{}'.format(prodLabel))
@@ -149,8 +149,12 @@ if __name__ == "__main__":
     os.chdir("../")
 
   ##  
-  ## create a config file and save it in the prodLabel
-  ##
+  with open('{}/cfg.txt'.format(prodLabel), 'w') as f:
+    f.write('Run genHelper.py with following configurations\n')
+    for k,v in sorted(vars(opt).items()):
+      f.write('{:15s}: {:10s}\n'.format(str(k),str(v)))
+    
+  
 
 
 

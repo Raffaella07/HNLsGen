@@ -239,8 +239,8 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
 )
 
 
-#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
-process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
+process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
+#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
