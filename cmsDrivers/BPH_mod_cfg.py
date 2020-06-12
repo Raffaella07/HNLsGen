@@ -26,6 +26,17 @@ options.register('seedOffset',
                  VarParsing.multiplicity.singleton,
                  VarParsing.varType.int,
                  'Seed offset')
+options.register('mass',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'mass of the HNL')
+options.register('ctau',
+                 100,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.float,
+                 'ctau of the HNL [mm]')
+
 #options.register ("doDirac",
 #                  1, # default value
 #                  VarParsing.multiplicity.singleton, # singleton or list
@@ -154,10 +165,14 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             ### These are are hard-coded in: GeneratorInterface/EvtGenInterface/plugins/EvtGen/EvtGenInterface.cc., in the function SetDefault_m_PDGs().            
             operates_on_particles = cms.vint32(521, -521), 
 
-            particle_property_file = cms.FileInPath('HNLsGen/evtGenData/evt_2014_mod.pdl'), 
-            #particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl'), 
-            #particle_property_file = cms.FileInPath.fullPath('$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/evt_2010.pdl'),
+            ### The file with properties of all particles
+            particle_property_file = cms.FileInPath('HNLsGen/evtGenData/evt_2014_mass{m}_ctau{ctau}.pdl'.format(m=options.mass,ctau=options.ctau)), 
+            #particle_property_file = cms.FileInPath('HNLsGen/evtGenData/evt_2014_mod.pdl'),
+            #particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl'),  
+            #https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideEdmFileInPath
 
+
+            ### Decay chain
             #user_decay_embedded = cms.vstring("\nAlias myB+ B+\nAlias myB- B-\nAlias mytau+ tau+\nAlias mytau- tau-\nChargeConj myB+ myB-\nChargeConj mytau+ mytau-\n\nDecay myB-\n0.259     anti-D0       mytau-     nu_tau    ISGW2;\n0.592     anti-D*0      mytau-     nu_tau    ISGW2;\n0.074     anti-D_2*0    mytau-     nu_tau    ISGW2;\n0.074     anti-D\'_10    mytau-     nu_tau    ISGW2;\nEnddecay\nCDecay myB+\n\nDecay mytau-\n1.0 mu-    mu+    mu-             PHOTOS PHSP;\nEnddecay\nCDecay mytau+\n\nEnd\n")
             
             # decay to neutrino
