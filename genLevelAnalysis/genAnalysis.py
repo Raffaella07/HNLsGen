@@ -321,7 +321,6 @@ class SampleList(object):
     for cname, canv in tosave.items():
       canv.SaveAs('./plots/all_plots/' + cname + norm_suffix +'.png')
       canv.SaveAs('./plots/all_plots/' + cname + norm_suffix +'.pdf')
-      canv.SaveAs('./plots/all_plots/' + cname + norm_suffix +'.C')
 
 
 def getOptions():
@@ -329,129 +328,6 @@ def getOptions():
   parser = ArgumentParser(description='', add_help=True)
   parser.add_argument('--pl', type=str, dest='pl', help='production label of input', default='V_blabla')  
   return parser.parse_args()
-
-
-def getLxyPlot(s):
-  f = TFile.Open(s.infileName)
-  if f:
-    tree = f.Get(s.treeName)
-    if not tree: raise RuntimeError('no tree found')
-  else: raise RuntimeError('file %s not found' % infileName)  
-
-  c=TCanvas() 
-
-  holdtemp = TH1F('holdtemp', 'holdtemp', 100, 0., 10000.) 
-  tree.Draw('Lxy>>holdtemp', '', 'goff')
-  hold = getOverflowedHisto(holdtemp)
-  hold.SetLineColor(ROOT.kBlack)
-  hold.SetMarkerColor(ROOT.kBlack)
-  hold.SetMarkerStyle(1)
-  hold.GetXaxis().SetTitle('L_{xy} [mm]') 
-  hold.GetYaxis().SetTitle('a.u.') 
-  hold.DrawNormalized('histE')
-
-  leg = TLegend() 
-  leg=defaultLegend(x1=0.3,y1=0.7,x2=0.95,y2=0.90,mult=1.2)
-  leg.AddEntry(hold, 'gen: |V|^{{2}}={:.1e} ctau={:.1f}mm'.format(s.vv, s.ctau), 'PEL')   # also here, property of the sample needs to be recognised...
-
-  hnewtemps=[]
-  hnews=[]
-
-  for i,vv in enumerate(small_new_vvs):
-    # only do 
-
-    hnewtemps.append( TH1F('hnewtemp_{}'.format(i), 'hnewtemp_{}'.format(i), 100,0.,10000.))
-    weight = '(weight_{vv})'.format(vv=str(vv).replace('-', 'm'))
-    tree.Draw('Lxy>>hnewtemp_{}'.format(i), weight, 'goff')
-
-    hnews.append(getOverflowedHisto(hnewtemps[i]))
-        
-    hnews[i].SetLineColor(colors[i])
-    hnews[i].SetMarkerColor(colors[i])
-    hnews[i].SetMarkerStyle(1)
-    
-    hnews[i].DrawNormalized('histEsame')
-
-    leg.AddEntry(hnews[i], 'new: |V|^{{2}}={:.1e} ctau={:.1f}mm'.format(vv, getCtau(s.mass,vv)), 'PEL')   
-
-  leg.Draw('same')
-  c.SaveAs('plots/lxy_reweight.pdf')
-
-
-
-def getAcceptance(s):
-
-  f = TFile.Open(s.infileName)
-  if f:
-    tree = f.Get(s.treeName)
-    if not tree: raise RuntimeError('no tree found')
-  else: raise RuntimeError('file %s not found' % s.infileName)  
-
-  cutsnum = '(l0_pt>7 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi_pt>1 && abs(pi_eta)<2.5 && k_pt>1 && abs(k_eta)<2.5 && pi1_pt>1 && abs(pi1_eta)<2.5 && Lxy < 1000)'
-  cutsden = '(l0_pt>7 && abs(l0_eta)<1.5)'
-
-  graph = TGraph()
-  graph_acc = TGraph()
-
-  for i,vv in enumerate(new_vvs): 
-    weight='*(weight_{vv})'.format(vv=str(vv).replace('-', 'm'))
-    effnum = TH1F('effnum', 'effnum', 1, 0, 13000)
-    effden = TH1F('effden', 'effden', 1, 0, 13000)
-
-    tree.Draw('hnl_pt>>effnum', cutsnum+weight, 'goff')
-    tree.Draw('hnl_pt>>effden', cutsden+weight, 'goff')
-
- 
-    if TEfficiency.CheckConsistency(effnum,effden): 
-      peff = TEfficiency(effnum,effden)
-      
-      N_nu = 3.2E7
-      BR = 19.7 / 100.
-      eff = peff.GetEfficiency(1)
-      eff_errup = peff.GetEfficiencyErrorUp(1)
-      eff_errdn = peff.GetEfficiencyErrorLow(1)
-      ## xsec_rescale = vv / 0.0013
-
-      print 'VV={:.2e} origVV={:.2e}'.format(vv,s.vv)
-      print 'eff={:.2f}+{:.2f}-{:.2f}'.format(eff,eff_errup,eff_errdn)
-      print 'N_nu * BR * eff x VV = {:.2e} '.format(N_nu*BR*eff*vv)
-
-      graph.SetPoint(i,vv,N_nu*BR*eff*vv)
-      graph_acc.SetPoint(i,vv,eff)
-    
-  c = TCanvas()
-  graph.SetLineWidth(2)
-  graph.SetMarkerStyle(22)
-  graph.SetTitle(';|V|^{2};N_{#nu} x BR(HN#rightarrow#mu#pi) x Acc x V^{2}')
-  graph.Draw('APL')
-
-  gPad.Modified()
-  gPad.Update()
-  line = TLine(gPad.GetUxmin(),3,gPad.GetUxmax(),3)
-  line.SetLineColor(ROOT.kBlue)
-  line.Draw('same')
-
-  c.SetLogx()
-  c.SetLogy()
-  c.SetGridx()
-  c.SetGridy()
-  c.SaveAs('./plots/expected_nevts.pdf')
-  c.SaveAs('./plots/expected_nevts.C')
-  #graph.SetLineColor(k)
-
-  c_acc = TCanvas()
-  c_acc.SetLogx()
-  c_acc.SetLogy()
-  
-  
-  graph_acc.SetLineWidth(2)
-  graph_acc.SetLineColor(kRed)
-  graph_acc.SetTitle(';|V|^{2};Acceptance')
-  graph_acc.Draw('APL')
-  graph_acc.SetMaximum(0.1)
-  #graph_acc.SetMinimum(0.025)
-  c_acc.SaveAs('./plots/expected_acc.pdf')
-  c_acc.SaveAs('./plots/expected_acc.C')
 
 
 if __name__ == "__main__":
@@ -465,18 +341,12 @@ if __name__ == "__main__":
 
   opt = getOptions()
 
-  infileName = './outputfiles/{}_miniGenTree.root'.format(opt.pl) 
+  infileName = './outputfiles/{pl}/mass{m}_ctau{ctau}__miniGenTree.root'.format(pl=opt.pl) 
   
-  tags = opt.pl.split('_')
-  this_mass = float([it.split('mass')[1] for it in tags if 'mass' in it][0])
-  this_ctau = float([it.split('ctau')[1] for it in tags if 'ctau' in it][0])
-  #this_vv = getVV(mass=this_mass, ctau=this_ctau)
-
-  this_sample = Sample(mass=this_mass, ctau=this_ctau, treeName='tree', infileName=infileName)
-
-  getAcceptance(s=this_sample)
+  #this_sample = Sample(mass=this_mass, ctau=this_ctau, treeName='tree', infileName=infileName):w
+  #getAcceptance(s=this_sample)
   #getAcceptance(inFileName='./outputfiles/{}_miniGenTree.root'.format(opt.pl), treeName='tree')
-  getLxyPlot(s=this_sample)
+  #getLxyPlot(s=this_sample)
   #getLxyPlot(inFileName='./outputfiles/{}_miniGenTree.root'.format(opt.pl), treeName='tree')
 
 
