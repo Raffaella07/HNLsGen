@@ -115,7 +115,7 @@ class Job(object):
         'pwd',
         'echo "Going to run"',
         'DATE_START=`date +%s`',
-        'cmsRun {jop} maxEvents={nevtsjob} nThr={nthr} outputFile=BPH-test.root seedOffset=$SLURM_ARRAY_TASK_ID',
+        'cmsRun {jop} maxEvents={nevtsjob} nThr={nthr} mass={m} ctau={ctau} outputFile=BPH-test.root seedOffset=$SLURM_ARRAY_TASK_ID',
         'DATE_END=`date +%s`',
         'echo "Finished running"',
         'echo "Content of current directory"',
