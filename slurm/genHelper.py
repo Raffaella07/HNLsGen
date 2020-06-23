@@ -171,7 +171,7 @@ def getOptions():
   #parser.add_argument('--time', type=str, dest='time', help='allowed time for each job of each step in hours, including dumper, example 01,02,01,01,04 for 1h for step1, 2h for step2, 1h for step3, 1h for step4, 4h for dumper', default='02,02,05,01,05')
   parser.add_argument('--time', type=str, dest='time', help='allowed time for each job', default='02')
   parser.add_argument('--njobs', type=int, dest='njobs', help='number of parallel jobs to submit', default=10)
-  parser.add_argument('--points', type=str, dest='pointFile', help='name of file contaning information on scan to be run', default='./points.py')
+  parser.add_argument('--points', type=str, dest='pointFile', help='name of file contaning information on scan to be run', default='points.py')
   #parser.add_argument('--mass', type=int, dest='mass', help='mass to generate (GeV)', default=1)
   #parser.add_argument('--ctau', type=int, dest='ctau', help='ctau to generate (mm)', default=100)
   parser.add_argument('--domultithread', dest='domultithread', help='run multithreaded', action='store_true', default=False)
