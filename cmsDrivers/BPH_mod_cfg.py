@@ -2,8 +2,6 @@
 Job option for the B-initiated HNL generation
 '''
 
-#TODO find a way to set the mass and lifetime with an option
-
 from FWCore.ParameterSet.VarParsing import VarParsing
 
 options = VarParsing ('analysis')
@@ -29,7 +27,7 @@ options.register('seedOffset',
 options.register('mass',
                  1,
                  VarParsing.multiplicity.singleton,
-                 VarParsing.varType.int,
+                 VarParsing.varType.float,
                  'mass of the HNL')
 options.register('ctau',
                  100,
