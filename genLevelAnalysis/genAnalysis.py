@@ -1,11 +1,11 @@
 import os
 import sys
 import numpy as np
-from ROOT import TTree, TFile, TH1F, TEfficiency, TGraph, TCanvas, gROOT, TAxis, TMath, TLegend, gStyle, gPad, TLine
+from ROOT import TTree, TFile, TH1F, TEfficiency, TGraph, TCanvas, gROOT, TAxis, TMath, TLegend, gStyle, gPad, TLine, TGraphAsymmErrors
 import ROOT
 sys.path.append('/work/mratti/plotting/myplotting')
 from spares import *
-
+from glob import glob
 
 # couplings to be tested, for which the reweight is run
 
@@ -27,6 +27,18 @@ def getOverflowedHisto(h):
   htemp.SetBinError(nbins,last_plus_overflow_error)
   return htemp
 
+
+class SampleQuantity(object):
+  def __init__(self, name='vv', axis='x', title='|V|^{2}', log=True, range=(0.,1), forceRange=False, err=False):
+    self.name = name
+    self.axis = axis
+    self.title = title
+    self.log = log
+    self.range = range
+    self.forceRange = forceRange
+    self.err = err
+
+
 class PlotOpt(object):
   def __init__(self, what, binning, xtitle, ytitle, logX, logY):
     self.what = what
@@ -39,46 +51,50 @@ class PlotOpt(object):
 class Sample(object):
   '''
   Handles information of a single sample, i.e. mass,ctau , w/ or w/o reweighting
+  TODO: finish to handle the case where the sample originates from the reweighting of another sample...
   '''
-  def __init__(self,mass=-99, ctau=-99, vv=-99, infileName=None, isrw=False, mass_rw, ctau_rw):
+  def __init__(self,mass=-99, ctau=-99, vv=-99, infileName=None, isrw=False, label='V00'):
     self.mass = mass
     self.ctau = ctau
-    if not vv: 
-      self.ctau=ctau 
+    self.vv = vv
+    if vv==-99: 
       self.vv=getVV(mass=self.mass, ctau=self.ctau)
-    if not ctau:
-      self.vv = vv
+    if ctau==-99:
       self.ctau=getCtau(mass=self.mass, vv=self.vv)
+    print 'vv=' , self.vv
     self.treeName='tree'
     self.infileName=infileName
-    if os.path.isfile(self.infileName): raise RuntimeError('file %s not found' % s.infileName)
+    if not os.path.isfile(self.infileName): raise RuntimeError('file %s not found' % self.infileName)
     self.isrw=isrw
+    self.label=label
     #self.isMajorana
-    self.nickname='bhnl_mass{m}_ctau{ctau}'.format(m=self.mass, ctau=self.ctau)
-    self.legname='{}: m={:.1f}GeV |V|^{{2}}={:.1e} ctau={:.1f}mm'.format('rw' if self.isrw else 'gen' ,self.m,self.vv, self.ctau)
-    if isrw:
-      evt_w = '(weight_{vv})'.format(vv=str(self.vv).replace('-', 'm'))
+    self.name='bhnl_mass{m}_ctau{ctau}'.format(m=self.mass, ctau=self.ctau)
+    self.legname='{}: m={:.1f}GeV |V|^{{2}}={:.1e} ctau={:.1f}mm'.format('rw' if self.isrw else 'gen' ,self.mass,self.vv, self.ctau)
+    if self.isrw:
+      self.evt_w = '(weight_{vv})'.format(vv=str(self.vv).replace('-', 'm'))
     else:
-      evt_w = '(1)'
-
-
+      self.evt_w = '(1)'
+    self.acc = -99
+    self.acc_errup = -99
+    self.acc_errdn = -99
+  
    
     self.histoDefs = {
     # b mother
     'b_pt'          : PlotOpt('b_pt', '(30,0,30)', 'B meson p_{T} [GeV]', 'a.u.', False, True),
     'b_eta'         : PlotOpt('b_eta', '(30,-6,6)', 'B meson #eta', 'a.u.', False, True),
-    'b_ct'          : PlotOpt('b_ct_reco', '(50,0,1000)', 'B meson ct [mm]', False, True),
-    'b_ct_large'    : PlotOpt('b_ct_reco', '(100,0,10000)', 'B meson ct [mm]', False, True),     
+    'b_ct'          : PlotOpt('b_ct_reco', '(50,0,1000)', 'B meson ct [mm]', 'a.u.', False, True),
+    'b_ct_large'    : PlotOpt('b_ct_reco', '(100,0,10000)', 'B meson ct [mm]', 'a.u.', False, True),     
     # daughters of the B
     ## the HNL
     'hnl_pt'        : PlotOpt('hnl_pt', '(30,0,30)', 'HNL p_{T} [GeV]', 'a.u.', False, True),   
     'hnl_eta'       : PlotOpt('hnl_eta', '(30,-6,6)', 'HNL #eta', 'a.u.', False, True),      
-    'hnl_ct'        : PlotOpt('hnl_ct_reco', '(50,0,1000)', 'HNL ct [mm]', False, True),
-    'hnl_ct_large'  : PlotOpt('hnl_ct_reco' '(100,0,10000)', 'HNL ct [mm]', False, True),    
-    'hnl_Lxy'       : PlotOpt('Lxy', '(50,0,1000)', 'L_{xy} [mm]', False, True),
-    'hnl_Lxy_large' : PlotOpt('Lxy' '(100,0,10000)', 'L_{xy} [mm]', False, True),    
-    'hnl_Lxyz'       : PlotOpt('Lxyz', '(50,0,1000)', 'L_{xyz} [mm]', False, True),
-    'hnl_Lxyz_large' : PlotOpt('Lxyz' '(100,0,10000)', 'L_{xyz} [mm]', False, True),    
+    'hnl_ct'        : PlotOpt('hnl_ct_reco', '(50,0,1000)', 'HNL ct [mm]', 'a.u.', False, True),
+    'hnl_ct_large'  : PlotOpt('hnl_ct_reco', '(100,0,10000)', 'HNL ct [mm]', 'a.u.', False, True),    
+    'hnl_Lxy'       : PlotOpt('Lxy', '(50,0,1000)', 'L_{xy} [mm]', 'a.u.', False, True),
+    'hnl_Lxy_large' : PlotOpt('Lxy', '(100,0,10000)', 'L_{xy} [mm]', 'a.u.', False, True),    
+    'hnl_Lxyz'       : PlotOpt('Lxyz', '(50,0,1000)', 'L_{xyz} [mm]', 'a.u.', False, True),
+    'hnl_Lxyz_large' : PlotOpt('Lxyz', '(100,0,10000)', 'L_{xyz} [mm]', 'a.u.', False, True),    
 
     ### the D meson
     'd_pt'          : PlotOpt('d_pt', '(30,0,30)', 'D meson p_{T} [GeV]', 'a.u.', False, True),   
@@ -176,8 +192,8 @@ class Sample(object):
 
       norm_suffix='_norm' if norm else ''
 
-    c.SaveAs('./plots/all_plots/' + c.GetName() + norm_suffix + '.png')
-    c.SaveAs('./plots/all_plots/' + c.GetName() + norm_suffix + '.pdf')
+    c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.png')
+    c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.pdf')
 
   def fillAcceptance(self):
     '''
@@ -193,32 +209,46 @@ class Sample(object):
     cutsden = '(l0_pt>7 && abs(l0_eta)<1.5)'
     
 
-    tree.Draw('hnl_pt>>effnum', cutsnum+'*'+self.evt_w, 'goff')
-    tree.Draw('hnl_pt>>effden', cutsden+'*'+self.evt_w, 'goff')
+    t.Draw('hnl_pt>>effnum', cutsnum+'*'+self.evt_w, 'goff')
+    t.Draw('hnl_pt>>effden', cutsden+'*'+self.evt_w, 'goff')
  
-    if TEfficiency.CheckConsistency(effnum,effden): 
-      peff = TEfficiency(effnum,effden)
+    if TEfficiency.CheckConsistency(self.effnum,self.effden): 
+      peff = TEfficiency(self.effnum,self.effden)
       
       self.acc = peff.GetEfficiency(1)
       self.acc_errup = peff.GetEfficiencyErrorUp(1)
       self.acc_errdn = peff.GetEfficiencyErrorLow(1)
 
-    else:
-      self.acc = -99
-      self.acc_errup = -99
-      self.acc_errdn = -99
+  def fillExpNevts(self):
+    N_nu = 3.2E7
+    BR = 19.7 / 100.
+    self.expNevts = self.acc * N_nu * BR
+
 
 class SampleList(object):
   '''
-  Handles the plotting of several samples
+  Handles the plotting of several samples, both the histograms, and the general quantities (graphs)
   '''
-  def __init__(self, name, samples):
+  def __init__(self, name, samples, label=None):
     self.name = name
     self.samples = samples  # a list of objects of type Sample
+    self.label = samples[0].label if label==None else label
     self.colors = [   ROOT.kOrange+1, ROOT.kRed, ROOT.kMagenta+2, ROOT.kViolet+8, ROOT.kAzure-8, ROOT.kAzure+6 ,
                       ROOT.kGreen+1, ROOT.kSpring+4, ROOT.kYellow -5, ROOT.kYellow -3, ROOT.kYellow, ROOT.kOrange
                   ]
     self.styles = [  1,1,1,1,1,1,1,1,1,1,1,1,1,1, ]
+
+    # x,y quantities for graphs
+    self.quantities={
+      'acc' : SampleQuantity(name='acc', axis='y', title='Acceptance', log=True, range=(0.,1), forceRange=True, err=True),
+      'expNevts': SampleQuantity(name='expNevts', axis='y', title='N_{#nu} x BR(HN#rightarrow#mu#pi) x Acc x V^{2}', log=True, err=False),
+      #'filterEff' : 
+      # 'xsec'
+      'vv'  : SampleQuantity(name='vv', axis='x', title='|V|^{2}', log=True),
+      'ctau': SampleQuantity(name='ctau', axis='x', title='c#tau [mm]', log=False),
+      'mass': SampleQuantity(name='mass', axis='x', title='mass [GeV]', log=False),
+    } 
+
     if len(self.samples) > len(self.colors):
       raise RuntimeError('need more colors (%d vs %d)' % (len(self.colors), len(self.samples)))
     self.checkConsistency()
@@ -231,7 +261,7 @@ class SampleList(object):
     self.samples.remove(sample)
   def checkConsistency(self):
     '''
-    Makes sure samples have same binning and histograms
+    Makes sure histograms of samples have same binning and histograms
     '''
     for sample1 in self.samples:
       for sample2 in self.samples:
@@ -239,7 +269,7 @@ class SampleList(object):
           raise RuntimeError('number of PlotOpts differs for %s and %s' % (sample1.name, sample2.name))
         if len(sample1.histos) != len(sample2.histos):
           raise RuntimeError('number of histos differs for %s and %s' % (sample1.name, sample2.name))
-  def saveAll(self, norm=False, sameCanvas=False):
+  def plotHistos(self, norm=False, sameCanvas=False):
     ''' 
     Superimpose histograms for all samples, on the same canvas or on separate canvases
     '''
@@ -319,8 +349,49 @@ class SampleList(object):
     norm_suffix='_norm' if norm else ''
 
     for cname, canv in tosave.items():
-      canv.SaveAs('./plots/all_plots/' + cname + norm_suffix +'.png')
-      canv.SaveAs('./plots/all_plots/' + cname + norm_suffix +'.pdf')
+      canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.png')
+      canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.pdf')
+
+  def plotGraph(self, x='vv', y='acc'): 
+    '''
+    Plot a graph with specified quantities on x and y axes 
+    '''
+
+    if (x not in self.quantities.keys()) or (y not in self.quantities.keys()):
+      raise RuntimeError('selected quantities not available, available quantities are: \n{}'.format(self.quantities.keys()))
+
+    xq = self.quantities[x]
+    yq = self.quantities[y]
+
+    graph = TGraphAsymmErrors()
+    for i,s in enumerate(self.samples):
+      graph.SetPoint(i,getattr(s, xq.name), getattr(s, yq.name) )
+      if xq.err: 
+        graph.SetPointEXhigh(i, getattr(s, xq.name+'_errup'))   # errup errdn
+        graph.SetPointEXlow (i, getattr(s, xq.name+'_errdn'))
+      if yq.err: 
+        graph.SetPointEYhigh(i, getattr(s, yq.name+'_errup'))  
+        graph.SetPointEYlow (i, getattr(s, yq.name+'_errdn'))
+
+    c = TCanvas()
+    graph.SetLineWidth(2)
+    graph.SetMarkerStyle(22)
+    graph.SetTitle(';{x};{y}'.format(y=yq.title,x=xq.title))
+    graph.Draw('APL')
+
+    gPad.Modified()
+    gPad.Update()
+    if yq.name=='expNevts':
+      line = TLine(gPad.GetUxmin(),3,gPad.GetUxmax(),3)
+      line.SetLineColor(ROOT.kBlue)
+      line.Draw('same')
+
+    if xq.log: c.SetLogx()
+    if yq.log: c.SetLogy()
+    c.SetGridx()
+    c.SetGridy()
+    c.SaveAs('./plots/{}/{}VS{}.pdf'.format(self.label,yq.name,xq.name))
+    c.SaveAs('./plots/{}/{}vs{}.png'.format(self.label,yq.name,xq.name))
 
 
 def getOptions():
@@ -328,6 +399,34 @@ def getOptions():
   parser = ArgumentParser(description='', add_help=True)
   parser.add_argument('--pl', type=str, dest='pl', help='production label of input', default='V_blabla')  
   return parser.parse_args()
+
+
+def doFixedVVAnalysis(data=[]):
+
+  expr = data[0]+data[1]+data[2]
+  print expr
+  samples = []
+
+  for fn in glob(expr):
+    print fn
+    tags = fn.split('_')
+    this_mass = float([it.split('mass')[1] for it in tags if 'mass' in it][0])
+    this_ctau = float([it.split('ctau')[1] for it in tags if 'ctau' in it][0])  
+    print this_mass, this_ctau
+    s = Sample(mass=this_mass, ctau=this_ctau, infileName=fn, isrw=False, label=data[1])
+    s.fillHistos()
+    s.fillAcceptance()
+    s.fillExpNevts()
+    samples.append(s)
+ 
+  print samples
+ 
+  slist = SampleList(name='fixedVV', samples=samples, label=data[1])
+  slist.plotHistos(norm=True, sameCanvas=False)
+  slist.plotGraph(x='vv',y='acc')
+  slist.plotGraph(x='vv',y='expNevts')
+
+
 
 
 if __name__ == "__main__":
@@ -341,12 +440,16 @@ if __name__ == "__main__":
 
   opt = getOptions()
 
-  infileName = './outputfiles/{pl}/mass{m}_ctau{ctau}__miniGenTree.root'.format(pl=opt.pl) 
-  
-  #this_sample = Sample(mass=this_mass, ctau=this_ctau, treeName='tree', infileName=infileName):w
-  #getAcceptance(s=this_sample)
-  #getAcceptance(inFileName='./outputfiles/{}_miniGenTree.root'.format(opt.pl), treeName='tree')
-  #getLxyPlot(s=this_sample)
-  #getLxyPlot(inFileName='./outputfiles/{}_miniGenTree.root'.format(opt.pl), treeName='tree')
+  os.system('mkdir -p ./plots/{}'.format(opt.pl))
+ 
+  data = [
+   './outputfiles/',
+   opt.pl,
+   '/mass*_ctau*_miniGenTree.root' 
+  ]
+
+  #data = './outputfiles/{pl}/mass*_ctau*_miniGenTree.root'.format(pl=opt.pl) 
+  doFixedVVAnalysis(data=data)
+
 
 
