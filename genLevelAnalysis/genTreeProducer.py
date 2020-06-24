@@ -135,6 +135,7 @@ new_vvs = [
     0.0003, 
     0.0005, 
     0.0012,
+    0.001,
 ]
 
 # add weight branches
@@ -522,7 +523,7 @@ def getOptions():
    from argparse import ArgumentParser
    parser = ArgumentParser(description='options for Gen tree producer', add_help=True)
    parser.add_argument('--pl', type=str, dest='pl', help='production label', default='V02_muFromB_pt5_eta1p6_njt30')
-   parser.add_argument('--points', type=str, dest='pointFile', help='name of file contaning information on scan to be run', default='./points.py')
+   parser.add_argument('--points', type=str, dest='pointFile', help='name of file contaning information on scan to be run', default='points.py')
    return parser.parse_args()
   
 
