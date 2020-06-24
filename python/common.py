@@ -1,7 +1,7 @@
 
 import numpy as np
 
-def getVV(mass=-99,ctau=-99):
+def getVV(mass=-99.,ctau=-99.):
    '''
    Implemnts theory relation between ctau and V^2,mass 
    Currently available from extrapolation of existing W-initiated samples
@@ -30,7 +30,7 @@ class Point(object):
   '''
   Class that contains information on mass,ctau,vv of a given signal point
   '''
-  def __init__(self,mass=1,ctau=500,vv=None):
+  def __init__(self,mass,ctau=None,vv=None):
     self.mass = mass
     if not vv: 
       self.ctau=ctau 

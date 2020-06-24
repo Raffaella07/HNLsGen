@@ -189,7 +189,7 @@ def getpT(input):
 def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,this_ctau=500,this_vv=0.0013):
   # input and output
   files = glob.glob(infiles)
-  if len(files)==0: raise RuntimeError('No files to be run!')
+  if len(files)==0: raise RuntimeError('No files to be run!, glob expression = {}'.format(infiles))
   outfile = ROOT.TFile.Open(outfilename, 'recreate')
 
   handles = OrderedDict()
