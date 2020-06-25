@@ -27,7 +27,7 @@ def gamma_total(mass,vv):
     '''
     Total width for N, from https://arxiv.org/abs/1607.04258, various approximations 
     '''
-    gamma_total =   const_GF*const_GF / (96 * np.power(pi,3)) * np.power(mass,5) * vv * 10.95              # GeV
+    gamma_total =   const_GF*const_GF / (96 * np.power(const_pi,3)) * np.power(mass,5) * vv * 10.95              # GeV
     return gamma_total
 
 def BR_HNLmupion(mass): # vv is irrelevant, as it cancels out in the ratio
