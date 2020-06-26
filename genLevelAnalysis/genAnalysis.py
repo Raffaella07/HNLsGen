@@ -71,6 +71,8 @@ class Sample(object):
       self.orig_vv = self.vv
       self.orig_ctau = self.ctau
     self.label=label
+    self.ngenevts = int(label.split('_n')[1])
+    self.njobs = int(label.split('_njt')[1])
     #self.isMajorana
     self.name='bhnl_mass{m}_ctau{ctau}'.format(m=self.mass, ctau=self.ctau)
     self.legname='{:3}: m={:.1f}GeV |V|^{{2}}={:.1e} c#tau={:.1f}mm {}'.format('rw' if self.isrw else 'gen',self.mass,self.vv,self.ctau,'- orig |V|^{{2}}={:.1e}'.format(self.orig_vv) if self.isrw else '')
@@ -81,6 +83,9 @@ class Sample(object):
     self.acc = -99
     self.acc_errup = -99
     self.acc_errdn = -99
+    self.effFilter = -99
+    self.effFilter_errup = -99
+    self.effFilter_errdn = -99
   
    
     self.histoDefs = {
@@ -119,12 +124,12 @@ class Sample(object):
     
     #### daughters of the HNL
     ###### the lepton
-    'mu_pt'         : PlotOpt('hnl_pt', '(30,0,30)', '#mu (from HNL) p_{T} [GeV]', 'a.u.', False, True),  
-    'mu_eta'        : PlotOpt('hnl_eta', '(30,-6,6)', '#mu (from HNL) #eta', 'a.u.', False, True),      
+    'mu_pt'         : PlotOpt('l1_pt', '(30,0,30)', '#mu (from HNL) p_{T} [GeV]', 'a.u.', False, True),  
+    'mu_eta'        : PlotOpt('l1_eta', '(30,-6,6)', '#mu (from HNL) #eta', 'a.u.', False, True),      
 
     ###### the pion
-    'pi_pt'         : PlotOpt('pi_pt', '(30,0,30)', '#pi (from HNL) p_{T} [GeV]', 'a.u.', False, True),   
-    'pi_eta'        : PlotOpt('pi_eta', '(30,-6,6)', '#pi (from HNL) #eta', 'a.u.', False, True),      
+    'pi_pt'         : PlotOpt('pi1_pt', '(30,0,30)', '#pi (from HNL) p_{T} [GeV]', 'a.u.', False, True),   
+    'pi_eta'        : PlotOpt('pi1_eta', '(30,-6,6)', '#pi (from HNL) #eta', 'a.u.', False, True),      
    
     # invariant masses
     'hnl_invmass'   : PlotOpt('lep_pi_invmass', '(50,0,5)', 'HNL invariant mass, m(#mu,#pi) [GeV]', 'a.u.', False, False),     
@@ -135,19 +140,13 @@ class Sample(object):
     #'Lxyz_l0' #3D displacement of the prompt lepton wrt to B vertex
     }
     self.histos = {}
-  
-  def fillMetaData(self):
-    '''
-    This should contain code to retrieve mainly the filter efficiency, perhaps the cross-section from the log file
-    '''
-    pass
-    
+   
   def stamp(self):
     '''
     This should print the basic information of the sample
     '''
-    print('mass={m}GeV, ctau={ctau}mm VV={vv}, isrw={isrw}, orig_VV={ovv}, acc={acc}, evt_w={ew}'.format( \
-            m=self.mass,ctau=self.ctau,vv=self.vv,isrw=self.isrw,ovv=self.orig_vv,acc=self.acc,ew=self.evt_w))
+    print('mass={m}GeV, ctau={ctau}mm VV={vv}, isrw={isrw}, orig_VV={ovv}, acc={acc}, evt_w={ew} effFilter={ef}'.format( \
+            m=self.mass,ctau=self.ctau,vv=self.vv,isrw=self.isrw,ovv=self.orig_vv,acc=self.acc,ew=self.evt_w,ef=self.effFilter))
   
   def fillHistos(self):
     '''
@@ -201,6 +200,7 @@ class Sample(object):
 
     c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.png')
     c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.pdf')
+    c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.C')
 
   def fillAcceptance(self):
     '''
@@ -208,6 +208,8 @@ class Sample(object):
     '''
     f = TFile.Open(self.infileName)
     t = f.Get(self.treeName)
+    if not t:
+      raise RuntimeError( 'ERROR: no tree in file %s' % self.infileName)
 
     self.effnum = ROOT.TH1F('effnum', 'effnum', 1, 0, 13000) #dict([(k, ROOT.TH1F('effnum_%s' % k, 'effnum_%s' % k, 1, 0, 1)) for k in self.settings])
     self.effden = ROOT.TH1F('effden', 'effden', 1, 0, 13000)
@@ -231,6 +233,39 @@ class Sample(object):
     BR = 19.7 / 100.
     self.expNevts = self.acc * N_nu * BR * self.vv
 
+  def fillFilterEff(self,dostamp=False):
+    '''
+    To retrieve and save the filter efficiency - from the minigentree
+    TODO: retrieve the cross-section => for that you would need to run without separate jobs
+    '''
+    efffnum = ROOT.TH1F('efffnum', 'efffnum', 1, 0, 13000)
+    efffden = ROOT.TH1F('efffden', 'efffden', 1, 0, 13000)
+
+    # numerator = number of events in the minigentree 
+    f = TFile.Open(self.infileName)
+    t = f.Get(self.treeName)
+    if not t:
+      raise RuntimeError( 'ERROR: no tree in file %s' % self.infileName)
+    
+    efffnum.SetBinContent(1, t.GetEntries())
+    efffnum.SetBinError(1, ROOT.TMath.Sqrt(t.GetEntries()))
+    
+    # denominator = number of events that were run in the first place # access storage element... 
+    path = '/pnfs/psi.ch/cms/trivcat/store/user/{u}/BHNLsGen/{pl}/mass{m}_ctau{ctau}/step1*root'.format(u=os.environ['USER'],pl=self.label,m=self.mass,ctau=self.ctau)
+    njobs_succ = len(glob(path))
+    ngenevts_succ = float(self.ngenevts) / float(self.njobs) * float(njobs_succ)
+    efffden.SetBinContent(1,ngenevts_succ)
+    efffden.SetBinError(1,ROOT.TMath.Sqrt(ngenevts_succ))
+
+    if TEfficiency.CheckConsistency(efffnum,efffden): 
+      geneff = TEfficiency(efffnum,efffden) 
+      self.effFilter = geneff.GetEfficiency(1)
+      self.effFilter_errup = geneff.GetEfficiencyErrorUp(1)
+      self.effFilter_errdn = geneff.GetEfficiencyErrorLow(1)
+
+    # stamp basic info about filter eff
+    if dostamp: print('mass={m}GeV, VV={vv:.1e}, effFilter={ef:.2f}%, errup={eu:.2f}%, errdn={ed:.2f}% '.format( \
+                m=self.mass,vv=self.vv,ef=self.effFilter*100,eu=self.effFilter_errup*100,ed=self.effFilter_errdn*100))
 
 class SampleList(object):
   '''
@@ -244,6 +279,7 @@ class SampleList(object):
                       ROOT.kGreen+1, ROOT.kSpring+4, ROOT.kYellow -5, ROOT.kYellow -3, ROOT.kYellow, ROOT.kOrange
                   ]
     self.styles = [  1,1,1,1,1,1,1,1,1,1,1,1,1,1, ]
+    self.graphs={}
 
     # x,y quantities for graphs
     self.quantities={
@@ -359,6 +395,7 @@ class SampleList(object):
     for cname, canv in tosave.items():
       canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.png')
       canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.pdf')
+      canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.C')
 
   def plotGraph(self, x='vv', y='acc'): 
     '''
@@ -399,22 +436,28 @@ class SampleList(object):
     c.SetGridx()
     c.SetGridy()
     c.SaveAs('./plots/{}/{}_{}VS{}.pdf'.format(self.label,self.name,yq.name,xq.name))
+    c.SaveAs('./plots/{}/{}_{}VS{}.C'.format(self.label,self.name,yq.name,xq.name))
     c.SaveAs('./plots/{}/{}_{}VS{}.png'.format(self.label,self.name,yq.name,xq.name))
+
+    self.graphs['{}VS{}'.format(yq.name,xq.name)] = graph
 
 
 def doAnalysis(path,points,name):
   '''
   Perform plotting of samples lists
+  TODO: quantities to plot in graph as an option...
   '''
   label = path.split('/')[2]
-  print('  => Going to do closure of reweighting analysis for production={}, name={}'.format(label,name))
+  print('\n*************************************************')
+  print('  => Going to do plotting for production={}, name={}'.format(label,name))
   samples = []
   for p in points:
     fn = path.format(m=p.mass,ctau=p.orig_ctau)
-    s = Sample(mass=p.mass, ctau=p.ctau, infileName=fn, isrw=p.isrw, orig_vv=p.orig_vv, label=label)
+    s = Sample(mass=p.mass, ctau=p.ctau, vv=p.vv, infileName=fn, isrw=p.isrw, orig_vv=p.orig_vv, label=label)
     s.fillHistos()
     s.fillAcceptance()
     s.fillExpNevts()
+    s.fillFilterEff()
     s.stamp()
     samples.append(s)
 
@@ -426,6 +469,17 @@ def doAnalysis(path,points,name):
   elif 'fixedVV' in name:
     slist.plotGraph(x='mass',y='acc')
     slist.plotGraph(x='mass',y='expNevts')
+
+  return slist
+
+
+def doGraphComparison(list1,list2,what):
+
+  c = TCanvas()
+  list1.graphs[what].Draw('APL')
+  list2.graphs[what].Draw('same')
+  c.SaveAs(what+'.pdf')
+  c.SaveAs(what+'.png')
 
 def checkFiles(path,points):
   '''
@@ -459,6 +513,7 @@ def getOptions():
 if __name__ == "__main__":
 
   gROOT.SetBatch(True)
+  ROOT.TH1.SetDefaultSumw2()
   gROOT.ProcessLine('.L /work/mratti/CMS_style/tdrstyle.C')
   gROOT.ProcessLine('setTDRStyle()')
   gStyle.SetTitleXOffset(1.1);
@@ -474,41 +529,74 @@ if __name__ == "__main__":
   path = './outputfiles/' + opt.pl + '/mass{m}_ctau{ctau}_miniGenTree.root'
 
   ################
-  points_for_fixedMass_analysis = [
+  points = [
+    Point(mass=2.0,ctau=None,vv=5e-03,isrw=False),
+    Point(mass=2.0,ctau=None,vv=1e-03,isrw=False),
+    Point(mass=2.0,ctau=None,vv=5e-04,isrw=False),
+    Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=2.0,ctau=None,vv=5e-05,isrw=False),
+    Point(mass=2.0,ctau=None,vv=1e-05,isrw=False),
+    Point(mass=2.0,ctau=None,vv=5e-06,isrw=False),
+    #Point(mass=2.0,ctau=None,vv=1e-06),
+    #Point(mass=2.0,ctau=None,vv=5e-07),
+    
+  ]
+  for p in points:
+   p.stamp()
+  existing_points=checkFiles(path=path,points=points)
+  doAnalysis(path=path,points=existing_points,name='fixedMass2.0_norw')
+  ################
+  points = [
     Point(mass=1.5,ctau=None,vv=5e-03,isrw=False),
     Point(mass=1.5,ctau=None,vv=1e-03,isrw=False),
     Point(mass=1.5,ctau=None,vv=5e-04,isrw=False),
     Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
     Point(mass=1.5,ctau=None,vv=5e-05,isrw=False),
+    Point(mass=1.5,ctau=None,vv=1e-05,isrw=False),
+    Point(mass=1.5,ctau=None,vv=5e-06,isrw=False),
+    #Point(mass=1.5,ctau=None,vv=1e-06),
+    #Point(mass=1.5,ctau=None,vv=5e-07),
+    
   ]
-  for p in points_for_fixedMass_analysis:
+  for p in points:
    p.stamp()
-  existing_points=checkFiles(path=path,points=points_for_fixedMass_analysis)
-  doAnalysis(path=path,points=existing_points,name='fixedMass1.5')
+  existing_points=checkFiles(path=path,points=points)
+  doAnalysis(path=path,points=existing_points,name='fixedMass1.5_norw')
   ################
-  points_for_fixedMass_analysis = [
-    Point(mass=0.5,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=0.5,ctau=None,vv=1e-03,isrw=False),
-    Point(mass=0.5,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=0.5,ctau=None,vv=5e-05,isrw=False),
-  ]
-  for p in points_for_fixedMass_analysis:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points_for_fixedMass_analysis)
-  doAnalysis(path=path,points=existing_points,name='fixedMass0.5')
-  ################
-  points_for_fixedMass_analysis = [
+  points = [
     Point(mass=1.0,ctau=None,vv=5e-03,isrw=False),
     Point(mass=1.0,ctau=None,vv=1e-03,isrw=False),
     Point(mass=1.0,ctau=None,vv=5e-04,isrw=False),
     Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
     Point(mass=1.0,ctau=None,vv=5e-05,isrw=False),
+    Point(mass=1.0,ctau=None,vv=1e-05,isrw=False),
+    Point(mass=1.0,ctau=None,vv=5e-06,isrw=False),
   ]
-  for p in points_for_fixedMass_analysis:
+  for p in points:
    p.stamp()
-  existing_points=checkFiles(path=path,points=points_for_fixedMass_analysis)
-  doAnalysis(path=path,points=existing_points,name='fixedMass1.0')
+  existing_points=checkFiles(path=path,points=points)
+  slist_norw = doAnalysis(path=path,points=existing_points,name='fixedMass1.0_norw')
+  ################
+  points = [
+    Point(mass=1.0,ctau=None,vv=5e-03,isrw=False),
+    Point(mass=1.0,ctau=None,vv=1e-03,isrw=True,orig_vv=5e-03),
+    Point(mass=1.0,ctau=None,vv=5e-04,isrw=True,orig_vv=5e-03),
+    Point(mass=1.0,ctau=None,vv=1e-04,isrw=True,orig_vv=5e-03),
+    Point(mass=1.0,ctau=None,vv=5e-05,isrw=True,orig_vv=5e-03),
+    Point(mass=1.0,ctau=None,vv=1e-05,isrw=True,orig_vv=5e-03),
+    Point(mass=1.0,ctau=None,vv=5e-06,isrw=True,orig_vv=5e-03),
+  ]
+  for p in points:
+   p.stamp()
+  existing_points=checkFiles(path=path,points=points)
+  slist_rw = doAnalysis(path=path,points=existing_points,name='fixedMass1.0_rwFrom5em03')
+
+  ## compare the graphs w/ and w/o reweighting
+  #doGraphComparison(slist_norw,slist_rw,what='accVSvv')
+  doGraphComparison(slist_norw,slist_rw,what='expNevtsVSvv')
+
+
+
 
   ###############
   points = [
@@ -520,13 +608,13 @@ if __name__ == "__main__":
   doAnalysis(path=path,points=existing_points,name='closureRw_Mass1.0')
 
   ################
-  points_for_fixedMass_analysis = [
-    Point(mass=0.5,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=1.0,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=1.5,ctau=None,vv=5e-04,isrw=False),
+  points = [
+    Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
   ]
-  for p in points_for_fixedMass_analysis:
+  for p in points:
    p.stamp()
-  existing_points=checkFiles(path=path,points=points_for_fixedMass_analysis)
-  doAnalysis(path=path,points=existing_points,name='fixedVV5em04')
+  existing_points=checkFiles(path=path,points=points)
+  doAnalysis(path=path,points=existing_points,name='fixedVV1em04')
 
