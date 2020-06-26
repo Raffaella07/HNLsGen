@@ -8,7 +8,20 @@ const_Vud = 0.97370                           # from (12.7)  of http://pdg.lbl.g
 const_fpi = 130.2 * 0.001 # GeV               # from (71.14) of http://pdg.lbl.gov/2020/reviews/rpp2020-rev-pseudoscalar-meson-decay-cons.pdf
 const_pi = math.pi
 const_hbar = 6.582119569e-22 * 1e-03 # GeV s  # from http://pdg.lbl.gov/2020/reviews/rpp2020-rev-phys-constants.pdf
-const_c = 299792458                           # m / s
+const_c = 299792458. # m / s                  # from http://pdg.lbl.gov/2020/reviews/rpp2020-rev-phys-constants.pdf
+const_mumass = 105.6583745 * 1e-03 # GeV      # from http://pdg.lbl.gov/2020/listings/rpp2020-list-muon.pdf
+const_pimass = 139.57039 * 1e-03 # GeV        # from http://pdg.lbl.gov/2020/listings/rpp2020-list-pi-plus-minus.pdf
+
+def Lambda(a=None,b=None,c=None):
+    if not a or not b or not c: 
+      raise RuntimeError('mass correction factor cannot be calculated')
+    return a*a + b*b + c*c - 2*a*b - 2*a*c - 2*b*c
+
+def mass_correction_factor(mass):
+    x_mu = const_mumass/mass
+    x_pi = const_pimass/mass
+    mcf = ( (1-x_mu*x_mu)*(1-x_mu*x_mu) - x_pi*x_pi*(1+x_mu*x_mu) ) * np.sqrt( Lambda(1,x_mu*x_mu,x_pi*x_pi))   # eq 3.5 of
+    return mcf
 
 def ctau_from_gamma(gamma):
     tau_natural = 1. / gamma                  # 1/GeV
@@ -21,7 +34,10 @@ def gamma_partial(mass,vv):
     Partial width for N->mupi, from https://arxiv.org/abs/1607.04258, assumes massless mu,pi
     '''
     gamma_partial = const_GF*const_GF / (16 * const_pi)       * np.power(mass,3) * vv * const_Vud*const_Vud * const_fpi*const_fpi  # GeV
-    return gamma_partial
+
+    mass_correction_factor = 1. 
+
+    return gamma_partial * mass_correction_factor
 
 def gamma_total(mass,vv):
     '''
@@ -107,4 +123,40 @@ class Point(object):
       attrs.append(' {}={} '.format(k,v))
     attrs=' '.join(attrs)
     print(attrs)
+
+
+
+if __name__ == "__main__":
+  import matplotlib.pyplot as plt
+
+  # test old vs new relation 
+  mass = 1.0
+
+  vvs = [5e-03, 1e-03, 5e-04, 1e-04, 5e-05, 1e-05, 5e-06, 1e-06, 5e-07]
+
+  old_ctaus = [OLD_getCtau(mass=mass,vv=vv) for vv in vvs]
+  new_ctaus = [getCtau(mass=mass,vv=vv) for vv in vvs]
+
+  plt.figure()
+  plt.plot(vvs, old_ctaus, label='old relation')
+  plt.plot(vvs, new_ctaus, label='new relation')
+  plt.xlabel('$|V|^2$')
+  plt.ylabel('ctau [mm]')
+  plt.grid(True) # means principal and minor 
+  plt.yscale('log')
+  plt.xscale('log')
+  plt.legend()
+  plt.savefig('./comparison_ctau.pdf')
+  #plt.show()
+
+  # test mass correction factor  
+  masses = [0.5+i*0.1 for i in range(0,30) ] # GeV
+  mass_correction_factors = [mass_correction_factor(mass=mass) for mass in masses]  
+  plt.figure()
+  plt.plot(masses, mass_correction_factors)
+  plt.xlabel('HNL mass [GeV]')
+  plt.ylabel('correction factor to partial width')
+  plt.savefig('./mass_correction_factor.pdf')
+
+
 
