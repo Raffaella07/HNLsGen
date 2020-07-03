@@ -16,7 +16,7 @@ new_vvs.reverse()
 small_new_vvs = new_vvs[0:10]
 
 sys.path.append('../python/') 
-from common import getVV,getCtau,Point
+from common import getVV,getCtau,Point,BR_HNLmupion
 
 def getOverflowedHisto(h):
   htemp = h.Clone()
@@ -229,8 +229,8 @@ class Sample(object):
       self.acc_errdn = peff.GetEfficiencyErrorLow(1)
 
   def fillExpNevts(self):
-    N_nu = 3.2E7
-    BR = 19.7 / 100.
+    N_nu = 3.84E9                            # 3.2E7 for B->NmuD->Nmu(kpi) # 3.84E9  for B(N->muX)
+    BR = BR_HNLmupion(mass=self.mass)        # raw number from table 5 19.7 / 100. 
     self.expNevts = self.acc * N_nu * BR * self.vv
 
   def fillFilterEff(self,dostamp=False):
