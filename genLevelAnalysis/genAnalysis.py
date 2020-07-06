@@ -214,7 +214,10 @@ class Sample(object):
     self.effnum = ROOT.TH1F('effnum', 'effnum', 1, 0, 13000) #dict([(k, ROOT.TH1F('effnum_%s' % k, 'effnum_%s' % k, 1, 0, 1)) for k in self.settings])
     self.effden = ROOT.TH1F('effden', 'effden', 1, 0, 13000)
 
-    cutsnum = '(l0_pt>7 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi_pt>1 && abs(pi_eta)<2.5 && k_pt>1 && abs(k_eta)<2.5 && pi1_pt>1 && abs(pi1_eta)<2.5 && Lxy < 1000)'
+    # inclusive
+    cutsnum = '(l0_pt>7 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi1_pt>1 && abs(pi1_eta)<2.5 && Lxy < 1000)'
+    # exclusive
+    #cutsnum = '(l0_pt>7 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi_pt>1 && abs(pi_eta)<2.5 && k_pt>1 && abs(k_eta)<2.5 && pi1_pt>1 && abs(pi1_eta)<2.5 && Lxy < 1000)'
     cutsden = '(l0_pt>7 && abs(l0_eta)<1.5)'
     
 
@@ -229,7 +232,8 @@ class Sample(object):
       self.acc_errdn = peff.GetEfficiencyErrorLow(1)
 
   def fillExpNevts(self):
-    N_nu = 3.84E9                            # 3.2E7 for B->NmuD->Nmu(kpi) # 3.84E9  for B(N->muX)
+    N_nu = 3.84E9 # 3.84E9, inclusive, for B(N->muX)
+    #N_nu = 3.2E7  # 3.2E7,  exclusive, for B->NmuD->Nmu(kpi) 
     BR = BR_HNLmupion(mass=self.mass)        # raw number from table 5 19.7 / 100. 
     self.expNevts = self.acc * N_nu * BR * self.vv
 
@@ -430,6 +434,8 @@ class SampleList(object):
       line = TLine(gPad.GetUxmin(),3,gPad.GetUxmax(),3)
       line.SetLineColor(ROOT.kBlue)
       line.Draw('same')
+      graph.SetMinimum(0.01)
+      graph.SetMaximum(1E06)
 
     if xq.log: c.SetLogx()
     if yq.log: c.SetLogy()
@@ -530,6 +536,57 @@ if __name__ == "__main__":
 
   ################
   points = [
+    Point(mass=3.0,ctau=None,vv=5e-03,isrw=False),
+    Point(mass=3.0,ctau=None,vv=1e-03,isrw=False),
+    Point(mass=3.0,ctau=None,vv=5e-04,isrw=False),
+    Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=3.0,ctau=None,vv=5e-05,isrw=False),
+    Point(mass=3.0,ctau=None,vv=1e-05,isrw=False),
+    Point(mass=3.0,ctau=None,vv=5e-06,isrw=False),
+    Point(mass=3.0,ctau=None,vv=1e-06,isrw=False),
+    Point(mass=3.0,ctau=None,vv=5e-07,isrw=False),
+    
+  ]
+  for p in points:
+   p.stamp()
+  existing_points=checkFiles(path=path,points=points)
+  doAnalysis(path=path,points=existing_points,name='fixedMass3.0_norw')
+  ################
+  points = [
+    Point(mass=2.5,ctau=None,vv=5e-03,isrw=False),
+    Point(mass=2.5,ctau=None,vv=1e-03,isrw=False),
+    Point(mass=2.5,ctau=None,vv=5e-04,isrw=False),
+    Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=2.5,ctau=None,vv=5e-05,isrw=False),
+    Point(mass=2.5,ctau=None,vv=1e-05,isrw=False),
+    Point(mass=2.5,ctau=None,vv=5e-06,isrw=False),
+    Point(mass=2.5,ctau=None,vv=1e-06,isrw=False),
+    Point(mass=2.5,ctau=None,vv=5e-07,isrw=False),
+    
+  ]
+  for p in points:
+   p.stamp()
+  existing_points=checkFiles(path=path,points=points)
+  doAnalysis(path=path,points=existing_points,name='fixedMass2.5_norw')
+  ################
+  points = [
+    Point(mass=0.5,ctau=None,vv=5e-03,isrw=False),
+    Point(mass=0.5,ctau=None,vv=1e-03,isrw=False),
+    Point(mass=0.5,ctau=None,vv=5e-04,isrw=False),
+    Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=0.5,ctau=None,vv=5e-05,isrw=False),
+    Point(mass=0.5,ctau=None,vv=1e-05,isrw=False),
+    Point(mass=0.5,ctau=None,vv=5e-06,isrw=False),
+    Point(mass=0.5,ctau=None,vv=1e-06,isrw=False),
+    Point(mass=0.5,ctau=None,vv=5e-07,isrw=False),
+    
+  ]
+  for p in points:
+   p.stamp()
+  existing_points=checkFiles(path=path,points=points)
+  doAnalysis(path=path,points=existing_points,name='fixedMass0.5_norw')
+  ################
+  points = [
     Point(mass=2.0,ctau=None,vv=5e-03,isrw=False),
     Point(mass=2.0,ctau=None,vv=1e-03,isrw=False),
     Point(mass=2.0,ctau=None,vv=5e-04,isrw=False),
@@ -537,8 +594,8 @@ if __name__ == "__main__":
     Point(mass=2.0,ctau=None,vv=5e-05,isrw=False),
     Point(mass=2.0,ctau=None,vv=1e-05,isrw=False),
     Point(mass=2.0,ctau=None,vv=5e-06,isrw=False),
-    #Point(mass=2.0,ctau=None,vv=1e-06),
-    #Point(mass=2.0,ctau=None,vv=5e-07),
+    Point(mass=2.0,ctau=None,vv=1e-06,isrw=False),
+    Point(mass=2.0,ctau=None,vv=5e-07,isrw=False),
     
   ]
   for p in points:
@@ -554,8 +611,8 @@ if __name__ == "__main__":
     Point(mass=1.5,ctau=None,vv=5e-05,isrw=False),
     Point(mass=1.5,ctau=None,vv=1e-05,isrw=False),
     Point(mass=1.5,ctau=None,vv=5e-06,isrw=False),
-    #Point(mass=1.5,ctau=None,vv=1e-06),
-    #Point(mass=1.5,ctau=None,vv=5e-07),
+    Point(mass=1.5,ctau=None,vv=1e-06,isrw=False),
+    Point(mass=1.5,ctau=None,vv=5e-07,isrw=False),
     
   ]
   for p in points:
@@ -571,6 +628,8 @@ if __name__ == "__main__":
     Point(mass=1.0,ctau=None,vv=5e-05,isrw=False),
     Point(mass=1.0,ctau=None,vv=1e-05,isrw=False),
     Point(mass=1.0,ctau=None,vv=5e-06,isrw=False),
+    Point(mass=1.0,ctau=None,vv=1e-06,isrw=False),
+    Point(mass=1.0,ctau=None,vv=5e-07,isrw=False),
   ]
   for p in points:
    p.stamp()
@@ -585,6 +644,8 @@ if __name__ == "__main__":
     Point(mass=1.0,ctau=None,vv=5e-05,isrw=True,orig_vv=5e-03),
     Point(mass=1.0,ctau=None,vv=1e-05,isrw=True,orig_vv=5e-03),
     Point(mass=1.0,ctau=None,vv=5e-06,isrw=True,orig_vv=5e-03),
+    Point(mass=1.5,ctau=None,vv=1e-06,isrw=False),
+    Point(mass=1.5,ctau=None,vv=5e-07,isrw=False),
   ]
   for p in points:
    p.stamp()
@@ -609,9 +670,12 @@ if __name__ == "__main__":
 
   ################
   points = [
+    Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
     Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
     Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
     Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
+    Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
   ]
   for p in points:
    p.stamp()
