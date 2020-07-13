@@ -7,16 +7,23 @@ from common import Point
 
 points = [
 Point(mass=0.5,ctau=None,vv=1e-04),
-
 Point(mass=1.0,ctau=None,vv=1e-04),
-
 Point(mass=1.5,ctau=None,vv=1e-04),
-
 Point(mass=2.0,ctau=None,vv=1e-04),
-
 Point(mass=2.5,ctau=None,vv=1e-04),
-
 Point(mass=3.0,ctau=None,vv=1e-04),
+
+Point(mass=1.0,ctau=None,vv=5e-03),
+Point(mass=1.0,ctau=None,vv=1e-03),
+Point(mass=1.0,ctau=None,vv=5e-04),
+Point(mass=1.0,ctau=None,vv=1e-04),
+Point(mass=1.0,ctau=None,vv=5e-05),
+Point(mass=1.0,ctau=None,vv=1e-05),
+Point(mass=1.0,ctau=None,vv=5e-06),
+Point(mass=1.0,ctau=None,vv=1e-06),
+Point(mass=1.0,ctau=None,vv=5e-07),
+
+
 
 ]
 

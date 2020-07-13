@@ -6,17 +6,23 @@ import ROOT
 sys.path.append('/work/mratti/plotting/myplotting')
 from spares import *
 from glob import glob
+import array
 
 # couplings to be tested, for which the reweight is run
 
-from genTreeProducer import new_vvs
+#from genTreeProducer import new_vvs
 #small_new_vvs = new_vvs[::4]  # only select one every three elements
 #small_new_vvs.reverse()
-new_vvs.reverse()
-small_new_vvs = new_vvs[0:10]
+#new_vvs.reverse()
+#small_new_vvs = new_vvs[0:10]
 
 sys.path.append('../python/') 
-from common import getVV,getCtau,Point,BR_HNLmupion
+#from common import getVV,getCtau,Point,BR_HNLmupion
+from common import *
+
+global graph_saver
+graph_saver=[]
+
 
 def getOverflowedHisto(h):
   htemp = h.Clone()
@@ -128,7 +134,7 @@ class Sample(object):
     'mu_eta'        : PlotOpt('l1_eta', '(30,-6,6)', '#mu (from HNL) #eta', 'a.u.', False, True),      
 
     ###### the pion
-    'pi_pt'         : PlotOpt('pi1_pt', '(30,0,30)', '#pi (from HNL) p_{T} [GeV]', 'a.u.', False, True),   
+    'pi_pt'         : PlotOpt('pi1_pt', '(150,0,30)', '#pi (from HNL) p_{T} [GeV]', 'a.u.', False, True),   
     'pi_eta'        : PlotOpt('pi1_eta', '(30,-6,6)', '#pi (from HNL) #eta', 'a.u.', False, True),      
    
     # invariant masses
@@ -198,9 +204,9 @@ class Sample(object):
 
       norm_suffix='_norm' if norm else ''
 
-    c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.png')
-    c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.pdf')
-    c.SaveAs('./plots/' + self.label + '/' + c.GetName() + norm_suffix + '.C')
+    c.SaveAs('./plots/' + self.label + incl_suffix + '/' + c.GetName() + norm_suffix + '.png')
+    c.SaveAs('./plots/' + self.label + incl_suffix + '/' + c.GetName() + norm_suffix + '.pdf')
+    c.SaveAs('./plots/' + self.label + incl_suffix + '/' + c.GetName() + norm_suffix + '.C')
 
   def fillAcceptance(self):
     '''
@@ -214,11 +220,16 @@ class Sample(object):
     self.effnum = ROOT.TH1F('effnum', 'effnum', 1, 0, 13000) #dict([(k, ROOT.TH1F('effnum_%s' % k, 'effnum_%s' % k, 1, 0, 1)) for k in self.settings])
     self.effden = ROOT.TH1F('effden', 'effden', 1, 0, 13000)
 
-    # inclusive
-    cutsnum = '(l0_pt>7 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi1_pt>1 && abs(pi1_eta)<2.5 && Lxy < 1000)'
-    # exclusive
-    #cutsnum = '(l0_pt>7 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi_pt>1 && abs(pi_eta)<2.5 && k_pt>1 && abs(k_eta)<2.5 && pi1_pt>1 && abs(pi1_eta)<2.5 && Lxy < 1000)'
-    cutsden = '(l0_pt>7 && abs(l0_eta)<1.5)'
+    if doInclusive and not doDisplOnly:
+      cutsnum = '(l0_pt>9 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi1_pt>0.8 && abs(pi1_eta)<2.5 && Lxy < 1000)'
+    if not doInclusive and not doDisplOnly: 
+      cutsnum = '(l0_pt>9 && abs(l0_eta)<1.5 && l1_pt>3 && abs(l1_eta)<2.5 && pi_pt>0.8  && abs(pi_eta)<2.5 && k_pt>1 && abs(k_eta)<2.5 && pi1_pt>1 && abs(pi1_eta)<2.5 && Lxy < 1000)'
+    #if doInclusive and doDisplOnly: # this case does not make much sense
+    #  cutsnum = '(l0_pt>9 && abs(l0_eta)<1.5 && Lxy < 1000)'
+    if not doInclusive and doDisplOnly:
+      cutsnum = '(l0_pt>9 && abs(l0_eta)<1.5 && Lxy < 1000)'
+    
+    cutsden = '(l0_pt>9 && abs(l0_eta)<1.5)'
     
 
     t.Draw('hnl_pt>>effnum', cutsnum+'*'+self.evt_w, 'goff')
@@ -232,10 +243,17 @@ class Sample(object):
       self.acc_errdn = peff.GetEfficiencyErrorLow(1)
 
   def fillExpNevts(self):
-    N_nu = 3.84E9 # 3.84E9, inclusive, for B(N->muX)
-    #N_nu = 3.2E7  # 3.2E7,  exclusive, for B->NmuD->Nmu(kpi) 
-    BR = BR_HNLmupion(mass=self.mass)        # raw number from table 5 19.7 / 100. 
-    self.expNevts = self.acc * N_nu * BR * self.vv
+    N_B = 3.84E9 * 2. # 3.84E9, inclusive, = n(B+/-) * 2  
+    # factor ~2 is for considering B0s as well, which are ~50% of the B-parking dataset
+
+    if doInclusive:
+      corr = ( BR__B_l_N(mass=self.mass) + BR__B_D0_l_N(mass=self.mass) ) / ( BR__B_l_nu() + BR__B_D0_l_nu() )
+      N_HNL_VV1 = N_B * corr
+    else:
+      corr = BR__B_D0_l_N(mass=self.mass) / BR__B_D0_l_nu() 
+      N_HNL_VV1 = N_B * BR__B_D0_l_nu() / BR__B_X_l_nu() * corr * BR__D0_K_pi() 
+          
+    self.expNevts = N_HNL_VV1 * BR_HNLmupion(mass=self.mass) * self.vv * self.acc
 
   def fillFilterEff(self,dostamp=False):
     '''
@@ -329,7 +347,6 @@ class SampleList(object):
       tosave = {}
 
     legends = []
-    graph_saver = []
 
     hMax = {}
     for j, what in enumerate(self.samples[0].histos.keys()):
@@ -397,13 +414,13 @@ class SampleList(object):
     norm_suffix='_norm' if norm else ''
 
     for cname, canv in tosave.items():
-      canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.png')
-      canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.pdf')
-      canv.SaveAs('./plots/' + self.label + '/' + cname + norm_suffix + '.C')
+      canv.SaveAs('./plots/' + self.label + incl_suffix + '/' + cname + norm_suffix + '.png')
+      canv.SaveAs('./plots/' + self.label + incl_suffix + '/' + cname + norm_suffix + '.pdf')
+      canv.SaveAs('./plots/' + self.label + incl_suffix + '/' + cname + norm_suffix + '.C')
 
   def plotGraph(self, x='vv', y='acc'): 
     '''
-    Plot a graph with specified quantities on x and y axes 
+    Plot a graph with specified quantities on x and y axes , and saves the graph
     '''
 
     if (x not in self.quantities.keys()) or (y not in self.quantities.keys()):
@@ -412,15 +429,16 @@ class SampleList(object):
     xq = self.quantities[x]
     yq = self.quantities[y]
 
-    graph = TGraphAsymmErrors()
+    #graph = TGraphAsymmErrors()
+    graph = TGraph()
     for i,s in enumerate(self.samples):
       graph.SetPoint(i,getattr(s, xq.name), getattr(s, yq.name) )
-      if xq.err: 
-        graph.SetPointEXhigh(i, getattr(s, xq.name+'_errup'))   # errup errdn
-        graph.SetPointEXlow (i, getattr(s, xq.name+'_errdn'))
-      if yq.err: 
-        graph.SetPointEYhigh(i, getattr(s, yq.name+'_errup'))  
-        graph.SetPointEYlow (i, getattr(s, yq.name+'_errdn'))
+      #if xq.err: 
+      #  graph.SetPointEXhigh(i, getattr(s, xq.name+'_errup'))   # errup errdn
+      #  graph.SetPointEXlow (i, getattr(s, xq.name+'_errdn'))
+      #if yq.err: 
+      #  graph.SetPointEYhigh(i, getattr(s, yq.name+'_errup'))  
+      #  graph.SetPointEYlow (i, getattr(s, yq.name+'_errdn'))
 
     c = TCanvas()
     graph.SetLineWidth(2)
@@ -441,12 +459,13 @@ class SampleList(object):
     if yq.log: c.SetLogy()
     c.SetGridx()
     c.SetGridy()
-    c.SaveAs('./plots/{}/{}_{}VS{}.pdf'.format(self.label,self.name,yq.name,xq.name))
-    c.SaveAs('./plots/{}/{}_{}VS{}.C'.format(self.label,self.name,yq.name,xq.name))
-    c.SaveAs('./plots/{}/{}_{}VS{}.png'.format(self.label,self.name,yq.name,xq.name))
+    c.SaveAs('./plots/{}{}/{}_{}VS{}.pdf'.format(self.label,incl_suffix,self.name,yq.name,xq.name))
+    c.SaveAs('./plots/{}{}/{}_{}VS{}.C'.format(self.label,incl_suffix,self.name,yq.name,xq.name))
+    c.SaveAs('./plots/{}{}/{}_{}VS{}.png'.format(self.label,incl_suffix,self.name,yq.name,xq.name))
 
     self.graphs['{}VS{}'.format(yq.name,xq.name)] = graph
-
+    # add the graph container for memory?
+    graph_saver.append(graph)
 
 def doAnalysis(path,points,name):
   '''
@@ -487,6 +506,39 @@ def doGraphComparison(list1,list2,what):
   c.SaveAs(what+'.pdf')
   c.SaveAs(what+'.png')
 
+def doLimitGraph(slists,what='expNevtsVSvv'):
+
+  c = TCanvas()
+  graph = TGraph()
+  for ilist,slist in enumerate(slists):
+    # get the inverted graph
+    inverted_graph = TGraph()
+    xs = slist.graphs[what].GetX()
+    ys = slist.graphs[what].GetY()
+    N =  slist.graphs[what].GetN()
+    xs_arr = np.ndarray(N,'d',xs) 
+    ys_arr = np.ndarray(N,'d',ys) 
+    inverted_graph = TGraph(N,ys,xs)
+    # use Eval
+    limit = inverted_graph.Eval(3.) # linear interpolation between closest points
+    graph.SetPoint(ilist,slist.samples[0].mass,limit)
+  graph.SetLineWidth(2)
+  if doInclusive: graph.SetMarkerStyle(22)
+  else: graph.SetMarkerStyle(24)
+  graph.SetTitle(';mass [GeV]; exp. limit on V^{2}')
+  graph.SetMaximum(1E-02)
+  graph.SetMinimum(1E-08)
+  graph.Draw('APL')
+  graph.GetXaxis().SetLimits(0.1, 10)
+  graph.Draw('APL')
+  c.Update()
+
+  c.SetLogx() 
+  c.SetLogy()
+  #c.SetGridx()
+  c.SetGridy()
+  c.SaveAs('limit_vv{}.pdf'.format(incl_suffix))
+
 def checkFiles(path,points):
   '''
   Check existence of files for analysis, return existing points
@@ -525,160 +577,176 @@ if __name__ == "__main__":
   gStyle.SetTitleXOffset(1.1);
   gStyle.SetTitleYOffset(1.45);
 
+  #### some global options
   global debug
   debug = False
-
+  global doInclusive
+  doInclusive = False
+  doDisplOnly = True
+  incl_suffix='_incl' if doInclusive else '_excl'
+  if doDisplOnly: incl_suffix += '_displOnly'
+  doFixedMassAnalysis = True
+  doRwAnalysis = True
+  doFixedVVAnalysis = True
   opt = getOptions()
+  ####
 
-  os.system('mkdir -p ./plots/{}'.format(opt.pl))
+  os.system('mkdir -p ./plots/{}{}'.format(opt.pl,incl_suffix))
 
   path = './outputfiles/' + opt.pl + '/mass{m}_ctau{ctau}_miniGenTree.root'
 
-  ################
-  points = [
-    Point(mass=3.0,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=3.0,ctau=None,vv=1e-03,isrw=False),
-    Point(mass=3.0,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=3.0,ctau=None,vv=5e-05,isrw=False),
-    Point(mass=3.0,ctau=None,vv=1e-05,isrw=False),
-    Point(mass=3.0,ctau=None,vv=5e-06,isrw=False),
-    Point(mass=3.0,ctau=None,vv=1e-06,isrw=False),
-    Point(mass=3.0,ctau=None,vv=5e-07,isrw=False),
+  if doFixedMassAnalysis:
+   
+    slists_fixedMass = []
+
+    ################
+    points = [
+      Point(mass=3.0,ctau=None,vv=5e-03,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-03,isrw=False),
+      Point(mass=3.0,ctau=None,vv=5e-04,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=3.0,ctau=None,vv=5e-05,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=3.0,ctau=None,vv=5e-06,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-06,isrw=False),
+      Point(mass=3.0,ctau=None,vv=5e-07,isrw=False),
+      
+    ]
+    for p in points:
+     p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    slists_fixedMass.append(doAnalysis(path=path,points=existing_points,name='fixedMass3.0_norw'))
+    ################
+    points = [
+      Point(mass=2.5,ctau=None,vv=5e-03,isrw=False),
+      Point(mass=2.5,ctau=None,vv=1e-03,isrw=False),
+      Point(mass=2.5,ctau=None,vv=5e-04,isrw=False),
+      Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=2.5,ctau=None,vv=5e-05,isrw=False),
+      Point(mass=2.5,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=2.5,ctau=None,vv=5e-06,isrw=False),
+      Point(mass=2.5,ctau=None,vv=1e-06,isrw=False),
+      Point(mass=2.5,ctau=None,vv=5e-07,isrw=False),
+      
+    ]
+    for p in points:
+     p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    slists_fixedMass.append(doAnalysis(path=path,points=existing_points,name='fixedMass2.5_norw'))
+    ################
+    points = [
+      Point(mass=2.0,ctau=None,vv=5e-03,isrw=False),
+      Point(mass=2.0,ctau=None,vv=1e-03,isrw=False),
+      Point(mass=2.0,ctau=None,vv=5e-04,isrw=False),
+      Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=2.0,ctau=None,vv=5e-05,isrw=False),
+      Point(mass=2.0,ctau=None,vv=1e-05,isrw=False),
+      #Point(mass=2.0,ctau=None,vv=5e-06,isrw=False),
+      #Point(mass=2.0,ctau=None,vv=1e-06,isrw=False),
+      #Point(mass=2.0,ctau=None,vv=5e-07,isrw=False),
+      
+    ]
+    for p in points:
+     p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    slists_fixedMass.append(doAnalysis(path=path,points=existing_points,name='fixedMass2.0_norw'))
+    ################
+    points = [
+      Point(mass=1.5,ctau=None,vv=5e-03,isrw=False),
+      Point(mass=1.5,ctau=None,vv=1e-03,isrw=False),
+      Point(mass=1.5,ctau=None,vv=5e-04,isrw=False),
+      Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=1.5,ctau=None,vv=5e-05,isrw=False),
+      Point(mass=1.5,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=1.5,ctau=None,vv=5e-06,isrw=False),
+      Point(mass=1.5,ctau=None,vv=1e-06,isrw=False),
+      Point(mass=1.5,ctau=None,vv=5e-07,isrw=False),
+      
+    ]
+    for p in points:
+     p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    slists_fixedMass.append(doAnalysis(path=path,points=existing_points,name='fixedMass1.5_norw'))
+    ################
+    points = [
+      Point(mass=1.0,ctau=None,vv=5e-03,isrw=False),
+      Point(mass=1.0,ctau=None,vv=1e-03,isrw=False),
+      Point(mass=1.0,ctau=None,vv=5e-04,isrw=False),
+      Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=1.0,ctau=None,vv=5e-05,isrw=True,orig_vv=1e-04),
+      #Point(mass=1.0,ctau=None,vv=1e-05,isrw=False),
+      #Point(mass=1.0,ctau=None,vv=5e-06,isrw=False),
+      #Point(mass=1.0,ctau=None,vv=1e-06,isrw=False),
+      #Point(mass=1.0,ctau=None,vv=5e-07,isrw=False),
+    ]
+    for p in points:
+     p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    slist_norw = doAnalysis(path=path,points=existing_points,name='fixedMass1.0_norw')
+    slists_fixedMass.append(slist_norw)
+    ################
+    points = [
+      Point(mass=0.5,ctau=None,vv=5e-03,isrw=False),
+      Point(mass=0.5,ctau=None,vv=1e-03,isrw=False),
+      Point(mass=0.5,ctau=None,vv=5e-04,isrw=False),
+      Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=0.5,ctau=None,vv=5e-05,isrw=False),
+      Point(mass=0.5,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=0.5,ctau=None,vv=5e-06,isrw=False),
+      Point(mass=0.5,ctau=None,vv=1e-06,isrw=False),
+      Point(mass=0.5,ctau=None,vv=5e-07,isrw=False),
+      
+    ]
+    for p in points:
+     p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    slists_fixedMass.append(doAnalysis(path=path,points=existing_points,name='fixedMass0.5_norw'))
+
+    doLimitGraph(slists_fixedMass,'expNevtsVSvv')
+
+    if doRwAnalysis:
+      ################
+      points = [
+        Point(mass=1.0,ctau=None,vv=5e-03,isrw=False),
+        Point(mass=1.0,ctau=None,vv=1e-03,isrw=True,orig_vv=5e-03),
+        Point(mass=1.0,ctau=None,vv=5e-04,isrw=True,orig_vv=5e-03),
+        Point(mass=1.0,ctau=None,vv=1e-04,isrw=True,orig_vv=5e-03),
+        Point(mass=1.0,ctau=None,vv=5e-05,isrw=True,orig_vv=5e-03),
+        Point(mass=1.0,ctau=None,vv=1e-05,isrw=True,orig_vv=5e-03),
+        Point(mass=1.0,ctau=None,vv=5e-06,isrw=True,orig_vv=5e-03),
+      ]
+      for p in points:
+       p.stamp()
+      existing_points=checkFiles(path=path,points=points)
+      slist_rw = doAnalysis(path=path,points=existing_points,name='fixedMass1.0_rwFrom5em03')
     
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  doAnalysis(path=path,points=existing_points,name='fixedMass3.0_norw')
-  ################
-  points = [
-    Point(mass=2.5,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=2.5,ctau=None,vv=1e-03,isrw=False),
-    Point(mass=2.5,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=2.5,ctau=None,vv=5e-05,isrw=False),
-    Point(mass=2.5,ctau=None,vv=1e-05,isrw=False),
-    Point(mass=2.5,ctau=None,vv=5e-06,isrw=False),
-    Point(mass=2.5,ctau=None,vv=1e-06,isrw=False),
-    Point(mass=2.5,ctau=None,vv=5e-07,isrw=False),
-    
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  doAnalysis(path=path,points=existing_points,name='fixedMass2.5_norw')
-  ################
-  points = [
-    Point(mass=0.5,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=0.5,ctau=None,vv=1e-03,isrw=False),
-    Point(mass=0.5,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=0.5,ctau=None,vv=5e-05,isrw=False),
-    Point(mass=0.5,ctau=None,vv=1e-05,isrw=False),
-    Point(mass=0.5,ctau=None,vv=5e-06,isrw=False),
-    Point(mass=0.5,ctau=None,vv=1e-06,isrw=False),
-    Point(mass=0.5,ctau=None,vv=5e-07,isrw=False),
-    
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  doAnalysis(path=path,points=existing_points,name='fixedMass0.5_norw')
-  ################
-  points = [
-    Point(mass=2.0,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=2.0,ctau=None,vv=1e-03,isrw=False),
-    Point(mass=2.0,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=2.0,ctau=None,vv=5e-05,isrw=False),
-    Point(mass=2.0,ctau=None,vv=1e-05,isrw=False),
-    Point(mass=2.0,ctau=None,vv=5e-06,isrw=False),
-    Point(mass=2.0,ctau=None,vv=1e-06,isrw=False),
-    Point(mass=2.0,ctau=None,vv=5e-07,isrw=False),
-    
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  doAnalysis(path=path,points=existing_points,name='fixedMass2.0_norw')
-  ################
-  points = [
-    Point(mass=1.5,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=1.5,ctau=None,vv=1e-03,isrw=False),
-    Point(mass=1.5,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=1.5,ctau=None,vv=5e-05,isrw=False),
-    Point(mass=1.5,ctau=None,vv=1e-05,isrw=False),
-    Point(mass=1.5,ctau=None,vv=5e-06,isrw=False),
-    Point(mass=1.5,ctau=None,vv=1e-06,isrw=False),
-    Point(mass=1.5,ctau=None,vv=5e-07,isrw=False),
-    
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  doAnalysis(path=path,points=existing_points,name='fixedMass1.5_norw')
-  ################
-  points = [
-    Point(mass=1.0,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=1.0,ctau=None,vv=1e-03,isrw=False),
-    Point(mass=1.0,ctau=None,vv=5e-04,isrw=False),
-    Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=1.0,ctau=None,vv=5e-05,isrw=False),
-    Point(mass=1.0,ctau=None,vv=1e-05,isrw=False),
-    Point(mass=1.0,ctau=None,vv=5e-06,isrw=False),
-    Point(mass=1.0,ctau=None,vv=1e-06,isrw=False),
-    Point(mass=1.0,ctau=None,vv=5e-07,isrw=False),
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  slist_norw = doAnalysis(path=path,points=existing_points,name='fixedMass1.0_norw')
-  ################
-  points = [
-    Point(mass=1.0,ctau=None,vv=5e-03,isrw=False),
-    Point(mass=1.0,ctau=None,vv=1e-03,isrw=True,orig_vv=5e-03),
-    Point(mass=1.0,ctau=None,vv=5e-04,isrw=True,orig_vv=5e-03),
-    Point(mass=1.0,ctau=None,vv=1e-04,isrw=True,orig_vv=5e-03),
-    Point(mass=1.0,ctau=None,vv=5e-05,isrw=True,orig_vv=5e-03),
-    Point(mass=1.0,ctau=None,vv=1e-05,isrw=True,orig_vv=5e-03),
-    Point(mass=1.0,ctau=None,vv=5e-06,isrw=True,orig_vv=5e-03),
-    Point(mass=1.5,ctau=None,vv=1e-06,isrw=False),
-    Point(mass=1.5,ctau=None,vv=5e-07,isrw=False),
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  slist_rw = doAnalysis(path=path,points=existing_points,name='fixedMass1.0_rwFrom5em03')
-
-  ## compare the graphs w/ and w/o reweighting
-  #doGraphComparison(slist_norw,slist_rw,what='accVSvv')
-  doGraphComparison(slist_norw,slist_rw,what='expNevtsVSvv')
+      ## compare the graphs w/ and w/o reweighting
+      #doGraphComparison(slist_norw,slist_rw,what='accVSvv')
+      #doGraphComparison(slist_norw,slist_rw,what='expNevtsVSvv')
+  
+      ###############
+      points = [
+        Point(mass=1.0,ctau=None,vv=1e-03, isrw=False),
+        Point(mass=1.0,ctau=None,vv=1e-03, isrw=True, orig_vv=5e-03),
+        Point(mass=1.0,ctau=None,vv=5e-03, isrw=False),
+      ]
+      existing_points = checkFiles(path,points)
+      doAnalysis(path=path,points=existing_points,name='closureRw_Mass1.0')
 
 
+  if doFixedVVAnalysis:
 
-
-  ###############
-  points = [
-    Point(mass=1.0,ctau=None,vv=1e-03, isrw=False),
-    Point(mass=1.0,ctau=None,vv=1e-03, isrw=True, orig_vv=5e-03),
-    Point(mass=1.0,ctau=None,vv=5e-03, isrw=False),
-  ]
-  existing_points = checkFiles(path,points)
-  doAnalysis(path=path,points=existing_points,name='closureRw_Mass1.0')
-
-  ################
-  points = [
-    Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
-    Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
-  ]
-  for p in points:
-   p.stamp()
-  existing_points=checkFiles(path=path,points=points)
-  doAnalysis(path=path,points=existing_points,name='fixedVV1em04')
-
+    ################
+    points = [
+      Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
+    ]
+    for p in points:
+     p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    doAnalysis(path=path,points=existing_points,name='fixedVV1em04')
+  
