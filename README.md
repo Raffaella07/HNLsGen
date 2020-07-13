@@ -75,6 +75,19 @@ cd genLevelAnalysis
 cmsRun test_ParticleTreeDrawer.py maxEvents=1 inputFiles=file:/work/mratti/GEN_HNL/CMSSW_10_2_3/src/HNLsGen/genSimFiles/BPH-test_HardQCDon.root
 ```
 
+To get the gen-level ntuples
+```
+cd genLevelAnalysis
+python genTreeProducer.py --pl V05_muFromB_pt5_eta1p6_n600000_njt30 --points V05_points.py
+```
+
+To analyze the gen-level ntuples, edit possible options and then run:
+```
+python genAnalysis.py --pl V05_muFromB_pt5_eta1p6_n600000_njt30
+```
+
+
+***OBOLETE***
 Proto-analyzer of ```edm::HepMCProduct```
 ```
 cd genLevelAnalysis
