@@ -8,8 +8,7 @@ import sys
 import os
 import subprocess
 
-sys.path.append('../python/.')
-from common import Point
+from pyton.common import Point
 
 
 class Job(object):

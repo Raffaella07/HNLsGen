@@ -16,9 +16,7 @@ import array
 #new_vvs.reverse()
 #small_new_vvs = new_vvs[0:10]
 
-sys.path.append('../python/') 
-#from common import getVV,getCtau,Point,BR_HNLmupion
-from common import *
+from python.common import *
 
 global graph_saver
 graph_saver=[]

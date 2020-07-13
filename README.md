@@ -19,12 +19,15 @@ scram b
 
 git checkout -b mybranch
 
+export PYTHONPATH=$PYTHONPATH:$PWD/HNLsGen 
+
 ```
 
 After first installation:
 ```
-cd CMSSW_10_2_3/src
+cd CMSSW_10_2_3/src/HNLsGen
 cmsenv
+export PYTHONPATH=$PYTHONPATH:$PWD 
 ```
 
 ## Instructions to set up a different version of Pythia within CMSSW
