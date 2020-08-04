@@ -1,8 +1,7 @@
-# Auto generated configuration file
-# using: 
-# Revision: 1.19 
-# Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Configuration/GenProduction/python/BPH-RunIIFall17GS-00087-fragment.py --fileout file:BPH-RunIIFall17GS-00087.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 93X_mc2017_realistic_v3 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --nThreads 2 --geometry DB:Extended --era Run2_2017 --python_filename BPH-RunIIFall17GS-00087_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 21456
+'''
+Job option for the B-initiated HNL generation
+'''
+
 from FWCore.ParameterSet.VarParsing import VarParsing
 
 options = VarParsing ('analysis')
@@ -20,6 +19,21 @@ options.register('nThr',
                  VarParsing.multiplicity.singleton,
                  VarParsing.varType.int,
                  'Number of threads')
+options.register('seedOffset',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'Seed offset')
+options.register('mass',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.float,
+                 'mass of the HNL')
+options.register('ctau',
+                 100,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.float,
+                 'ctau of the HNL [mm]')
 
 #options.register ("doDirac",
 #                  1, # default value
@@ -111,15 +125,24 @@ process.MuFilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
+
 ### Operates on all particles in the HepMC::GenEvent
 ### accpects events if:
 ###  - there is at least one particle with specified pdgID in the entire HepMC::GenEvent
 ###  - any status (but can be specified)
 process.BpFilter = cms.EDFilter("PythiaFilter",
     #ParticleID = cms.untracked.int32(14) # nu_mu anti_numu filter
-    ParticleID = cms.untracked.int32(521) # b+ b- filter 
+    ParticleID = cms.untracked.int32(521) # B+ B- filter 
 )
 
+process.SingleMuFilter = cms.EDFilter("PythiaFilter", # using PythiaFilter instead of MCParticleFilter because the particleID is taken in abs value
+    MaxEta = cms.untracked.double(1.6),
+    MinEta = cms.untracked.double(-1.6),
+    MinPt = cms.untracked.double(5), # <=== keep it a bit lower than the pt cut at reco level... 
+    ParticleID = cms.untracked.int32(13), # abs value is taken
+    #Status = cms.untracked.int32(1),
+    MotherID = cms.untracked.int32(521), # require muon to come from B+/B- decay
+)
 
 process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     ExternalDecays = cms.PSet(
@@ -140,10 +163,14 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             ### These are are hard-coded in: GeneratorInterface/EvtGenInterface/plugins/EvtGen/EvtGenInterface.cc., in the function SetDefault_m_PDGs().            
             operates_on_particles = cms.vint32(521, -521), 
 
-            #particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'), 
-            particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl'), 
-            #particle_property_file = cms.FileInPath.fullPath('$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/evt_2010.pdl'),
+            ### The file with properties of all particles
+            particle_property_file = cms.FileInPath('HNLsGen/evtGenData/evt_2014_mass{m}_ctau{ctau}.pdl'.format(m=options.mass,ctau=options.ctau)), 
+            #particle_property_file = cms.FileInPath('HNLsGen/evtGenData/evt_2014_mod.pdl'),
+            #particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014_mod.pdl'),  
+            #https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideEdmFileInPath
 
+
+            ### Decay chain
             #user_decay_embedded = cms.vstring("\nAlias myB+ B+\nAlias myB- B-\nAlias mytau+ tau+\nAlias mytau- tau-\nChargeConj myB+ myB-\nChargeConj mytau+ mytau-\n\nDecay myB-\n0.259     anti-D0       mytau-     nu_tau    ISGW2;\n0.592     anti-D*0      mytau-     nu_tau    ISGW2;\n0.074     anti-D_2*0    mytau-     nu_tau    ISGW2;\n0.074     anti-D\'_10    mytau-     nu_tau    ISGW2;\nEnddecay\nCDecay myB+\n\nDecay mytau-\n1.0 mu-    mu+    mu-             PHOTOS PHSP;\nEnddecay\nCDecay mytau+\n\nEnd\n")
             
             # decay to neutrino
@@ -155,8 +182,9 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             
       
             # decay to HNL, dirac: charge conjugate of hnl -> anti_hnl
-            user_decay_embedded = cms.vstring("\nAlias myB+ B+\nAlias myB- B-\nAlias myD0 D0\nAlias myAntiD0 anti-D0\nChargeConj myB+ myB-\nChargeConj myD0 myAntiD0\nChargeConj hnl anti_hnl\nDecay myB-\n1.0     myD0    mu-    anti_hnl    PHSP;\nEnddecay\nCDecay myB+\n\nDecay myD0\n1.0    K-    pi+    PHSP;\nEnddecay\nCDecay myAntiD0\n\nEnd\n")
-
+            #user_decay_embedded = cms.vstring("\nAlias myB+ B+\nAlias myB- B-\nAlias myD0 D0\nAlias myAntiD0 anti-D0\nChargeConj myB+ myB-\nChargeConj myD0 myAntiD0\nChargeConj hnl anti_hnl\nDecay myB-\n1.0     myD0    mu-    anti_hnl    PHSP;\nEnddecay\nCDecay myB+\n\nDecay myD0\n1.0    K-    pi+    PHSP;\nEnddecay\nCDecay myAntiD0\n\nEnd\n")
+            # decay to HNL, dirac, and decay also HNL 
+            user_decay_embedded = cms.vstring("\nAlias myB+ B+\nAlias myB- B-\nAlias myD0 D0\nAlias myAntiD0 anti-D0\nChargeConj myB+ myB-\nChargeConj myD0 myAntiD0\nChargeConj hnl anti_hnl\nDecay myB-\n1.0     myD0    mu-    anti_hnl    PHSP;\nEnddecay\nCDecay myB+\n\nDecay myD0\n1.0    K-    pi+    PHSP;\nEnddecay\nCDecay myAntiD0\nDecay anti_hnl\n1.0     mu+    pi-    PHSP;\nEnddecay\nCDecay hnl\n\nEnd\n")
 
         ),
         parameterSets = cms.vstring('EvtGen130')
@@ -218,13 +246,13 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     ),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(0.0013),  # this will not be used by Pythia, only saved in GenInfo
-    maxEventsToPrint = cms.untracked.int32(10),
+    maxEventsToPrint = cms.untracked.int32(0),        # max events to print the complete event list information
     pythiaHepMCVerbosity = cms.untracked.bool(False), # to display HepMC information: vertices and particles (not interesting)
-    pythiaPylistVerbosity = cms.untracked.int32(1)    # 11 to display all Pythia Settings
+    pythiaPylistVerbosity = cms.untracked.int32(1)    # 1 for "normal" verbosity, 11 to display all Pythia Settings
 )
 
 
-#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.MuFilter)
+#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
 process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
 
 # Path and EndPath definitions
@@ -238,15 +266,16 @@ process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 process.schedule = cms.Schedule(process.generation_step,process.genfiltersummary_step,process.simulation_step,process.endjob_step,process.RAWSIMoutput_step)
 from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
-
-#Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(options.nThr)
-process.options.numberOfStreams=cms.untracked.uint32(0)
 # filter all path with the production filter sequence
 for path in process.paths:
 	getattr(process,path)._seq = process.ProductionFilterSequence * getattr(process,path)._seq 
 
-# customisation of the process.
+#Setup FWK for multithreaded
+process.options.numberOfThreads=cms.untracked.uint32(options.nThr)
+process.options.numberOfStreams=cms.untracked.uint32(0)
+
+# set a different offset seed, if you run multiple jobs 
+process.RandomNumberGeneratorService.eventSeedOffset=cms.untracked.uint32(options.seedOffset)
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
 from Configuration.DataProcessing.Utils import addMonitoring 
@@ -257,6 +286,7 @@ process = addMonitoring(process)
 # End of customisation functions
 
 # Customisation from command line
+process.MessageLogger.cerr.FwkReport.reportEvery=100
 
 # Add early deletion of temporary data products to reduce peak memory need
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
