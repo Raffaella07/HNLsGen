@@ -14,25 +14,25 @@ git cms-addpkg GeneratorInterface/EvtGenInterface
 
 git clone git@github.com:BParkHNLs/HNLsGen.git
 
-cp HNLsGen/evtGenData/evt_2014_mod.pdl GeneratorInterface/EvtGenInterface/data/.
-
-export CMSSW_SEARCH_PATH=$CMSSW_BASE/src/GeneratorInterface/EvtGenInterface/data/:$CMSSW_SEARCH_PATH  # needed to use local evt.pdf file
-
+export CMSSW_SEARCH_PATH=$CMSSW_BASE/src/HNLsGen/evtGenData/:$CMSSW_SEARCH_PATH  # needed to use local evt_xx.pdl file
 scram b
 
 git checkout -b mybranch
+
+export PYTHONPATH=$PYTHONPATH:$PWD/HNLsGen 
 
 ```
 
 After first installation:
 ```
-cd CMSSW_10_2_3/src
+cd CMSSW_10_2_3/src/HNLsGen
 cmsenv
+export PYTHONPATH=$PYTHONPATH:$PWD 
 ```
-If you modify ```evtGenData/evt_2014_mod.pdl```, repeat the copy step above
 
 ## Instructions to set up a different version of Pythia within CMSSW
 (WORK IN PROGRESS)
+TODO: revert to previous Pythia version, once clear that we don't need the modified one
 
 This needs to be started from clean CMSSW directory, before cmsenv
 
@@ -62,6 +62,14 @@ BPH_mod_cfg.py                    => tentative HNL with Fall18
 cd HNLsGen 
 cmsRun cmsDrivers/BPH_mod_cfg.py maxEvents=100 outputFile=genSimFiles/BPH-test.root
 ```
+Submission to slurm:
+```
+cd slurm
+```
+Create a VXX_points.py files starting from points.py, then submit
+```
+python genHelper.py --help
+```
 
 ## Analyze
 To visualize the decay chain in a tree (printout to screen), using ```vector<reco::genParticles>```
@@ -70,6 +78,19 @@ cd genLevelAnalysis
 cmsRun test_ParticleTreeDrawer.py maxEvents=1 inputFiles=file:/work/mratti/GEN_HNL/CMSSW_10_2_3/src/HNLsGen/genSimFiles/BPH-test_HardQCDon.root
 ```
 
+To get the gen-level ntuples
+```
+cd genLevelAnalysis
+python genTreeProducer.py --pl V05_muFromB_pt5_eta1p6_n600000_njt30 --points V05_points.py
+```
+
+To analyze the gen-level ntuples, edit possible options and then run:
+```
+python genAnalysis.py --pl V05_muFromB_pt5_eta1p6_n600000_njt30
+```
+
+
+***OBOLETE***
 Proto-analyzer of ```edm::HepMCProduct```
 ```
 cd genLevelAnalysis
