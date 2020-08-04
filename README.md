@@ -76,3 +76,9 @@ cd genLevelAnalysis
 cmsRun test_EvtGenTestAnalyzer.py
 ```
 
+To analyze particles' distributions
+```
+cd genLevelAnalysis
+python hnl_signal_reweighter.py
+```
+
