@@ -95,12 +95,14 @@ class Sample(object):
     self.histoDefs = {
     # b mother
     'b_pt'          : PlotOpt('b_pt', '(30,0,30)', 'B meson p_{T} [GeV]', 'a.u.', False, True),
+    'b_signid'      : PlotOpt('b_pdgid/abs(b_pdgid)', '(2,-1.1,1.1)', 'B meson pdg id sign', 'a.u.', False, True),   
     'b_eta'         : PlotOpt('b_eta', '(30,-6,6)', 'B meson #eta', 'a.u.', False, True),
     'b_ct'          : PlotOpt('b_ct_reco', '(50,0,100)', 'B meson ct [mm]', 'a.u.', False, True),
     #'b_ct_large'    : PlotOpt('b_ct_reco', '(100,0,1000)', 'B meson ct [mm]', 'a.u.', False, True),     
     # daughters of the B
     ## the HNL
     'hnl_pt'        : PlotOpt('hnl_pt', '(30,0,30)', 'HNL p_{T} [GeV]', 'a.u.', False, True),   
+    'hnl_signid'    : PlotOpt('hnl_pdgid/abs(hnl_pdgid)', '(2,-1.1,1.1)', 'HNL pdg id sign', 'a.u.', False, True),   
     'hnl_eta'       : PlotOpt('hnl_eta', '(30,-6,6)', 'HNL #eta', 'a.u.', False, True),      
     'hnl_ct'        : PlotOpt('hnl_ct_reco', '(50,0,1000)', 'HNL ct [mm]', 'a.u.', False, True),
     'hnl_ct_large'  : PlotOpt('hnl_ct_reco', '(100,0,10000)', 'HNL ct [mm]', 'a.u.', False, True),    
