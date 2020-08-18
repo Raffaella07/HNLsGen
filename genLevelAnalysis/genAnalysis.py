@@ -575,23 +575,34 @@ if __name__ == "__main__":
   gStyle.SetTitleXOffset(1.1);
   gStyle.SetTitleYOffset(1.45);
 
-  #### some global options
   global debug
-  debug = False
   global doInclusive
-  doInclusive = False
-  doDisplOnly = True
-  incl_suffix='_incl' if doInclusive else '_excl'
-  if doDisplOnly: incl_suffix += '_displOnly'
-  doFixedMassAnalysis = True
-  doRwAnalysis = True
-  doFixedVVAnalysis = True
-  opt = getOptions()
+  global doDisplOnly
+
+  #### options
+  debug = False
+  doInclusive = False # 
+  doDisplOnly = True # should be set to true if doInclusive = True
+  doTestAnalysis = True
+  doFixedMassAnalysis = False
+  doRwAnalysis = False
+  doFixedVVAnalysis = False
   ####
 
+  incl_suffix='_incl' if doInclusive else '_excl'
+  if doDisplOnly: incl_suffix += '_displOnly'
+  opt = getOptions()
+  
   os.system('mkdir -p ./plots/{}{}'.format(opt.pl,incl_suffix))
 
   path = './outputfiles/' + opt.pl + '/mass{m}_ctau{ctau}_miniGenTree.root'
+
+  if doTestAnalysis:
+    points = [Point(mass=1.0,ctau=None,vv=5e-04,isrw=False)]
+    for p in points:
+      p.stamp()
+    existing_points=checkFiles(path=path,points=points)
+    doAnalysis(path=path,points=existing_points,name='testpoint_norw')
 
   if doFixedMassAnalysis:
    
