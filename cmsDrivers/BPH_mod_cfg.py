@@ -135,14 +135,24 @@ process.BpFilter = cms.EDFilter("PythiaFilter",
     ParticleID = cms.untracked.int32(521) # B+ B- filter 
 )
 
-process.SingleMuFilter = cms.EDFilter("PythiaFilter", # using PythiaFilter instead of MCParticleFilter because the particleID is taken in abs value
+#process.SingleMuFilter = cms.EDFilter("PythiaFilter", # using PythiaFilter instead of MCParticleFilter because the particleID is taken in abs value
+#    MaxEta = cms.untracked.double(1.6),
+#    MinEta = cms.untracked.double(-1.6),
+#    MinPt = cms.untracked.double(5), # <=== keep it a bit lower than the pt cut at reco level... 
+#    ParticleID = cms.untracked.int32(13), # abs value is taken
+#    #Status = cms.untracked.int32(1),
+#    MotherID = cms.untracked.int32(521), # require muon to come from B+/B- decay
+#)
+process.SingleMuFilter = cms.EDFilter("PythiaFilterMotherSister", 
     MaxEta = cms.untracked.double(1.6),
     MinEta = cms.untracked.double(-1.6),
     MinPt = cms.untracked.double(5), # <=== keep it a bit lower than the pt cut at reco level... 
     ParticleID = cms.untracked.int32(13), # abs value is taken
     #Status = cms.untracked.int32(1),
     MotherID = cms.untracked.int32(521), # require muon to come from B+/B- decay
+    SisterID = cms.untracked.int32(9900015), # require HNL sister
 )
+
 
 process.generator = cms.EDFilter("Pythia8GeneratorFilter",
     ExternalDecays = cms.PSet(
@@ -252,8 +262,8 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
 )
 
 
-#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
-process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
+process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter+process.SingleMuFilter)
+#process.ProductionFilterSequence = cms.Sequence(process.generator+process.BpFilter) 
 
 # Path and EndPath definitions
 process.generation_step = cms.Path(process.pgen)
