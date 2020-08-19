@@ -8,6 +8,27 @@ import FWCore.ParameterSet.Config as cms
 from Configuration.StandardSequences.Eras import eras
 from Configuration.ProcessModifiers.premix_stage2_cff import premix_stage2
 
+from FWCore.ParameterSet.VarParsing import VarParsing
+
+options = VarParsing('analysis')
+options.register('nThr',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'Number of threads')
+options.register('seedOffset',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'Seed offset')
+options.register('inputFile',
+                 'step2.root',
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.string,
+                 "inputFile name")
+options.outputFile = 'BPH-step3.root'
+options.parseArguments()
+
 process = cms.Process('RECO',eras.Run2_2018,premix_stage2)
 
 # import of standard configurations
@@ -32,7 +53,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:step2.root'),
+    fileNames = cms.untracked.vstring('file:{}'.format(options.inputFile)),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -57,7 +78,7 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(31457280),
-    fileName = cms.untracked.string('file:step3.root'),
+    fileName = cms.untracked.string('file:{}'.format(options.outputFile)),
     outputCommands = process.AODSIMEventContent.outputCommands
 )
 
@@ -82,7 +103,7 @@ from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(8)
+process.options.numberOfThreads=cms.untracked.uint32(options.nThr)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 
 # customisation of the process.

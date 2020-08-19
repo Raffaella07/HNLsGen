@@ -8,8 +8,7 @@ import sys
 import os
 import subprocess
 
-from pyton.common import Point
-
+from python.common import Point
 
 class Job(object):
   def __init__(self,opt):

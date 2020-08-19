@@ -7,6 +7,27 @@ import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
 
+from FWCore.ParameterSet.VarParsing import VarParsing
+
+options = VarParsing('analysis')
+options.register('nThr',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'Number of threads')
+options.register('seedOffset',
+                 1,
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.int,
+                 'Seed offset')
+options.register('inputFile',
+                 'step3.root',
+                 VarParsing.multiplicity.singleton,
+                 VarParsing.varType.string,
+                 "inputFile name")
+options.outputFile = 'BPH-step4.root'
+options.parseArguments()
+
 process = cms.Process('PAT',eras.Run2_2018)
 
 # import of standard configurations
@@ -28,7 +49,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:step3.root'),
+    fileNames = cms.untracked.vstring('file:{}'.format(options.inputFile)),
     secondaryFileNames = cms.untracked.vstring()
 )
 
@@ -55,7 +76,8 @@ process.MINIAODSIMoutput = cms.OutputModule("PoolOutputModule",
     dropMetaData = cms.untracked.string('ALL'),
     eventAutoFlushCompressedSize = cms.untracked.int32(-900),
     fastCloning = cms.untracked.bool(False),
-    fileName = cms.untracked.string('file:step4.root'),
+    #fileName = cms.untracked.string('file:{}'.format(options.outputFile)),
+    fileName = cms.untracked.string(options.outputFile),
     outputCommands = process.MINIAODSIMEventContent.outputCommands,
     overrideBranchesSplitLevel = cms.untracked.VPSet(
         cms.untracked.PSet(
@@ -155,7 +177,7 @@ from PhysicsTools.PatAlgos.tools.helpers import associatePatAlgosToolsTask
 associatePatAlgosToolsTask(process)
 
 #Setup FWK for multithreaded
-process.options.numberOfThreads=cms.untracked.uint32(8)
+process.options.numberOfThreads=cms.untracked.uint32(options.nThr)
 process.options.numberOfStreams=cms.untracked.uint32(0)
 
 # customisation of the process.

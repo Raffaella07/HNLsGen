@@ -181,8 +181,8 @@ handles['genP'] = ('genParticles' , Handle('std::vector<reco::GenParticle>'))
 #handles['lhe']         = ('externalLHEProducer', Handle('LHEEventProduct'))
 
 # output file and tree gymnastics
-outfile = ROOT.TFile.Open('genNTuples_ctau100mm_fullEvtGen_10k.root', 'recreate')
-#outfile = ROOT.TFile.Open('genNTuples_10k.root', 'recreate')
+#outfile = ROOT.TFile.Open('genNTuples_ctau100mm_fullEvtGen_10k.root', 'recreate')
+outfile = ROOT.TFile.Open('myGenTest.root', 'recreate')
 ntuple  = ROOT.TNtuple('tree', 'tree', ':'.join(branches))
 tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branches to unphysical -99       
 
@@ -190,12 +190,13 @@ tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branc
 
 # get to the real thing
 print 'loading the file ...'
+events = Events('../genSimFiles/step1.root')
 #events = Events('samples/BPH-test_numEvent50.root')
 #events = Events('samples/BPH-test_numEvent100_Bmod.root')
 #events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST0/BPH-test_numEvent10000.root')
 #events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_ctau100mm/BPH-test_numEvent10000.root')
 #events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_ctau1_m1/BPH-test_numEvent10000.root')
-events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_ctau1_m1_fullEvtGen/BPH-test_numEvent10000.root')
+#events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_ctau1_m1_fullEvtGen/BPH-test_numEvent10000.root')
 #events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_mupt5_ctau100mm/BPH-test_numEvent80000.root')
 print '... done!'
 
