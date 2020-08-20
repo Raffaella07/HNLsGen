@@ -75,7 +75,7 @@ python genHelper.py --help
 ```
 python prodHelper.py --help
 ```
-Note that using the --dogenonly options is equivalent to using genHelper.py
+Note that using the --dogenonly option is equivalent to using genHelper.py
 
 
 ## Analyze
