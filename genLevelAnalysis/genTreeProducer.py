@@ -12,9 +12,7 @@ from DataFormats.FWLite import Events, Handle
 from PhysicsTools.HeppyCore.utils.deltar import deltaR, deltaPhi
 from scipy.constants import c as speed_of_light
 
-sys.path.append('../python/') 
-from common import getVV,getCtau,Point
-
+from python.common import Point,getVV,getCtau
 
 ##############
 # Globals
@@ -250,6 +248,7 @@ def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,
   
     # # then the prompt lepton
     the_pls = sorted([ii for ii in event.the_b_mother.daughters if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt(), reverse=True)
+    #print 'n lepton daughters of B = {}, pts = {}'.format(len(the_pls), [i.pt() for i in the_pls]) 
     if len(the_pls):
       event.the_pl = the_pls[0]
       #print '3. found a prompt lepton of pdgId {a}'.format(a=event.the_pl.pdgId())
@@ -281,6 +280,7 @@ def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,
   
     # # the lepton
     the_lep_daughters = sorted([ii for ii in event.the_hn.initialdaus if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt(), reverse=True)
+    #print 'n lepton daughters of HN = {}, pts = {}'.format(len(the_lep_daughters), [i.pt() for i in the_lep_daughters]) 
     if len(the_lep_daughters):
        #print '6. found a daughter lepton'
        event.the_hn.lep = the_lep_daughters[0]
@@ -523,6 +523,7 @@ def getOptions():
    from argparse import ArgumentParser
    parser = ArgumentParser(description='options for Gen tree producer', add_help=True)
    parser.add_argument('--pl', type=str, dest='pl', help='production label', default='V02_muFromB_pt5_eta1p6_njt30')
+   parser.add_argument('--expr', type=str, dest='expr', help='file regular expression', default='step1*root')
    parser.add_argument('--points', type=str, dest='pointFile', help='name of file contaning information on scan to be run', default='points.py')
    return parser.parse_args()
   
@@ -536,7 +537,7 @@ if __name__ == "__main__":
 
   for p in ps.points:
 
-    expr = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/{pl}/mass{m}_ctau{ctau}/step*root'.format(pl=opt.pl,m=p.mass,ctau=p.ctau)
+    expr = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/{pl}/mass{m}_ctau{ctau}/{ex}'.format(pl=opt.pl,m=p.mass,ctau=p.ctau,ex=opt.expr)
     outfilename = './outputfiles/{pl}/mass{m}_ctau{ctau}_miniGenTree.root'.format(pl=opt.pl,m=p.mass,ctau=p.ctau)
     os.system('mkdir ./outputfiles/{pl}'.format(pl=opt.pl))    
 
