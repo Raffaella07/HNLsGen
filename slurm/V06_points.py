@@ -1,6 +1,4 @@
-import sys
-sys.path.append('../python/.')
-from common import Point
+from python.common  import Point
 
 # List of points to be generated
 #   - N.B.: mass must be a float
