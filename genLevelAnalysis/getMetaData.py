@@ -14,40 +14,46 @@ if __name__ == "__main__":
 
   ################
   points = [
-   Point(mass=1.0,ctau=None,vv=5e-03),
-   Point(mass=1.0,ctau=None,vv=1e-03),
-   Point(mass=1.0,ctau=None,vv=5e-04),
-   Point(mass=1.0,ctau=None,vv=1e-04),
-   Point(mass=1.0,ctau=None,vv=5e-05),
-   Point(mass=1.0,ctau=None,vv=1e-05),
-   Point(mass=1.0,ctau=None,vv=5e-06),
-   Point(mass=1.0,ctau=None,vv=1e-06),
-   Point(mass=1.0,ctau=None,vv=5e-07),
-   
-   Point(mass=1.5,ctau=None,vv=5e-03),
-   Point(mass=1.5,ctau=None,vv=1e-03),
-   Point(mass=1.5,ctau=None,vv=5e-04),
-   Point(mass=1.5,ctau=None,vv=1e-04),
-   Point(mass=1.5,ctau=None,vv=5e-05),
-   Point(mass=1.5,ctau=None,vv=1e-05),
-   Point(mass=1.5,ctau=None,vv=5e-06),
-   Point(mass=1.5,ctau=None,vv=1e-06),
-   Point(mass=1.5,ctau=None,vv=5e-07),
-   
-   Point(mass=2.0,ctau=None,vv=5e-03),
-   Point(mass=2.0,ctau=None,vv=1e-03),
-   Point(mass=2.0,ctau=None,vv=5e-04),
-   Point(mass=2.0,ctau=None,vv=1e-04),
-   Point(mass=2.0,ctau=None,vv=5e-05),
-   Point(mass=2.0,ctau=None,vv=1e-05),
-   Point(mass=2.0,ctau=None,vv=5e-06),
-   Point(mass=2.0,ctau=None,vv=1e-06),
-   Point(mass=2.0,ctau=None,vv=5e-07),    
+#   Point(mass=1.0,ctau=None,vv=5e-03),
+#   Point(mass=1.0,ctau=None,vv=1e-03),
+#   Point(mass=1.0,ctau=None,vv=5e-04),
+#   Point(mass=1.0,ctau=None,vv=1e-04),
+#   Point(mass=1.0,ctau=None,vv=5e-05),
+#   Point(mass=1.0,ctau=None,vv=1e-05),
+#   Point(mass=1.0,ctau=None,vv=5e-06),
+#   Point(mass=1.0,ctau=None,vv=1e-06),
+#   Point(mass=1.0,ctau=None,vv=5e-07),
+#   
+#   Point(mass=1.5,ctau=None,vv=5e-03),
+#   Point(mass=1.5,ctau=None,vv=1e-03),
+#   Point(mass=1.5,ctau=None,vv=5e-04),
+#   Point(mass=1.5,ctau=None,vv=1e-04),
+#   Point(mass=1.5,ctau=None,vv=5e-05),
+#   Point(mass=1.5,ctau=None,vv=1e-05),
+#   Point(mass=1.5,ctau=None,vv=5e-06),
+#   Point(mass=1.5,ctau=None,vv=1e-06),
+#   Point(mass=1.5,ctau=None,vv=5e-07),
+#   
+#   Point(mass=2.0,ctau=None,vv=5e-03),
+#   Point(mass=2.0,ctau=None,vv=1e-03),
+#   Point(mass=2.0,ctau=None,vv=5e-04),
+#   Point(mass=2.0,ctau=None,vv=1e-04),
+#   Point(mass=2.0,ctau=None,vv=5e-05),
+#   Point(mass=2.0,ctau=None,vv=1e-05),
+#   Point(mass=2.0,ctau=None,vv=5e-06),
+#   Point(mass=2.0,ctau=None,vv=1e-06),
+#   Point(mass=2.0,ctau=None,vv=5e-07),    
+      Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
   ]
 
   for p in points:
     fn = path.format(m=p.mass,ctau=p.orig_ctau)
     s = Sample(mass=p.mass, ctau=p.ctau, vv=p.vv, infileName=fn, isrw=p.isrw, orig_vv=p.orig_vv, label=label)
-    s.fillFilterEff(doStamp=True)
+    s.fillFilterEff(dostamp=True)
    
    

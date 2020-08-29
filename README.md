@@ -7,8 +7,10 @@ cd CMSSW_10_2_3/src
 cmsenv
 git cms-init
 
-git cms-addpkg GeneratorInterface/EvtGenInterface
+git cms-merge-topic mgratti:BHNL
 
+# *commented lines are not needed*
+# git cms-addpkg GeneratorInterface/EvtGenInterface
 # git cms-addpkg GeneratorInterface/ExternalDecays
 # git cms-addpkg GeneratorInterface/Pythia8Interface
 
@@ -17,6 +19,7 @@ git clone git@github.com:BParkHNLs/HNLsGen.git
 export CMSSW_SEARCH_PATH=$CMSSW_BASE/src/HNLsGen/evtGenData/:$CMSSW_SEARCH_PATH  # needed to use local evt_xx.pdl file
 scram b
 
+cd HNLsGen
 git checkout -b mybranch
 
 export PYTHONPATH=$PYTHONPATH:$PWD/HNLsGen 
