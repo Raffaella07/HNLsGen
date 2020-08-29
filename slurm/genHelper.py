@@ -100,8 +100,9 @@ class Job(object):
         'xrdfs $T3CACHE mkdir -p $SERESULTDIR',
         'echo ""',
         '',
-        'echo "Going to copy cmsdriver to work dir"',
-        'cp $STARTDIR/cmsDrivers/{jop} $WORKDIR/. ',
+        'echo "Going to copy cmsdriver to work dir"', # copy from here...
+        'cd -', # going back to submission directory
+        'cp {jop} $WORKDIR/. ',
         'echo ""',
         '',
         #'echo "Going to copy the evtGen particle data file"',  # currently not needed, cannot use local copy of file
