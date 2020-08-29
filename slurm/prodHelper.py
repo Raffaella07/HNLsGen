@@ -86,7 +86,8 @@ class Job(object):
       addlines = [
         '### {lbla} ###',
         'echo "Going to copy cmsdriver to work dir"',
-        'cp $STARTDIR/cmsDrivers/{jopa} $WORKDIR/. ',
+        'cd -', 
+        'cp {jopa} $WORKDIR/. ',
         'echo "Going to run {lbla}"',
         'DATE_START_{lbla}=`date +%s`',
         '{command}',
@@ -176,7 +177,8 @@ class Job(object):
         'echo ""',
         '',
         'echo "Going to copy cmsdriver to work dir"',
-        'cp $STARTDIR/cmsDrivers/{jop1} $WORKDIR/. ',
+        'cd -', 
+        'cp {jop1} $WORKDIR/. ',
         'echo ""',
         '',
         #'echo "Going to copy the evtGen particle data file"',  # currently not needed, cannot use local copy of file
