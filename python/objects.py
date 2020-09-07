@@ -266,7 +266,7 @@ def IntGammas(qsquare, m, m1, m2, m3, decay_type, formFactorLabel):
 
 
 class Decay(object):
-  def __init__(self, mother, daughters, hnl, mixing_angle_square, ckm_coupling, decay_type, decay_rate=None, formFactorLabel=None):
+  def __init__(self, mother, daughters, hnl, mixing_angle_square, ckm_coupling, decay_type, formFactorLabel=None):
     self.mother = mother
     self.daughters = daughters
     self.hnl = hnl
@@ -277,14 +277,18 @@ class Decay(object):
 
     if self.decay_type == 'leptonic':
       lep = self.daughters
-      yl = lep.mass / mother.mass
-      yN = hnl.mass / mother.mass 
+      yl = lep.mass / self.mother.mass
+      yN = self.hnl.mass / self.mother.mass 
 
-      expr = const_GF**2 * self.mother.decay_constant**2 * (1/(8*const_pi)) \
-                        * math.pow(self.mother.mass, 3) * self.ckm_coupling**2 * self.mixing_angle_square \
-                        *(yN**2 + yl**2 - (yN**2 - yl**2)**2) \
-                        * math.sqrt(Lambda(1, yN**2, yl**2))
-      self.decay_rate = expr if expr > 0 else 0
+      if self.hnl.mass < (self.mother.mass - lep.mass): 
+        expr = const_GF**2 * self.mother.decay_constant**2 * (1/(8*const_pi)) \
+                          * math.pow(self.mother.mass, 3) * self.ckm_coupling**2 * self.mixing_angle_square \
+                          *(yN**2 + yl**2 - (yN**2 - yl**2)**2) \
+                          * math.sqrt(Lambda(1, yN**2, yl**2))
+        self.decay_rate = expr if expr > 0 else 0
+      else:
+        print 'outside kinematic range'
+        self.decay_rate = 0
 
     elif self.decay_type in ['semileptonic_pseudoscalar', 'semileptonic_vector']:                    
       
@@ -304,53 +308,65 @@ class Decay(object):
 
       if self.decay_type == 'semileptonic_pseudoscalar':
 
-        # we define the different components of the expression according to Teixeira et al. (2014)
-        # integral boundaries:
-        lower_bound = (m1+m2)**2
-        upper_bound = (m-m3)**2
-        
-        # compute the integrals 
-        int1 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[0], lower_bound, upper_bound)[0]
-        int2 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[1], lower_bound, upper_bound)[0]
-        int3 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[2], lower_bound, upper_bound)[0]
-        
-        # clebsh-gordan coefficient
-        CK = 1 / math.sqrt(2) if daughter_meson.name == 'pi0_meson' else 1
-        
-        # compute the decay rate
-        #self.decay_rate = const_GF**2 * CK**2 * self.ckm_coupling**2 * self.mixing_angle_square / (64 * math.pow(const_pi, 3) * math.pow(m, 3)) * (int1 + int2 + int3)
-        expr = const_GF**2 * CK**2 * self.ckm_coupling**2 * self.mixing_angle_square / (64 * math.pow(const_pi, 3) * math.pow(m, 3)) * (int1 + int2 + int3)
-        self.decay_rate = expr if expr > 0 else 0
+        if m2 < (m - m1 - m3): 
+          # we define the different components of the expression according to Teixeira et al. (2014)
+          # integral boundaries:
+          lower_bound = (m1+m2)**2
+          upper_bound = (m-m3)**2
+          
+          # compute the integrals 
+          int1 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[0], lower_bound, upper_bound)[0]
+          int2 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[1], lower_bound, upper_bound)[0]
+          int3 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[2], lower_bound, upper_bound)[0]
+          
+          # clebsh-gordan coefficient
+          CK = 1 / math.sqrt(2) if daughter_meson.name == 'pi0_meson' else 1
+          
+          # compute the decay rate
+          expr = const_GF**2 * CK**2 * self.ckm_coupling**2 * self.mixing_angle_square / (64 * math.pow(const_pi, 3) * math.pow(m, 3)) * (int1 + int2 + int3)
+          self.decay_rate = expr if expr > 0 else 0
+
+        else:
+          print 'outside kinematic range'
+          self.decay_rate = 0
+
 
       elif self.decay_type == 'semileptonic_vector':
         
-        # definition
-        yl = m1 / m
-        yN = m2 / m
-        yhprime = m3 / m
+        if m2 < (m - m1 - m3): 
+          # definition
+          yl = m1 / m
+          yN = m2 / m
+          yhprime = m3 / m
 
-        # integral boundaries:
-        lower_bound = (yl + yN)**2
-        upper_bound = (1 - yhprime)**2
+          # integral boundaries:
+          lower_bound = (yl + yN)**2
+          upper_bound = (1 - yhprime)**2
 
-        # compute the integrals 
-        int1 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[0], lower_bound, upper_bound)[0]
-        int2 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[1], lower_bound, upper_bound)[0]
-        int3 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[2], lower_bound, upper_bound)[0]
-        int4 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[3], lower_bound, upper_bound)[0]
-        int5 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[4], lower_bound, upper_bound)[0]
-        int6 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[5], lower_bound, upper_bound)[0]
-        int7 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[6], lower_bound, upper_bound)[0]
+          # compute the integrals 
+          int1 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[0], lower_bound, upper_bound)[0]
+          int2 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[1], lower_bound, upper_bound)[0]
+          int3 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[2], lower_bound, upper_bound)[0]
+          int4 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[3], lower_bound, upper_bound)[0]
+          int5 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[4], lower_bound, upper_bound)[0]
+          int6 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[5], lower_bound, upper_bound)[0]
+          int7 = integrate(lambda x: IntGammas(x, m, m1, m2, m3, self.decay_type, self.formFactorLabel)[6], lower_bound, upper_bound)[0]
 
-        # clebsh-gordan coefficient
-        CK = 1 / math.sqrt(2) if daughter_meson.name == 'rho0_meson' else 1
+          # clebsh-gordan coefficient
+          CK = 1 / math.sqrt(2) if daughter_meson.name == 'rho0_meson' else 1
+          
+          # compute the decay rate
+          expr = const_GF**2 * math.pow(m, 7) * CK**2 * self.ckm_coupling**2 * self.mixing_angle_square / (64 * math.pow(const_pi, 3) * m3**2) * (int1 + int2 + int3 + int4 + int5 + int6 + int7)
+          self.decay_rate = expr if expr > 0 else 0
         
-        # compute the decay rate
-        #self.decay_rate = const_GF**2 * math.pow(m, 7) * CK**2 * self.ckm_coupling**2 * self.mixing_angle_square / (64 * math.pow(const_pi, 3) * m3**2) * (int1 + int2 + int3 + int4 + int5 + int6 + int7)
-        expr = const_GF**2 * math.pow(m, 7) * CK**2 * self.ckm_coupling**2 * self.mixing_angle_square / (64 * math.pow(const_pi, 3) * m3**2) * (int1 + int2 + int3 + int4 + int5 + int6 + int7)
-        self.decay_rate = expr if expr > 0 else 0
-
+        else:
+          print 'outside kinematic range'
+          self.decay_rate = 0
+        
     else: raise RuntimeError("You have entered an unkown decay type. Please choose among ['leptonic', 'semileptonic_pseudoscalar', 'semileptonic_vector']")
+
+    # compute the branching ratio
+    self.BR = self.decay_rate * self.mother.lifetime
 
 
 
