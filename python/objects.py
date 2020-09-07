@@ -287,7 +287,7 @@ class Decay(object):
                           * math.sqrt(Lambda(1, yN**2, yl**2))
         self.decay_rate = expr if expr > 0 else 0
       else:
-        print 'outside kinematic range'
+        #print 'outside kinematic range'
         self.decay_rate = 0
 
     elif self.decay_type in ['semileptonic_pseudoscalar', 'semileptonic_vector']:                    
@@ -327,7 +327,7 @@ class Decay(object):
           self.decay_rate = expr if expr > 0 else 0
 
         else:
-          print 'outside kinematic range'
+          #print 'outside kinematic range'
           self.decay_rate = 0
 
 
@@ -360,7 +360,7 @@ class Decay(object):
           self.decay_rate = expr if expr > 0 else 0
         
         else:
-          print 'outside kinematic range'
+          #print 'outside kinematic range'
           self.decay_rate = 0
         
     else: raise RuntimeError("You have entered an unkown decay type. Please choose among ['leptonic', 'semileptonic_pseudoscalar', 'semileptonic_vector']")
