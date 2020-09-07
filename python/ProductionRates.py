@@ -38,7 +38,7 @@ m_tau_pdg = 1.77686
 
 # meson decay constant --> to be checked
 # in [GeV]
-dc_B       = 0.187 # Table8 Bondarenko et al. 0.19   # 176 MeV according to pdg
+dc_B       = 0.1871 # Table8 Bondarenko et al. 0.19   # 176 MeV according to pdg
 dc_B_sub_c = 0.434 # Table8 Bondarenko et al. # 0.48
 dc_D       = 0.212 # Table8 Bondarenko et al. # 0.2226   
 dc_D_sub_s = 0.249 # Table8 Bondarenko et al
@@ -53,22 +53,28 @@ lifetime_D       = 1.04e-12  * sToGeVconv
 lifetime_D_sub_s = 5.04e-13  * sToGeVconv
 lifetime_D0      = 4.101e-13 * sToGeVconv
 
+# B-fractions
+fraction_B       = 0.4
+fraction_B0      = 0.4
+fraction_B_sub_s = 0.1
+fraction_B_sub_c = 0.001
 
 # CKM matrix elements
-Vud_pdg = 0.97420
-Vub_pdg = 0.00394 
-Vcb_pdg = 42.2e-3
-Vcd_pdg = 0.218
-Vcs_pdg = 0.997
+Vud_pdg = 0.97417 #0.97420
+Vus_pdg = 0.2248
+Vub_pdg = 0.00409
+Vcb_pdg = 40.5e-3
+Vcd_pdg = 0.220
+Vcs_pdg = 0.995
 
 
 ## PARTICLES ##
 
 # beauty mesons
-B_meson           = Particle('B_meson'          , 'meson', m_B_pdg          , dc_B      , lifetime_B)
-B0_meson          = Particle('B0_meson'         , 'meson', m_B0_pdg                     , lifetime=lifetime_B0)
-B_sub_c_meson     = Particle('B_sub_c_meson'    , 'meson', m_B_sub_c_pdg    , dc_B_sub_c, lifetime_B_sub_c)
-B_sub_s_meson     = Particle('B_sub_s_meson'    , 'meson', m_B_sub_s_pdg                , lifetime=lifetime_B_sub_s)
+B_meson           = Particle('B_meson'          , 'meson', m_B_pdg          , dc_B      , lifetime_B               , fraction=fraction_B)
+B0_meson          = Particle('B0_meson'         , 'meson', m_B0_pdg                     , lifetime=lifetime_B0     , fraction=fraction_B0)
+B_sub_c_meson     = Particle('B_sub_c_meson'    , 'meson', m_B_sub_c_pdg    , dc_B_sub_c, lifetime_B_sub_c         , fraction=fraction_B_sub_c)
+B_sub_s_meson     = Particle('B_sub_s_meson'    , 'meson', m_B_sub_s_pdg                , lifetime=lifetime_B_sub_s, fraction=fraction_B_sub_s)
 
 # charm mesons
 D_meson           = Particle('D_meson'          , 'meson', m_D_pdg          , dc_D      , lifetime_D)
@@ -106,6 +112,9 @@ class ProductionRates(object):
     # define the HNL
     hnl = Particle('hnl', 'lepton', self.mass)
 
+    # define the HNL
+    nu = Particle('nu', 'lepton', 0)
+    
     # get the model
     V_el_square = self.mixing_angle_square
     V_mu_square = self.mixing_angle_square
@@ -117,7 +126,7 @@ class ProductionRates(object):
     Bc_to_eHNL = Decay(B_sub_c_meson, el, hnl, V_el_square, Vcb_pdg, 'leptonic').decay_rate 
     D_to_eHNL  = Decay(D_meson,       el, hnl, V_el_square, Vcd_pdg, 'leptonic').decay_rate
     Ds_to_eHNL = Decay(D_sub_s_meson, el, hnl, V_el_square, Vcs_pdg, 'leptonic').decay_rate
-
+    
     B_to_uHNL  = Decay(B_meson,       mu, hnl, V_mu_square, Vub_pdg, 'leptonic').decay_rate if self.mass < 5.1 else 0
     Bc_to_uHNL = Decay(B_sub_c_meson, mu, hnl, V_mu_square, Vcb_pdg, 'leptonic').decay_rate 
     D_to_uHNL  = Decay(D_meson,       mu, hnl, V_mu_square, Vcd_pdg, 'leptonic').decay_rate if self.mass < 1.7 else 0
@@ -191,6 +200,27 @@ class ProductionRates(object):
     #D_to_K0startHNL  = Decay(D_meson      , [K0star_meson, tau]     , hnl, V_tau_square, Vcs_pdg, 'semileptonic_vector', formFactorLabel='D_to_Kstar').decay_rate   if self.mass < 0.98 else 0
     #D0_to_KstartHNL  = Decay(D0_meson     , [Kstar_meson, tau]      , hnl, V_tau_square, Vcs_pdg, 'semileptonic_vector', formFactorLabel='D_to_Kstar').decay_rate   if self.mass < 0.98 else 0
     
+    # SM decays
+    B_to_unu  = Decay(B_meson      ,  mu, nu, V_mu_square, Vub_pdg, 'leptonic').decay_rate if self.mass < 5.1 else 0
+    Bc_to_unu = Decay(B_sub_c_meson, mu, nu, V_mu_square, Vcb_pdg, 'leptonic').decay_rate 
+
+    B_to_D0unu   = Decay(B_meson      , [D0_meson, mu]     , nu, V_mu_square, Vcb_pdg, 'semileptonic_pseudoscalar', formFactorLabel='B_to_D' ).decay_rate  if self.mass < 3.3 else 0
+    B_to_pi0unu  = Decay(B_meson      , [pi0_meson, mu]    , nu, V_mu_square, Vub_pdg, 'semileptonic_pseudoscalar', formFactorLabel='B_to_pi').decay_rate if self.mass < 5.0 else 0
+    B0_to_piunu  = Decay(B0_meson     , [pi_meson, mu]     , nu, V_mu_square, Vub_pdg, 'semileptonic_pseudoscalar', formFactorLabel='B_to_pi').decay_rate if self.mass < 5.0 else 0
+    B0_to_Dunu   = Decay(B0_meson     , [D_meson, mu]      , nu, V_mu_square, Vcb_pdg, 'semileptonic_pseudoscalar', formFactorLabel='B_to_D' ).decay_rate  if self.mass < 3.3 else 0
+    Bs_to_Kunu   = Decay(B_sub_s_meson, [K_meson, mu]      , nu, V_mu_square, Vub_pdg, 'semileptonic_pseudoscalar', formFactorLabel='Bs_to_K').decay_rate if self.mass < 4.7 else 0
+    Bs_to_Dsunu  = Decay(B_sub_s_meson, [D_sub_s_meson, mu], nu, V_mu_square, Vcb_pdg, 'semileptonic_pseudoscalar', formFactorLabel='B_to_D' ).decay_rate  if self.mass < 3.3 else 0
+    
+    B_to_rho0unu    = Decay(B_meson      , [rho0_meson, mu]       , nu, V_mu_square, Vub_pdg, 'semileptonic_vector', formFactorLabel='B_to_rho'    ).decay_rate     if self.mass < 4.4 else 0
+    B_to_D0starunu  = Decay(B_meson      , [D0star_meson, mu]     , nu, V_mu_square, Vcb_pdg, 'semileptonic_vector', formFactorLabel='B_to_Dstar'  ).decay_rate   if self.mass < 3.1 else 0
+    B0_to_Dstarunu  = Decay(B0_meson     , [Dstar_meson, mu]      , nu, V_mu_square, Vcb_pdg, 'semileptonic_vector', formFactorLabel='B_to_Dstar'  ).decay_rate   if self.mass < 3.1 else 0
+    B0_to_rhounu    = Decay(B0_meson     , [rho_meson, mu]        , nu, V_mu_square, Vub_pdg, 'semileptonic_vector', formFactorLabel='B_to_rho'    ).decay_rate     if self.mass < 4.4 else 0
+    Bs_to_Dsstarunu = Decay(B_sub_s_meson, [D_sub_sstar_meson, mu], nu, V_mu_square, Vcb_pdg, 'semileptonic_vector', formFactorLabel='Bs_to_Dsstar').decay_rate if self.mass < 3.1 else 0 
+    Bs_to_Kstarunu  = Decay(B_sub_s_meson, [Kstar_meson, mu]      , nu, V_mu_square, Vub_pdg, 'semileptonic_vector', formFactorLabel='Bs_to_Kstar' ).decay_rate  if self.mass < 4.3 else 0
+    
+    B_to_enu  = Decay(B_meson,       el, nu, V_el_square, Vub_pdg, 'leptonic').decay_rate if self.mass < 5.1 else 0
+    B_to_D0enu   = Decay(B_meson      , [D0_meson, el]     , nu, V_el_square, Vcb_pdg, 'semileptonic_pseudoscalar', formFactorLabel='B_to_D' ).decay_rate  if self.mass < 3.3 else 0
+
     
     # production rates
 
@@ -207,11 +237,40 @@ class ProductionRates(object):
                     + B_to_D0staruHNL  + B0_to_DstaruHNL + B0_to_rhouHNL \
                     + Bs_to_DsstaruHNL + Bs_to_KstaruHNL
     
-    self.BR_Bu =    B_to_uHNL*B_meson.lifetime        + Bc_to_uHNL*B_sub_c_meson.lifetime      + B_to_D0uHNL*B_meson.lifetime \
-                    + B_to_pi0uHNL*B_meson.lifetime      + B0_to_piuHNL*B0_meson.lifetime    + B0_to_DuHNL*B0_meson.lifetime  \
-                    + Bs_to_KuHNL*B_sub_s_meson.lifetime      + Bs_to_DsuHNL*B_sub_s_meson.lifetime    + B_to_rho0uHNL*B_meson.lifetime \
-                    + B_to_D0staruHNL*B_meson.lifetime  + B0_to_DstaruHNL*B0_meson.lifetime + B0_to_rhouHNL*B0_meson.lifetime \
-                    + Bs_to_DsstaruHNL*B_sub_s_meson.lifetime + Bs_to_KstaruHNL*B_sub_s_meson.lifetime
+    #self.BR_Bu =    B_to_uHNL*B_meson.lifetime        + Bc_to_uHNL*B_sub_c_meson.lifetime      + B_to_D0uHNL*B_meson.lifetime \
+    #                + B_to_pi0uHNL*B_meson.lifetime      + B0_to_piuHNL*B0_meson.lifetime    + B0_to_DuHNL*B0_meson.lifetime  \
+    #                + Bs_to_KuHNL*B_sub_s_meson.lifetime      + Bs_to_DsuHNL*B_sub_s_meson.lifetime    + B_to_rho0uHNL*B_meson.lifetime \
+    #                + B_to_D0staruHNL*B_meson.lifetime  + B0_to_DstaruHNL*B0_meson.lifetime + B0_to_rhouHNL*B0_meson.lifetime \
+    #                + Bs_to_DsstaruHNL*B_sub_s_meson.lifetime + Bs_to_KstaruHNL*B_sub_s_meson.lifetime
+
+    self.BR_Bu_HNL =   B_meson.lifetime  * B_meson.fraction  * (B_to_uHNL + B_to_D0uHNL + B_to_pi0uHNL + B_to_rho0uHNL + B_to_D0staruHNL) \
+                 + B0_meson.lifetime * B0_meson.fraction * (B0_to_piuHNL + B0_to_DuHNL + B0_to_DstaruHNL + B0_to_rhouHNL) \
+                 + B_sub_s_meson.lifetime * B_sub_s_meson.fraction * (Bs_to_KuHNL + Bs_to_DsuHNL + Bs_to_DsstaruHNL + Bs_to_KstaruHNL) \
+                 + B_sub_c_meson.lifetime * B_sub_c_meson.fraction * Bc_to_uHNL
+
+    #self.BR_Bu_HNL_small =  B_meson.lifetime  * B_meson.fraction  * (B_to_uHNL + B_to_D0uHNL) 
+    self.BR_Bu_HNL_small =  B_meson.lifetime  *  (B_to_uHNL + B_to_D0uHNL) 
+    self.BR_Be_HNL_small =  B_meson.lifetime  *  (B_to_eHNL + B_to_D0eHNL) 
+    self.BR_Be_HNL_verysmall =  B_meson.lifetime  * B_to_eHNL 
+    self.BR_Bu_HNL_medium =   B_meson.lifetime  * (B_to_uHNL + B_to_D0uHNL + B_to_pi0uHNL + B_to_rho0uHNL + B_to_D0staruHNL) 
+    self.BR_Be_HNL_medium =   B_meson.lifetime  * (B_to_eHNL + B_to_D0eHNL + B_to_pi0eHNL + B_to_rho0eHNL + B_to_D0stareHNL) 
+    self.BR_Bt_HNL_medium =   B_meson.lifetime  * (B_to_tHNL + B_to_D0tHNL + B_to_pi0tHNL + B_to_rho0tHNL + B_to_D0startHNL) 
+    
+    self.BR_Bu_nu =   B_meson.lifetime  * B_meson.fraction  * (B_to_unu + B_to_D0unu + B_to_pi0unu + B_to_rho0unu + B_to_D0starunu) \
+                 + B0_meson.lifetime * B0_meson.fraction * (B0_to_piunu + B0_to_Dunu + B0_to_Dstarunu + B0_to_rhounu) \
+                 + B_sub_s_meson.lifetime * B_sub_s_meson.fraction * (Bs_to_Kunu + Bs_to_Dsunu + Bs_to_Dsstarunu + Bs_to_Kstarunu) \
+                 + B_sub_c_meson.lifetime * B_sub_c_meson.fraction * Bc_to_unu
+
+    #self.BR_Bu_nu_small =   B_meson.lifetime  * B_meson.fraction  * (B_to_unu + B_to_D0unu) 
+    self.BR_Bu_nu_small =   B_meson.lifetime * (B_to_unu + B_to_D0unu) 
+    self.BR_Be_nu_small =   B_meson.lifetime * (B_to_enu + B_to_D0enu) 
+
+    
+    self.BR_Bl_test =   B_meson.lifetime  * B_meson.fraction  * (B_to_unu + B_to_D0unu + B_to_pi0unu + B_to_rho0unu + B_to_D0starunu) / (self.mixing_angle_square * 0.1099) \
+                 + B0_meson.lifetime * B0_meson.fraction * (B0_to_piunu + B0_to_Dunu + B0_to_Dstarunu + B0_to_rhounu) / (self.mixing_angle_square * 0.1033) \
+                 + B_sub_s_meson.lifetime * B_sub_s_meson.fraction * (Bs_to_Kunu + Bs_to_Dsunu + Bs_to_Dsstarunu + Bs_to_Kstarunu) / (self.mixing_angle_square * 0.096) #\
+                 #+ B_sub_c_meson.lifetime * B_sub_c_meson.fraction * Bc_to_unu / (self.mixing_angle_square * 0.1099)
+
 
     self.Gamma_Bt = B_to_tHNL          + Bc_to_tHNL      + B_to_D0tHNL \
                     + B_to_pi0tHNL     + B0_to_pitHNL    + B0_to_DtHNL  \
@@ -241,6 +300,9 @@ class ProductionRates(object):
     self.Gamma_Bu_semileptonic_vector = B_to_rho0uHNL      + B_to_D0staruHNL \
                                         + B0_to_DstaruHNL  + B0_to_rhouHNL \
                                         + Bs_to_DsstaruHNL + Bs_to_KstaruHNL
+
+
+
 
     # D-channel
     self.Gamma_De_leptonic = D_to_eHNL + Ds_to_eHNL

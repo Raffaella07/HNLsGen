@@ -12,12 +12,14 @@ const_pi = math.pi
 
   
 class Particle(object):
-  def __init__(self, name, particle_type, mass=None, decay_constant=None, lifetime=None):
+  def __init__(self, name, particle_type, mass=None, decay_constant=None, lifetime=None, fraction=None):
     self.name           = name
     self.particle_type  = particle_type
     self.mass           = mass
     self.decay_constant = decay_constant
     self.lifetime       = lifetime
+    self.fraction       = fraction
+    
 
     if self.particle_type not in ['meson', 'lepton']: 
       raise RuntimeError('You entered an unkown type of particles, please check')
