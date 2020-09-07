@@ -86,8 +86,8 @@ class Job(object):
       addlines = [
         '### {lbla} ###',
         'echo "Going to copy cmsdriver to work dir"',
-        'cd -', 
-        'cp {jopa} $WORKDIR/. ',
+        'cp $STARTDIR/cmsDrivers/{jopa} $WORKDIR/. ',
+        'cp $STARTDIR/slurm/{lbldir}/{jopa} $WORKDIR/. ',
         'echo "Going to run {lbla}"',
         'DATE_START_{lbla}=`date +%s`',
         '{command}',
@@ -104,7 +104,7 @@ class Job(object):
         ''
       ]
       addlines = '\n'.join(addlines)
-      addlines = addlines.format(jopa=jopa, nthr=nthr, lblb=labelb, nevtsjob=nevtsjob, lbla=labela, command=command)
+      addlines = addlines.format(jopa=jopa, nthr=nthr, lblb=labelb, nevtsjob=nevtsjob, lbldir=self.prodLabel, lbla=labela, command=command)
 
     return addlines
 
@@ -177,8 +177,7 @@ class Job(object):
         'echo ""',
         '',
         'echo "Going to copy cmsdriver to work dir"',
-        'cd -', 
-        'cp {jop1} $WORKDIR/. ',
+        'cp $STARTDIR/slurm/{lbldir}/{jop1} $WORKDIR/. ',
         'echo ""',
         '',
         #'echo "Going to copy the evtGen particle data file"',  # currently not needed, cannot use local copy of file
@@ -215,6 +214,7 @@ class Job(object):
           ctau=p.ctau,
           hh=self.time,
           mem=self.mem,
+          lbldir=self.prodLabel,
           arr='1-{}'.format(self.njobs),
           pl=self.prodLabel,
           user=self.user,
