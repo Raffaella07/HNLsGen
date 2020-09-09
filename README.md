@@ -60,7 +60,8 @@ BPH_start_cfg.py                  => mod tau->3mu  with Fall18
 BPH_mod_cfg.py                    => tentative HNL with Fall18
 ```
 
-## Produce GEN-SIM
+## Production
+### GEN-SIM
 ```
 cd HNLsGen 
 cmsRun cmsDrivers/BPH_mod_cfg.py maxEvents=100 outputFile=genSimFiles/BPH-test.root
@@ -73,6 +74,12 @@ Create a VXX_points.py files starting from points.py, then submit
 ```
 python genHelper.py --help
 ```
+### Up to miniAOD
+```
+python prodHelper.py --help
+```
+Note that using the --dogenonly option is equivalent to using genHelper.py
+
 
 ## Analyze
 To visualize the decay chain in a tree (printout to screen), using ```vector<reco::genParticles>```
@@ -98,5 +105,11 @@ Proto-analyzer of ```edm::HepMCProduct```
 ```
 cd genLevelAnalysis
 cmsRun test_EvtGenTestAnalyzer.py
+```
+
+To analyze particles' distributions
+```
+cd genLevelAnalysis
+python hnl_signal_reweighter.py
 ```
 

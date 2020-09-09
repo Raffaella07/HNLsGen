@@ -83,7 +83,7 @@ branches = [
     'd_q',
     'd_pdgid',
 
-    # # the prompt lepton
+    # # the triggered lepton
     'l0_pt',
     'l0_eta',
     'l0_phi',
@@ -135,7 +135,7 @@ branches = [
     'Lxy_cos', # cosine of the pointing angle in the transverse plane
 
     'Lxyz_b', #3D displacement of the B wrt to primary vertex
-    'Lxyz_l0' #3D displacement of the prompt lepton wrt to B vertex
+    'Lxyz_l0' #3D displacement of the triggered lepton wrt to B vertex
 ]
 
 # couplings to be tested, for which the reweight is run
@@ -181,8 +181,8 @@ handles['genP'] = ('genParticles' , Handle('std::vector<reco::GenParticle>'))
 #handles['lhe']         = ('externalLHEProducer', Handle('LHEEventProduct'))
 
 # output file and tree gymnastics
-outfile = ROOT.TFile.Open('lifetimes_test.root', 'recreate')
-#outfile = ROOT.TFile.Open('genNTuples_10k.root', 'recreate')
+#outfile = ROOT.TFile.Open('genNTuples_ctau100mm_fullEvtGen_10k.root', 'recreate')
+outfile = ROOT.TFile.Open('myGenTest.root', 'recreate')
 ntuple  = ROOT.TNtuple('tree', 'tree', ':'.join(branches))
 tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branches to unphysical -99       
 
@@ -190,8 +190,14 @@ tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branc
 
 # get to the real thing
 print 'loading the file ...'
-events = Events('samples/BPH-test_numEvent50.root')
+events = Events('../genSimFiles/step1.root')
+#events = Events('samples/BPH-test_numEvent50.root')
+#events = Events('samples/BPH-test_numEvent100_Bmod.root')
 #events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST0/BPH-test_numEvent10000.root')
+#events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_ctau100mm/BPH-test_numEvent10000.root')
+#events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_ctau1_m1/BPH-test_numEvent10000.root')
+#events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_ctau1_m1_fullEvtGen/BPH-test_numEvent10000.root')
+#events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST_mupt5_ctau100mm/BPH-test_numEvent80000.root')
 print '... done!'
 
 for i, event in enumerate(events):
@@ -246,11 +252,11 @@ for i, event in enumerate(events):
   else:
     event.the_d = None
 
-  # # then the prompt lepton
+  # # then the triggered lepton
   the_pls = sorted([ii for ii in event.the_b_mother.daughters if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt(), reverse=True)
   if len(the_pls):
     event.the_pl = the_pls[0]
-    #print '3. found a prompt lepton of pdgId {a}'.format(a=event.the_pl.pdgId())
+    #print '3. found a triggered lepton of pdgId {a}'.format(a=event.the_pl.pdgId())
   else:
     event.the_pl = None
   
@@ -302,12 +308,13 @@ for i, event in enumerate(events):
   if len(the_ks) and len(the_pis):   
     event.the_d0daughters = event.the_k.p4() + event.the_pi.p4()
 
-  # # to get the invariant mass of the D0 daughters
+  # # to get the invariant mass of the B daughters
   if len(the_ds) and len(the_pls) and len(the_hns):
      event.the_bdaughters = event.the_hn.p4() + event.the_d.p4() + event.the_pl.p4()
+     #print event.the_bdaughters.mass()
     
   # identify the primary vertex
-  # for that, needs the prompt lepton
+  # for that, needs the triggered lepton
   if len(the_pls):
     event.the_hn.the_pv = event.the_pl.vertex()
   
@@ -317,6 +324,7 @@ for i, event in enumerate(events):
   
   # 2D transverse and 3D displacement, Pythagoras
   if len(the_pls) and len(the_lep_daughters):
+    #print 'pl vx: {a} l1 vx: {b} hnl vx: {c}'.format(a=event.the_pl.vx(), b=event.the_hn.lep.vx(), c=event.the_hn.vx()) 
     event.Lxy  = np.sqrt((event.the_hn.the_pv.x() - event.the_hn.the_sv.x())**2 + \
                          (event.the_hn.the_pv.y() - event.the_hn.the_sv.y())**2)
 
@@ -324,6 +332,20 @@ for i, event in enumerate(events):
                          (event.the_hn.the_pv.y() - event.the_hn.the_sv.y())**2 + \
                          (event.the_hn.the_pv.z() - event.the_hn.the_sv.z())**2)
 
+    #event.Lxyz = np.sqrt((event.the_hn.vx() - event.the_hn.lep.vx())**2 + \
+    #                  (event.the_hn.vy() - event.the_hn.lep.vy())**2 + \
+    #                  (event.the_hn.vz() - event.the_hn.lep.vz())**2)
+
+    #print 'x vertex: triggered lep | hnl | hnl daughter lep | diff(hnl,hnl daughter lep)'
+    #print '{a} | {b} | {c} | {d}'.format(a=event.the_pl.vx(), b=event.the_hn.vx(), c=event.the_hn.pi.vx(), d=event.the_hn.vx()-event.the_hn.pi.vx())
+
+    #print 'y vertex: triggered lep | hnl | hnl daughter lep | diff(hnl,hnl daughter lep)'
+    #print '{a} | {b} | {c} | {d}'.format(a=event.the_pl.vy(), b=event.the_hn.vy(), c=event.the_hn.lep.vy(), d=event.the_hn.vy()-event.the_hn.lep.vy())
+
+
+    #print 'z vertex: triggered lep | hnl | hnl daughter lep | diff(hnl,hnl daughter lep)'
+    #print '{a} | {b} | {c} | {d}'.format(a=event.the_pl.vz(), b=event.the_hn.vz(), c=event.the_hn.lep.vz(), d=event.the_hn.vz()-event.the_hn.lep.vz())
+    
     #print 'pvx: {a} svx: {b} pvy: {c} svy: {d} Lxy: {e}'.format(a=event.the_hn.the_pv.x(), b= event.the_hn.the_sv.x(), c=event.the_hn.the_pv.y(), d=event.the_hn.the_sv.y(), e=event.Lxy)
     #print 'pvz: {a} svz: {b} Lxyz: {c}'.format(a=event.the_hn.the_pv.z(), b= event.the_hn.the_sv.z(), c=event.Lxyz)
   # per event ct, as derived from the flight distance and Lorentz boost  
@@ -333,7 +355,7 @@ for i, event in enumerate(events):
   # we get the lifetime from the kinematics 
   if len(the_pls) and len(the_lep_daughters):
     event.the_hn.ct_reco = event.Lxyz / (event.the_hn.beta * event.the_hn.gamma)
-
+    #print 'hnl ct reco: {a}'.format(a=event.the_hn.ct_reco)
   # pointing angle    
   #if len(the_pls) and len(the_lep_daughters):
   #  hn_pt_vect = ROOT.math.XYZVector(event.the_hnldaughters.px(),
@@ -409,10 +431,8 @@ for i, event in enumerate(events):
   # get the lifetime of the B
   event.the_b_mother.beta  = event.the_b_mother.p4().Beta()
   event.the_b_mother.gamma = event.the_b_mother.p4().Gamma()
-  
+ 
   event.the_b_mother.ct_reco = event.Lxyz_pl / (event.the_b_mother.beta * event.the_b_mother.gamma)
-  
-  #print event.the_b_mother.ct_reco
    
   # reset before filling
   for k, v in tofill.iteritems(): tofill[k] = -99. # initialise before filling
@@ -437,7 +457,7 @@ for i, event in enumerate(events):
   tofill['hnl_q'      ] = event.the_hn.charge()   
   #tofill['hnl_ct_lhe' ] = event.hnl_ct_lhe 
   if len(the_lep_daughters):
-    tofill['hnl_ct_reco'] = event.the_hn.ct_reco * 10. # convert cm to mm 
+    tofill['hnl_ct_reco'] = event.the_hn.ct_reco #* 10. # convert cm to mm 
   tofill['hnl_beta'   ] = event.the_hn.beta  
   tofill['hnl_gamma'  ] = event.the_hn.gamma  
   tofill['hnl_pdgid'  ] = event.the_hn.pdgId()  

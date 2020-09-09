@@ -10,7 +10,6 @@ import subprocess
 
 from python.common import Point
 
-
 class Job(object):
   def __init__(self,opt):
 
