@@ -73,7 +73,7 @@ class Job(object):
         '#SBATCH --account=t3',
         '',
         'DIRNAME="{pl}"/mass{m}_ctau{ctau}/',
-        'STARTDIR=/work/mratti/GEN_HNL_newPythia/CMSSW_10_2_3/src/HNLsGen/',
+        'STARTDIR=$CMSSW_BASE/src/HNLsGen/', # Will take the cmssw version used at submissio time
         'TOPWORKDIR="/scratch/{user}/"',
         'JOBDIR="gen_${{SLURM_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}}"', # MIND THE PARENTHESIS
         'WORKDIR=$TOPWORKDIR/$JOBDIR',

@@ -49,6 +49,7 @@ class Job(object):
     print('')
 
 
+  '''
   def getStartDir(self):
     if self.user == 'mratti':
       startdir = '/work/mratti/GEN_HNL_newPythia/CMSSW_10_2_3/src/HNLsGen/'
@@ -57,7 +58,7 @@ class Job(object):
     else:
       startdir = '`pwd`'
     return startdir
-  
+  '''
 
   def makeEvtGenData(self):
     for p in self.points:      
@@ -153,7 +154,7 @@ class Job(object):
         '#SBATCH --account=t3',
         '',
         'DIRNAME="{pl}"/mass{m}_ctau{ctau}/',
-        'STARTDIR="{stdr}"',
+        'STARTDIR=$CMSSW_BASE/src/HNLsGen/', # Will take the cmssw version used at submissio time
         'TOPWORKDIR="/scratch/{user}/"',
         'JOBDIR="gen_${{SLURM_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}}"', # MIND THE PARENTHESIS
         'WORKDIR=$TOPWORKDIR/$JOBDIR',
@@ -225,7 +226,6 @@ class Job(object):
           jop1=self.jop1,
           nevtsjob=self.nevtsjob,
           nthr=self.nthr,
-          stdr=self.getStartDir(),
           jop2=self.jop2,
           jop3=self.jop3,
           jop4=self.jop4,
