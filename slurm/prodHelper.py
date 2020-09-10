@@ -147,7 +147,6 @@ class Job(object):
         '#SBATCH --account=t3',
         '',
         'DIRNAME="{pl}"/mass{m}_ctau{ctau}/',
-        'ENVDIR="/work/mratti/GEN_HNL_newPythia/CMSSW_10_2_3/src/HNLsGen/"',
         'STARTDIR="{stdr}"',
         'TOPWORKDIR="/scratch/{user}/"',
         'JOBDIR="gen_${{SLURM_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}}"', # MIND THE PARENTHESIS
@@ -160,9 +159,8 @@ class Job(object):
         'shopt -s expand_aliases',
         'echo ""',
         'echo "Going to set up cms environment"',
-        'cd $ENVDIR',
-        'cmsenv',
         'cd $STARTDIR',
+        'cmsenv',
         'echo ""',
         '',
         'echo "Going to create work dir"',
