@@ -84,6 +84,7 @@ class Job(object):
         command = 'cmsRun {jopa} nThr={nthr} inputFile=BPH-{lblb}.root outputFile=BPH-{lbla}.root seedOffset=$SLURM_ARRAY_TASK_ID'.format(jopa=jopa, nthr=1, lblb=labelb, lbla=labela)
 
       addlines = [
+        '',
         '### {lbla} ###',
         'echo "Going to copy cmsdriver to work dir"',
         'cp $STARTDIR/cmsDrivers/{jopa} $WORKDIR/. ',
@@ -96,13 +97,18 @@ class Job(object):
         'echo "Content of current directory"',
         'ls -al',
         'echo ""',
+        'RUNTIME_{lbla}=$((DATE_END_{lbla}-DATE_START_{lbla}))',
+        'echo "Intermediate allclock running time {lbla}: $RUNTIME_{lbla} s"',
+        '',
+      ]
+      if jopa == 'step4.py':
+        addlines += [
         '',
         'echo "Going to copy output to result directory"',
         'xrdcp -f $WORKDIR/BPH-{lbla}.root $OUTSEPREFIX/$SERESULTDIR/{lbla}_nj$SLURM_ARRAY_TASK_ID".root"',
-        'RUNTIME_{lbla}=$((DATE_END_{lbla}-DATE_START_{lbla}))',
-        'echo "Intermediate allclock running time {lbla}: $RUNTIME_{lbla} s"'
-        ''
-      ]
+        '',
+        ]
+
       addlines = '\n'.join(addlines)
       addlines = addlines.format(jopa=jopa, nthr=nthr, lblb=labelb, nevtsjob=nevtsjob, lbldir=self.prodLabel, lbla=labela, command=command)
 
@@ -147,7 +153,6 @@ class Job(object):
         '#SBATCH --account=t3',
         '',
         'DIRNAME="{pl}"/mass{m}_ctau{ctau}/',
-        'ENVDIR="/work/mratti/GEN_HNL_newPythia/CMSSW_10_2_3/src/HNLsGen/"',
         'STARTDIR="{stdr}"',
         'TOPWORKDIR="/scratch/{user}/"',
         'JOBDIR="gen_${{SLURM_JOB_ID}}_${{SLURM_ARRAY_TASK_ID}}"', # MIND THE PARENTHESIS
@@ -160,9 +165,8 @@ class Job(object):
         'shopt -s expand_aliases',
         'echo ""',
         'echo "Going to set up cms environment"',
-        'cd $ENVDIR',
-        'cmsenv',
         'cd $STARTDIR',
+        'cmsenv',
         'echo ""',
         '',
         'echo "Going to create work dir"',
