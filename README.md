@@ -33,9 +33,7 @@ cmsenv
 export PYTHONPATH=$PYTHONPATH:$PWD 
 ```
 
-## Instructions to set up a different version of Pythia within CMSSW
-(WORK IN PROGRESS)
-TODO: revert to previous Pythia version, once clear that we don't need the modified one
+## NOT NEEDED ANYMORE - Instructions to set up a different version of Pythia within CMSSW
 
 This needs to be started from clean CMSSW directory, before cmsenv
 
@@ -53,19 +51,15 @@ Therefore adopt different strategy:
 * the follow again above mentioend twiki page...
 
 
-
 ## Drivers 
 ```
-BPH_start_cfg.py                  => mod tau->3mu  with Fall18 
-BPH_mod_cfg.py                    => tentative HNL with Fall18
+BPH_start_cfg.py                  => mod tau->3mu  with Fall18, starting point
+BPH_mod_cfg.py                    => FROZEN DRIVER, for sharing
+step1.py                          =>                for development
 ```
 
 ## Production
 ### GEN-SIM
-```
-cd HNLsGen 
-cmsRun cmsDrivers/BPH_mod_cfg.py maxEvents=100 outputFile=genSimFiles/BPH-test.root
-```
 Submission to slurm:
 ```
 cd slurm

@@ -538,8 +538,8 @@ def doAnalysis(path,pl,points,name,path2=None,pl2=None,points2=None,path3=None,p
       fns = glob(path2.format(m=p.mass,ctau=p.orig_ctau))
       s = Sample(mass=p.mass, ctau=p.ctau, vv=p.vv, infileNames=fns, isrw=p.isrw, orig_vv=p.orig_vv, label=pl2)
       s.fillHistos()
-      s.fillAcceptance()
       #s.fillHistos(sel='(l0_pt>5 && abs(l0_eta)<1.6)', sellabel='pt5_eta1p6') # filter selection
+      s.fillAcceptance()
       s.fillExpNevts()
       s.fillFilterEff()
       s.stamp()
@@ -672,8 +672,8 @@ if __name__ == "__main__":
   doInclusive = True # 
   doSkipDispl = False #
   doSkipHNLptEta = False
-  doCompareAnalysis = True
-  doTestAnalysis = False
+  doCompareAnalysis = True #
+  doTestAnalysis = True
   doFixedMassAnalysis = False
   doRwAnalysis = False
   doFixedVVAnalysis = False
@@ -689,12 +689,14 @@ if __name__ == "__main__":
   complabel = '' if not opt.pl2 else ('_VS_{}'.format(opt.pl2) if not opt.pl3 else '_VS_{}_VS_{}'.format(opt.pl2,opt.pl3))
   os.system('mkdir -p ./plots/{}{}{}'.format(opt.pl,complabel,suffix))
 
-  #path = './outputfiles/' + opt.pl + '/mass{m}_ctau{ctau}_miniGenTree*.root'
-  path = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGenDump/' + opt.pl + "/mass{m}_ctau{ctau}"  + '/mass{m}_ctau{ctau}_miniGenTree*.root'
+  path = './outputfiles/' + opt.pl + '/mass{m}_ctau{ctau}_miniGenTree*.root'
+  #path = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGenDump/' + opt.pl + "/mass{m}_ctau{ctau}"  + '/mass{m}_ctau{ctau}_miniGenTree*.root'
   if opt.pl2: 
-    path2 = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGenDump/' + opt.pl2 + "/mass{m}_ctau{ctau}"  + '/mass{m}_ctau{ctau}_miniGenTree*.root'
+    path2 = './outputfiles/' + opt.pl2 + '/mass{m}_ctau{ctau}_miniGenTree*.root'
+    #path2 = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGenDump/' + opt.pl2 + "/mass{m}_ctau{ctau}"  + '/mass{m}_ctau{ctau}_miniGenTree*.root'
   if opt.pl3: 
-    path3 = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGenDump/' + opt.pl3 + "/mass{m}_ctau{ctau}"  + '/mass{m}_ctau{ctau}_miniGenTree*.root'
+    path3 = './outputfiles/' + opt.pl3 + '/mass{m}_ctau{ctau}_miniGenTree*.root'
+    #path3 = '/pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGenDump/' + opt.pl3 + "/mass{m}_ctau{ctau}"  + '/mass{m}_ctau{ctau}_miniGenTree*.root'
   
 
   if doCompareAnalysis:
@@ -708,15 +710,18 @@ if __name__ == "__main__":
     for p in points2:
       p.stamp()
     existing_points2=checkFiles(path=path2,points=points2)
-    #doAnalysis(path=path,pl=opt.pl,points=existing_points,name='comp_norw',path2=path2,pl2=opt.pl2,points2=existing_points2)
-    for p in points3:
-      p.stamp()
-    existing_points3=checkFiles(path=path3,points=points3)
-    doAnalysis(path=path,pl=opt.pl,points=existing_points,name='comp_norw',path2=path2,pl2=opt.pl2,points2=existing_points2,path3=path3,pl3=opt.pl3,points3=existing_points3)
+    if not opt.pl3: 
+      doAnalysis(path=path,pl=opt.pl,points=existing_points,name='comp_norw',path2=path2,pl2=opt.pl2,points2=existing_points2)
+    else:
+      for p in points3:
+        p.stamp()
+      existing_points3=checkFiles(path=path3,points=points3)
+      doAnalysis(path=path,pl=opt.pl,points=existing_points,name='comp_norw',path2=path2,pl2=opt.pl2,points2=existing_points2,path3=path3,pl3=opt.pl3,points3=existing_points3)
 
   if doTestAnalysis:
     #points = [Point(mass=1.0,ctau=None,vv=5e-04,isrw=False)]
     points = [Point(mass=1.5,ctau=None,vv=1e-03,isrw=False)]
+    #points = [Point(mass=3.0,ctau=None,vv=5e-05,isrw=False)]
     for p in points:
       p.stamp()
     existing_points=checkFiles(path=path,points=points)
