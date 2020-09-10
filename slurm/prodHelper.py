@@ -27,7 +27,7 @@ class Job(object):
     self.nevtsjob = self.nevts if not self.domultijob else self.nevts/self.njobs
     self.prodLabel = '{v}_n{n}_njt{nj}'.format(v=self.ver,n=self.nevts,nj=self.njobs)
     self.nthr = 8 if self.domultithread else 1
-    self.npremixfiles = 5 #the number of events per file being 1200, this should be enough
+    self.npremixfiles = 20 # the number of events per file being 1200
     self.user = os.environ["USER"]
     self.jop1 = 'step1.py'
     self.jop2 = 'step2.py'
@@ -236,7 +236,6 @@ class Job(object):
     
     print('===> Created templates for batch submission\n')
     
-
   def writeCfg(self):
     with open('{}/cfg.txt'.format(self.prodLabel), 'w') as f:
       f.write('Run genHelper.py with following options\n')
