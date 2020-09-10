@@ -22,7 +22,7 @@ scram b
 cd HNLsGen
 git checkout -b mybranch
 
-export PYTHONPATH=$PYTHONPATH:$PWD/HNLsGen 
+export PYTHONPATH=$PYTHONPATH:$PWD 
 
 ```
 
