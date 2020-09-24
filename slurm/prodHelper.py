@@ -6,9 +6,8 @@ import sys
 import os
 import subprocess
 
-sys.path.append('../python/') 
-from common import Point
-
+from python.common import Point
+from python.decays import Decays
 
 class Job(object):
   def __init__(self,opt):
@@ -71,6 +70,51 @@ class Job(object):
       with open('../evtGenData/evt_2014_mass{m}_ctau{ctau}.pdl'.format(m=p.mass, ctau=p.ctau), 'w') as fout:
         fout.write(contents)
     print('===> Created evtGen particle property files\n')
+
+
+  def makeEvtGenDecay(self):
+    for p in self.points:
+      decay_table = [
+       'Alias myB+ B+',
+       'Alias myB- B-',
+       '',
+       'ChargeConj myB+ myB-',
+       'ChargeConj hnl anti_hnl',
+       'ChargeConj D0  anti-D0',
+       'ChargeConj D*0 anti-D*0',
+       'ChargeConj pi0 pi0',
+       'ChargeConj rho0 rho0',
+       '',
+       'Decay myB-',
+       '{br0:.10f}          mu-    anti_hnl    PHSP;',
+       '{br1:.10f}    D0    mu-    anti_hnl    PHSP;',
+       '{br2:.10f}    D*0   mu-    anti_hnl    PHSP;',
+       '{br3:.10f}    pi0   mu-    anti_hnl    PHSP;',
+       '{br4:.10f}   rho0   mu-    anti_hnl    PHSP;',
+       'Enddecay',
+       'CDecay myB+',
+       '',
+       'Decay anti_hnl',
+       '1.0     mu+    pi-    PHSP;',
+       'Enddecay',
+       'CDecay hnl',
+       '',
+       'End',      
+       '',
+      ]
+
+      decay_table = '\n'.join(decay_table)
+      dec = Decays(mass=p.mass, mixing_angle_square=1)
+
+      decay_table = decay_table.format(br0=dec.B_to_uHNL.BR,
+                         br1=dec.B_to_D0uHNL.BR,
+                         br2=dec.B_to_D0staruHNL.BR,
+                         br3=dec.B_to_pi0uHNL.BR,
+                         br4=dec.B_to_rho0uHNL.BR)
+
+      with open('../evtGenData/HNLdecay_mass{m}.DEC'.format(m=p.mass), 'w') as fout:
+        fout.write(decay_table)
+      print('===> Created evtGen decay files\n')
 
 
   def appendTemplate(self, jopa, jopb, nthr, nevtsjob, npremixfiles=0):
@@ -291,6 +335,8 @@ if __name__ == "__main__":
   job.makeProdDir()
 
   job.makeEvtGenData()
+
+  job.makeEvtGenDecay()
 
   job.makeTemplates()
 
