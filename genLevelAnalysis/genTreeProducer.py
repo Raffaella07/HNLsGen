@@ -12,7 +12,7 @@ from DataFormats.FWLite import Events, Handle
 from PhysicsTools.HeppyCore.utils.deltar import deltaR, deltaPhi
 from scipy.constants import c as speed_of_light
 
-from common import Point,getVV,getCtau 
+from python.common import Point,getVV,getCtau 
 
 ##############
 # Globals
