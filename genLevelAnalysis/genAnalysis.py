@@ -285,7 +285,7 @@ class Sample(object):
     To retrieve and save the filter efficiency - from the minigentree
     TODO: retrieve the cross-section => for that you would need to run without separate jobs
     '''
-    if debug: print('Info in Sample.fillFilterEff()')
+    ##if debug: print('Info in Sample.fillFilterEff()')
 
     efffnum = ROOT.TH1F('efffnum', 'efffnum', 1, 0, 13000)
     efffden = ROOT.TH1F('efffden', 'efffden', 1, 0, 13000)
@@ -302,7 +302,7 @@ class Sample(object):
     self.njobs_succ=0
     path = '/pnfs/psi.ch/cms/trivcat/store/user/{u}/BHNLsGen/{pl}/mass{m}_ctau{ctau}/step1*root'.format(u=os.environ['USER'],pl=self.label,m=self.mass,ctau=self.ctau)
     for fname in glob(path):
-        if debug: print 'fname=',fname
+        #if debug: print 'fname=',fname
         f = TFile.Open(fname)
         if f.GetListOfKeys().Contains('Events'):
           self.njobs_succ += 1
