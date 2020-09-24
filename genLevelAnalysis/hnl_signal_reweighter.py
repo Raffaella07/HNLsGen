@@ -182,7 +182,8 @@ handles['genP'] = ('genParticles' , Handle('std::vector<reco::GenParticle>'))
 
 # output file and tree gymnastics
 #outfile = ROOT.TFile.Open('genNTuples_ctau100mm_fullEvtGen_10k.root', 'recreate')
-outfile = ROOT.TFile.Open('myGenTest.root', 'recreate')
+#outfile = ROOT.TFile.Open('myGenTest.root', 'recreate')
+outfile = ROOT.TFile.Open('outputfiles/genNTuples_V02_testLeptonic.root', 'recreate')
 ntuple  = ROOT.TNtuple('tree', 'tree', ':'.join(branches))
 tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branches to unphysical -99       
 
@@ -190,7 +191,8 @@ tofill = OrderedDict(zip(branches, [-99.]*len(branches))) # initialise all branc
 
 # get to the real thing
 print 'loading the file ...'
-events = Events('../genSimFiles/step1.root')
+events = Events('/pnfs/psi.ch/cms/trivcat/store/user/anlyon/BHNLsGen/V02_testLeptonic_n450000_njt100/mass1.5_ctau51.922757246/step1_nj95.root')
+#events = Events('../genSimFiles/step1.root')
 #events = Events('samples/BPH-test_numEvent50.root')
 #events = Events('samples/BPH-test_numEvent100_Bmod.root')
 #events = Events('root://t3dcachedb.psi.ch:1094//pnfs/psi.ch/cms/trivcat/store/user/mratti/BHNLsGen/TEST0/BPH-test_numEvent10000.root')
@@ -261,23 +263,24 @@ for i, event in enumerate(events):
     event.the_pl = None
   
   # D0s daughters
-  event.the_d.daughters = [event.the_d.daughter(jj) for jj in range(event.the_d.numberOfDaughters())]
+  if len(the_ds):
+    event.the_d.daughters = [event.the_d.daughter(jj) for jj in range(event.the_d.numberOfDaughters())]
   
-  # #find the pion
-  the_pis = sorted([ii for ii in event.the_d.daughters if abs(ii.pdgId())==211], key = lambda x : x.pt(), reverse=True)
-  if len(the_pis):
-      event.the_pi = the_pis[0]
-      #print '4. found a pion with pdgId {a}'.format(a=event.the_pi.pdgId())
-  else:
-      event.the_pi = None
-      
-  # find the kaon
-  the_ks = sorted([ii for ii in event.the_d.daughters if abs(ii.pdgId())==321], key = lambda x : x.pt(), reverse=True)
-  if len(the_ks):
-      event.the_k = the_ks[0]
-      #print '5. found a kaon with pdgId {a}'.format(a=event.the_k.pdgId())
-  else:
-      event.the_k = None
+    # #find the pion
+    the_pis = sorted([ii for ii in event.the_d.daughters if abs(ii.pdgId())==211], key = lambda x : x.pt(), reverse=True)
+    if len(the_pis):
+        event.the_pi = the_pis[0]
+        #print '4. found a pion with pdgId {a}'.format(a=event.the_pi.pdgId())
+    else:
+        event.the_pi = None
+        
+    # find the kaon
+    the_ks = sorted([ii for ii in event.the_d.daughters if abs(ii.pdgId())==321], key = lambda x : x.pt(), reverse=True)
+    if len(the_ks):
+        event.the_k = the_ks[0]
+        #print '5. found a kaon with pdgId {a}'.format(a=event.the_k.pdgId())
+    else:
+        event.the_k = None
  
 
   # HNL daughters
@@ -305,13 +308,16 @@ for i, event in enumerate(events):
     event.the_hnldaughters = event.the_hn.lep.p4() + event.the_hn.pi.p4()
   
   # # to get the invariant mass of the D0 daughters
-  if len(the_ks) and len(the_pis):   
-    event.the_d0daughters = event.the_k.p4() + event.the_pi.p4()
+  if len(the_ds):
+    if len(the_ks) and len(the_pis):   
+      event.the_d0daughters = event.the_k.p4() + event.the_pi.p4()
 
   # # to get the invariant mass of the B daughters
   if len(the_ds) and len(the_pls) and len(the_hns):
      event.the_bdaughters = event.the_hn.p4() + event.the_d.p4() + event.the_pl.p4()
      #print event.the_bdaughters.mass()
+  elif not len(the_ds):
+     event.the_bdaughters = event.the_hn.p4() + event.the_pl.p4()
     
   # identify the primary vertex
   # for that, needs the triggered lepton
@@ -454,7 +460,7 @@ for i, event in enumerate(events):
   tofill['hnl_eta'    ] = event.the_hn.eta()    
   tofill['hnl_phi'    ] = event.the_hn.phi()    
   tofill['hnl_mass'   ] = event.the_hn.mass()   
-  tofill['hnl_q'      ] = event.the_hn.charge()   
+  #tofill['hnl_q'      ] = event.the_hn.charge()   
   #tofill['hnl_ct_lhe' ] = event.hnl_ct_lhe 
   if len(the_lep_daughters):
     tofill['hnl_ct_reco'] = event.the_hn.ct_reco #* 10. # convert cm to mm 
@@ -470,21 +476,21 @@ for i, event in enumerate(events):
       tofill['d_q'    ] = event.the_d.charge()   
       tofill['d_pdgid'] = event.the_d.pdgId()   
 
-  if event.the_k:
-      tofill['k_pt'   ] = event.the_k.pt()     
-      tofill['k_eta'  ] = event.the_k.eta()    
-      tofill['k_phi'  ] = event.the_k.phi()    
-      tofill['k_mass' ] = event.the_k.mass()   
-      tofill['k_q'    ] = event.the_k.charge()   
-      tofill['k_pdgid'] = event.the_k.pdgId()   
-   
-  if event.the_pi:
-      tofill['pi_pt'   ] = event.the_pi.pt()     
-      tofill['pi_eta'  ] = event.the_pi.eta()    
-      tofill['pi_phi'  ] = event.the_pi.phi()    
-      tofill['pi_mass' ] = event.the_pi.mass()   
-      tofill['pi_q'    ] = event.the_pi.charge()   
-      tofill['pi_pdgid'] = event.the_pi.pdgId()   
+      if event.the_k:
+          tofill['k_pt'   ] = event.the_k.pt()     
+          tofill['k_eta'  ] = event.the_k.eta()    
+          tofill['k_phi'  ] = event.the_k.phi()    
+          tofill['k_mass' ] = event.the_k.mass()   
+          tofill['k_q'    ] = event.the_k.charge()   
+          tofill['k_pdgid'] = event.the_k.pdgId()   
+       
+      if event.the_pi:
+          tofill['pi_pt'   ] = event.the_pi.pt()     
+          tofill['pi_eta'  ] = event.the_pi.eta()    
+          tofill['pi_phi'  ] = event.the_pi.phi()    
+          tofill['pi_mass' ] = event.the_pi.mass()   
+          tofill['pi_q'    ] = event.the_pi.charge()   
+          tofill['pi_pdgid'] = event.the_pi.pdgId()   
 
   if event.the_pl:
      tofill['l0_pt'      ] = event.the_pl.pt()
@@ -510,10 +516,15 @@ for i, event in enumerate(events):
      tofill['pi1_q'       ] = event.the_hn.pi.charge()
      tofill['pi1_pdgid'   ] = event.the_hn.pi.pdgId()
 
+
   # invariant mass
      tofill['lep_pi_invmass' ] = event.the_hnldaughters.mass()
-  tofill['k_pi_invmass' ] = event.the_d0daughters.mass()
+  if len(the_ds):
+    tofill['k_pi_invmass' ] = event.the_d0daughters.mass()
   tofill['hn_d_pl_invmass'] = event.the_bdaughters.mass()
+  
+  # hnl charge
+  tofill['hnl_q'      ] = event.the_hn.lep.charge() + event.the_hn.pi.charge()   
   
   
   if len(the_pls) and len(the_lep_daughters):
