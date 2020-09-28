@@ -164,7 +164,7 @@ class Job(object):
     if self.dogenonly:
       timestamp=[
         'RUNTIME_step1=$((DATE_END_step1-DATE_START_step1))',
-        'echo "Wallclock running time: $RUNTIME s"'
+        'echo "Wallclock running time: $RUNTIME_step1 s"'
       ]
     else:
       timestamp=[
