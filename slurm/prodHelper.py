@@ -143,7 +143,7 @@ class Job(object):
         'ls -al',
         'echo ""',
         'RUNTIME_{lbla}=$((DATE_END_{lbla}-DATE_START_{lbla}))',
-        'echo "Intermediate allclock running time {lbla}: $RUNTIME_{lbla} s"',
+        'echo "Intermediate wallclock running time {lbla}: $RUNTIME_{lbla} s"',
         '',
       ]
       if jopa == 'step4.py':

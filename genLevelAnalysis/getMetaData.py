@@ -45,10 +45,16 @@ if __name__ == "__main__":
 #   Point(mass=2.0,ctau=None,vv=5e-07),    
 #      Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
 #      Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
-      Point(mass=1.5,ctau=None,vv=1e-03,isrw=False),
+      #Point(mass=1.5,ctau=None,vv=1e-03,isrw=False),
 #      Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
 #      Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
 #      Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
+
+      Point(mass=1.0,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=2.0,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-05,orig_vv=5e-05,isrw=True),
+
+
   ]
 
   for p in points:

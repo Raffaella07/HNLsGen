@@ -112,8 +112,8 @@ class Sample(object):
     'hnl_Lxyz_large' : PlotOpt('Lxyz', '(100,0,10000)', 'L_{xyz} [mm]', 'a.u.', False, True),    
 
     ### the D meson
-    'd_pt'          : PlotOpt('d_pt', '(60,0,30)', 'D meson p_{T} [GeV]', 'a.u.', False, True),   
-    'd_eta'         : PlotOpt('d_eta', '(60,-6,6)', 'D meson #eta', 'a.u.', False, True),      
+#    'd_pt'          : PlotOpt('d_pt', '(60,0,30)', 'D meson p_{T} [GeV]', 'a.u.', False, True),   
+#    'd_eta'         : PlotOpt('d_eta', '(60,-6,6)', 'D meson #eta', 'a.u.', False, True),      
 
     ### the trigger lepton
     'mutrig_pt'     : PlotOpt('l0_pt', '(60,0,30)', '#mu^{trig} p_{T} [GeV]', 'a.u.', False, True),   
@@ -121,12 +121,12 @@ class Sample(object):
 
     #### daughters of the D meson
     ###### the pion
-    'piD_pt'        : PlotOpt('pi_pt', '(60,0,30)', '#pi (from D) p_{T} [GeV]', 'a.u.', False, True),  
-    'piD_eta'       : PlotOpt('pi_eta', '(60,-6,6)', '#pi (from D) #eta', 'a.u.', False, True),      
+#    'piD_pt'        : PlotOpt('pi_pt', '(60,0,30)', '#pi (from D) p_{T} [GeV]', 'a.u.', False, True),  
+#    'piD_eta'       : PlotOpt('pi_eta', '(60,-6,6)', '#pi (from D) #eta', 'a.u.', False, True),      
     
     ###### the kaon
-    'k_pt'          : PlotOpt('k_pt', '(60,0,30)', 'K (from D) p_{T} [GeV]', 'a.u.', False, True),  
-    'k_eta'         : PlotOpt('k_eta', '(60,-6,6)', 'K (from D) #eta', 'a.u.', False, True),      
+#    'k_pt'          : PlotOpt('k_pt', '(60,0,30)', 'K (from D) p_{T} [GeV]', 'a.u.', False, True),  
+#    'k_eta'         : PlotOpt('k_eta', '(60,-6,6)', 'K (from D) #eta', 'a.u.', False, True),      
     
     #### daughters of the HNL
     ###### the lepton
@@ -139,8 +139,10 @@ class Sample(object):
    
     # invariant masses
     'hnl_invmass'   : PlotOpt('lep_pi_invmass', '(50,0,5)', 'HNL invariant mass, m(#mu,#pi) [GeV]', 'a.u.', False, False),     
-    'd_invmass'     : PlotOpt('k_pi_invmass', '(50,0,5)', 'D meson invariant mass, m(K,#pi) [GeV]', 'a.u.', False, False),      
-    'b_invmass'     : PlotOpt('hn_d_pl_invmass', '(50,2,7)', 'B meson invariant mass, m(HNL,D,#mu^{trig}) [GeV]', 'a.u.', False, False),     
+#    'd_invmass'     : PlotOpt('k_pi_invmass', '(50,0,5)', 'D meson invariant mass, m(K,#pi) [GeV]', 'a.u.', False, False),      
+    #'b_invmass'     : PlotOpt('b_invmass', '(50,2,7)', 'B invariant mass [GeV]', 'a.u.', False, False),     
+    'bpartial_invmass'     : PlotOpt('bpartial_invmass', '(50,2,7)', 'm(HNL,#mu^{trig}) [GeV]', 'a.u.', False, False),     
+    'bpartial_invmass_log'     : PlotOpt('bpartial_invmass', '(50,2,7)', 'm(HNL,#mu^{trig}) [GeV]', 'a.u.', False, True),     
     #'Lxy_cos', # cosine of the pointing angle in the transverse plane
     #'Lxyz_b', #3D displacement of the B wrt to primary vertex
     #'Lxyz_l0' #3D displacement of the prompt lepton wrt to B vertex
@@ -300,7 +302,7 @@ class Sample(object):
     # denominator = number of events that were run in the first place # access storage element... 
     #self.ngenevts_succ_afterfilter=0
     self.njobs_succ=0
-    path = '/pnfs/psi.ch/cms/trivcat/store/user/{u}/BHNLsGen/{pl}/mass{m}_ctau{ctau}/step1*root'.format(u=os.environ['USER'],pl=self.label,m=self.mass,ctau=self.ctau)
+    path = '/pnfs/psi.ch/cms/trivcat/store/user/{u}/BHNLsGen/{pl}/mass{m}_ctau{ctau}/step1*root'.format(u=os.environ['USER'],pl=self.label,m=self.mass,ctau=self.orig_ctau)
     for fname in glob(path):
         #if debug: print 'fname=',fname
         f = TFile.Open(fname)
@@ -672,11 +674,11 @@ if __name__ == "__main__":
   doInclusive = True # 
   doSkipDispl = False #
   doSkipHNLptEta = False
-  doCompareAnalysis = True #
-  doTestAnalysis = True
+  doCompareAnalysis = False #
+  doTestAnalysis = False
   doFixedMassAnalysis = False
   doRwAnalysis = False
-  doFixedVVAnalysis = False
+  doFixedVVAnalysis = True
   muTrigPt = 9 # 0 1 2 5 7 9
   ####
 
@@ -870,15 +872,19 @@ if __name__ == "__main__":
 
     ################
     points = [
-      Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
-      Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
-      Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
-      Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
-      Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
-      Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
+#      Point(mass=0.5,ctau=None,vv=1e-04,isrw=False),
+#      Point(mass=1.0,ctau=None,vv=1e-04,isrw=False),
+#      Point(mass=1.5,ctau=None,vv=1e-04,isrw=False),
+#      Point(mass=2.0,ctau=None,vv=1e-04,isrw=False),
+#      Point(mass=2.5,ctau=None,vv=1e-04,isrw=False),
+#      Point(mass=3.0,ctau=None,vv=1e-04,isrw=False),
+      Point(mass=1.0,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=2.0,ctau=None,vv=1e-05,isrw=False),
+      Point(mass=3.0,ctau=None,vv=1e-05,isrw=False),
+      #Point(mass=3.0,ctau=None,vv=1e-05,orig_vv=5e-05,isrw=True),
     ]
     for p in points:
      p.stamp()
     existing_points=checkFiles(path=path,points=points)
-    doAnalysis(path=path,pl=opt.pl,points=existing_points,name='fixedVV1em04')
+    doAnalysis(path=path,pl=opt.pl,points=existing_points,name='fixedVV1em05')
   

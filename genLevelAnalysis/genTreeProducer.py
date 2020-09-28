@@ -97,7 +97,8 @@ branches = [
     # invariant masses
     'lep_pi_invmass',
     'k_pi_invmass',
-    'hn_d_pl_invmass',
+    #'b_invmass',
+    'bpartial_invmass',
 
     'Lxy', # 2D transverse displacement for the HNL
     'Lxyz',  # 3D displacement for the HNL
@@ -185,7 +186,7 @@ def getpT(input):
    return input.pT
 
 
-def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,this_ctau=500,this_vv=0.0013):
+def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,this_ctau=500,this_vv=0.0013,doBtoD=False):
   # input and output
   files = glob.glob(infiles)
   if len(files)==0: raise RuntimeError('No files to be run!, glob expression = {}'.format(infiles))
@@ -230,16 +231,18 @@ def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,
     else:
       event.the_b_mother = None
   
-    # get the other two daughters of the B meson
+    # get the other daughters of the B meson
     event.the_b_mother.daughters = [event.the_b_mother.daughter(jj) for jj in range(event.the_b_mother.numberOfDaughters())]
+    #print [ii.pdgId() for ii in event.the_b_mother.daughters]
   
-    # # first the D0 meson
-    the_ds = sorted([ii for ii in event.the_b_mother.daughters if abs(ii.pdgId())==421], key = lambda x : x.pt(), reverse=True)
-    if len(the_ds):
-      event.the_d = the_ds[0]
-    else:
-      event.the_d = None
-  
+    # # first the D0 meson, if it exists
+    if doBtoD:
+      the_ds = sorted([ii for ii in event.the_b_mother.daughters if abs(ii.pdgId())==421], key = lambda x : x.pt(), reverse=True)
+      if len(the_ds):
+        event.the_d = the_ds[0]
+      else:
+        event.the_d = None
+
     # # then the trigger lepton
     the_pls = sorted([ii for ii in event.the_b_mother.daughters if abs(ii.pdgId()) in [11, 13, 15]], key = lambda x : x.pt(), reverse=True)
     if len(the_pls):
@@ -248,7 +251,7 @@ def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,
       event.the_pl = None
     
     # D0s daughters
-    if len(the_ds):
+    if doBtoD and len(the_ds):
       event.the_d.daughters = [event.the_d.daughter(jj) for jj in range(event.the_d.numberOfDaughters())]
     
       # #find the pion
@@ -289,15 +292,22 @@ def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,
       event.the_hnldaughters = event.the_hn.lep.p4() + event.the_hn.pi.p4()
     
     # # to get the invariant mass of the D0 daughters
-    if len(the_ds):
+    if doBtoD and len(the_ds):
       if len(the_ks) and len(the_pis):   
         event.the_d0daughters = event.the_k.p4() + event.the_pi.p4()
   
-    # # to get the invariant mass of the B daughters
-    if len(the_ds) and len(the_pls) and len(the_hns):
-       event.the_bdaughters = event.the_hn.p4() + event.the_d.p4() + event.the_pl.p4()
-    elif not len(the_ds):
-       event.the_bdaughters = event.the_hn.p4() + event.the_pl.p4()
+    # # to get the full or partial invariant mass of the B 
+    # # # partial
+    if len(the_pls) and len(the_hns):
+      event.the_bdaughters_partial = event.the_hn.p4() + event.the_pl.p4()
+    # # # total
+    #event.the_bdaughters_all = sum([ii.p4() for ii in event.the_b_mother.daughters])
+    
+    #if doBtoD and len(the_ds) and len(the_pls) and len(the_hns):
+    #   event.the_bdaughters = event.the_hn.p4() + event.the_d.p4() + event.the_pl.p4()
+    ##elif not len(the_ds):
+    #elif not doBtoD:
+    #   event.the_bdaughters = event.the_hn.p4() + event.the_pl.p4()
       
     # identify the primary vertex
     # for that, needs the trigger lepton
@@ -374,7 +384,7 @@ def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,
     tofill['hnl_gamma'  ] = event.the_hn.gamma  
     tofill['hnl_pdgid'  ] = event.the_hn.pdgId()  
   
-    if event.the_d:
+    if doBtoD and event.the_d:
         tofill['d_pt'   ] = event.the_d.pt()     
         tofill['d_eta'  ] = event.the_d.eta()    
         tofill['d_phi'  ] = event.the_d.phi()    
@@ -424,9 +434,10 @@ def runGenTreeProducer(infiles='./step*root',outfilename='out.root',this_mass=1,
   
     # invariant mass
     tofill['lep_pi_invmass' ] = event.the_hnldaughters.mass()
-    if len(the_ds):
+    if doBtoD and len(the_ds):
       tofill['k_pi_invmass' ] = event.the_d0daughters.mass()
-    tofill['hn_d_pl_invmass'] = event.the_bdaughters.mass()
+    #tofill['b_invmass'] = event.the_bdaughters_all.mass()
+    tofill['bpartial_invmass'] = event.the_bdaughters_partial.mass()
     
     # hnl charge
     tofill['hnl_q'      ] = event.the_hn.lep.charge() + event.the_hn.pi.charge() 
@@ -458,6 +469,7 @@ def getOptions():
    parser.add_argument('--pl', type=str, dest='pl', help='production label', default='V02_muFromB_pt5_eta1p6_njt30')
    parser.add_argument('--expr', type=str, dest='expr', help='file regular expression', default='step1*root')
    parser.add_argument('--points', type=str, dest='pointFile', help='name of file contaning information on scan to be run', default='points.py')
+   parser.add_argument('--doBtoD', dest='doBtoD', help='do exclusive decay B->DmuHNL', action='store_true', default=False)
    return parser.parse_args()
   
 
@@ -482,5 +494,5 @@ if __name__ == "__main__":
     print('   ctau: {} mm'.format(p.ctau))
     print('   VV  : {} \n'.format(p.vv))
 
-    runGenTreeProducer(infiles=expr,outfilename=outfilename,this_mass=p.mass,this_ctau=p.ctau,this_vv=p.vv)
+    runGenTreeProducer(infiles=expr,outfilename=outfilename,this_mass=p.mass,this_ctau=p.ctau,this_vv=p.vv,doBtoD=opt.doBtoD)
 
